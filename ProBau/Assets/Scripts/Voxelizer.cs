@@ -9,6 +9,7 @@ public class Voxelizer : MonoBehaviour
     //private float gridSize = 0.8f;
     void Start()
     {
+        var startT = System.DateTime.Now;
         //float[] minMax = minMaxMesh(mesh);
         //float scale = height / Mathf.Abs(minMax[2] - minMax[3]);
         for (float x = -22; x < 22; x += 2f)
@@ -24,6 +25,7 @@ public class Voxelizer : MonoBehaviour
                 }
             }
         }
+        Debug.Log("time needed: " + (System.DateTime.Now - startT));
     }
 
     public bool isPointInside(Mesh aMesh, Vector3 aLocalPoint)
