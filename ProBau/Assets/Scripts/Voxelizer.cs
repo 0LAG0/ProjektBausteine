@@ -42,7 +42,7 @@ public class Voxelizer : MonoBehaviour
             bool moTro = Intersect(a, b, c, ray);
             if(moTro)
             {
-                hitCount+=1; 
+                hitCount += 1;
             }
         }
         if ((hitCount/2) % 2 == 1)
