@@ -1,0 +1,17 @@
+# This file uses centimeters as units for non-parametric coordinates.
+
+mtllib tri.mtl
+g default
+v 7.810574 0.000000 0.447214
+v 0.276393 4.321066 0.447214
+v 0.000000 0.000000 3.897102
+vt 0.676208 0.500000
+vt 0.588104 0.823792
+vt 0.500000 0.500000
+vn 0.330304 0.575916 0.747811
+vn 0.330304 0.575916 0.747811
+vn 0.330304 0.575916 0.747811
+s off
+g pPlatonic1
+usemtl initialShadingGroup
+f 1/1/1 2/2/2 3/3/3

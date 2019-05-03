@@ -40,11 +40,12 @@ public class GridController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        var startT = System.DateTime.Now;
+        float voxelcount = 0;
         GameObject container = new GameObject("BlockifiedObject");
         // Grid zu Object verschieben.
         Vector3 gridStart = m_Collider.bounds.min;
         Vector3 gridDepth = m_Collider.bounds.size.DivideComponentwise(extends).Ceil();
-        var startT = System.DateTime.Now;
         for (int x = 0; x < gridDepth.x; x++)
         {
             for (int z = 0; z < gridDepth.z; z++)
@@ -61,11 +62,12 @@ public class GridController : MonoBehaviour
                         minimalBrick.transform.localScale = extends;
                         minimalBrick.transform.position = pos;
                         minimalBrick.transform.parent = container.transform;
+                        voxelcount++;
                     }
                 }
             }
         }
-        Debug.Log("Time needed: " + (System.DateTime.Now - startT));
+        Debug.Log("Jan: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
     }
 
     private bool IsWithin(Vector3 pos)
