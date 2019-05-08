@@ -40,8 +40,6 @@ public class TriBoxIntersection : MonoBehaviour
     public float SnapToGrid(float val)
     {
             return (Mathf.Round(val / gridsize) * gridsize);
-
-
     }
 
 
