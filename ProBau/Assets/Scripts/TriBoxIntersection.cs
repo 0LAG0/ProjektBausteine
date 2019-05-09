@@ -23,7 +23,6 @@ public class TriBoxIntersection : MonoBehaviour
             Vector3 c = verticez[triangles[i + 2]];
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
-            //Color voxelColor = tex.GetPixelBilinear(textureCoordinates[i].x, textureCoordinates[i].y);
             Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
             for (float x = SnapToGrid(min.x) - gridsize; x < SnapToGrid(max.x) + gridsize; x += gridsize)
             {
