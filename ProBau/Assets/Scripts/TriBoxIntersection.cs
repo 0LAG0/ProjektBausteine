@@ -6,12 +6,16 @@ public class TriBoxIntersection : MonoBehaviour
 {
     public float gridsize;
     public Mesh mesh;
+    public Texture2D tex;
     private void Start()
     {
-        var startT = System.DateTime.Now;
-        float voxelcount = 0;
+        //var startT = System.DateTime.Now;
+        //float voxelcount = 0;
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
+        var textureCoordinates = mesh.uv;
+        Debug.Log(verticez.Length);
+        Debug.Log(textureCoordinates.Length);
         for (int i = 0; i < triangles.Length; i += 3)
         {
             Vector3 a = verticez[triangles[i]];
@@ -19,6 +23,8 @@ public class TriBoxIntersection : MonoBehaviour
             Vector3 c = verticez[triangles[i + 2]];
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
+            //Color voxelColor = tex.GetPixelBilinear(textureCoordinates[i].x, textureCoordinates[i].y);
+            Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
             for (float x = SnapToGrid(min.x) - gridsize; x < SnapToGrid(max.x) + gridsize; x += gridsize)
             {
                 for (float y = SnapToGrid(min.y) - gridsize; y < SnapToGrid(max.y) + gridsize; y += gridsize)
@@ -26,14 +32,14 @@ public class TriBoxIntersection : MonoBehaviour
                     for (float z = SnapToGrid(min.z) - gridsize; z < SnapToGrid(max.z) + gridsize; z += gridsize)
                     {
                         if(TestTriangleBoxOverlap(new Vector3(x ,y ,z), new Vector3(gridsize/2, gridsize / 2, gridsize / 2), new Vector3[] { a, b, c })){
-                            VoxelTools.MakeCube(new Vector3(x, y, z), VoxelTools.GetRandomColor(), gridsize);
-                            voxelcount++;
+                            VoxelTools.MakeCube(new Vector3(x, y, z), voxelColor, gridsize);
+                            //voxelcount++;
                         }
                     }
                 }
             }
         }
-        Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
+        //Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
     }
 
 
