@@ -10,17 +10,14 @@ public class TriBoxIntersection : MonoBehaviour
     public float height;
     private void Start()
     {
-        //minMaxArray: (xLowest, xHighest, yLowest, yHighest, zLowest, zHighest)
-        float[] minMax = minMaxMesh(mesh);
-        float origHeight = minMax[3] - minMax[2];
-        //float origWidth = minMax[1] - minMax[0];
-        //float origDepth = minMax[1] - minMax[0];
-        float scale = height / origHeight;
         //var startT = System.DateTime.Now;
         //float voxelcount = 0;
+        //var textureCoordinates = mesh.uv;
+
+        mesh = OptimizeMesh(mesh, height);
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
-        //var textureCoordinates = mesh.uv;
+
         for (int i = 0; i < triangles.Length; i += 3)
         {
             Vector3 a = verticez[triangles[i]];
@@ -45,6 +42,24 @@ public class TriBoxIntersection : MonoBehaviour
             }
         }
         //Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
+    }
+
+    private Mesh OptimizeMesh(Mesh inputMesh, float height)
+    {
+        float[] minMax = minMaxMesh(mesh);
+        float origHeight = minMax[3] - minMax[2];
+        float scale = height / origHeight;
+
+        for(int n=0; n<inputMesh.vertices.Length;n++)
+        {
+            Vector3 vert = inputMesh.vertices[n];
+            vert.x -= minMax[0];
+            vert.y -= minMax[2];
+            vert.z -= minMax[4];
+            vert *= scale;
+            inputMesh.vertices[n] = vert;
+        }
+        return inputMesh;
     }
 
 
