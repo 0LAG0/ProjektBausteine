@@ -7,15 +7,20 @@ public class TriBoxIntersection : MonoBehaviour
     public float gridsize;
     public Mesh mesh;
     public Texture2D tex;
+    public float height;
     private void Start()
     {
+        //minMaxArray: (xLowest, xHighest, yLowest, yHighest, zLowest, zHighest)
+        float[] minMax = minMaxMesh(mesh);
+        float origHeight = minMax[3] - minMax[2];
+        //float origWidth = minMax[1] - minMax[0];
+        //float origDepth = minMax[1] - minMax[0];
+        float scale = height / origHeight;
         //var startT = System.DateTime.Now;
         //float voxelcount = 0;
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
-        var textureCoordinates = mesh.uv;
-        Debug.Log(verticez.Length);
-        Debug.Log(textureCoordinates.Length);
+        //var textureCoordinates = mesh.uv;
         for (int i = 0; i < triangles.Length; i += 3)
         {
             Vector3 a = verticez[triangles[i]];
@@ -23,15 +28,16 @@ public class TriBoxIntersection : MonoBehaviour
             Vector3 c = verticez[triangles[i + 2]];
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
-            Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
-            for (float x = SnapToGrid(min.x) - gridsize; x < SnapToGrid(max.x) + gridsize; x += gridsize)
+            //Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
+            for (float x = SnapToGrid(min.x); x <= SnapToGrid(max.x); x += gridsize)
             {
-                for (float y = SnapToGrid(min.y) - gridsize; y < SnapToGrid(max.y) + gridsize; y += gridsize)
+                for (float y = SnapToGrid(min.y); y <= SnapToGrid(max.y); y += gridsize)
                 {
-                    for (float z = SnapToGrid(min.z) - gridsize; z < SnapToGrid(max.z) + gridsize; z += gridsize)
+                    for (float z = SnapToGrid(min.z); z <= SnapToGrid(max.z); z += gridsize)
                     {
-                        if(TestTriangleBoxOverlap(new Vector3(x ,y ,z), new Vector3(gridsize/2, gridsize / 2, gridsize / 2), new Vector3[] { a, b, c })){
-                            VoxelTools.MakeCube(new Vector3(x, y, z), voxelColor, gridsize);
+                        if(TestTriangleBoxOverlap(new Vector3(x ,y ,z), new Vector3(gridsize / 2, gridsize / 2, gridsize / 2), new Vector3[] { a, b, c })){
+                            //VoxelTools.MakeCube(new Vector3(x, y, z), voxelColor, gridsize);
+                            VoxelTools.MakeCube(new Vector3(x, y, z), VoxelTools.GetRandomColor(), gridsize);
                             //voxelcount++;
                         }
                     }
@@ -144,5 +150,28 @@ public class TriBoxIntersection : MonoBehaviour
         if (Vector3.Dot(normal, max) >= 0) return true;
 
         return false;
+    }
+
+    public float[] minMaxMesh(Mesh mesh)
+    {
+        Vector3[] vertices = mesh.vertices;
+        float xLowest = Mathf.Infinity;
+        float xHighest = 0;
+        float yLowest = Mathf.Infinity;
+        float yHighest = 0;
+        float zLowest = Mathf.Infinity;
+        float zHighest = 0;
+        int i = 0;
+        while (i < vertices.Length)
+        {
+            if (vertices[i].x < xLowest) xLowest = vertices[i].x;
+            if (vertices[i].x > xHighest) xHighest = vertices[i].x;
+            if (vertices[i].y < yLowest) yLowest = vertices[i].y;
+            if (vertices[i].y > yHighest) yHighest = vertices[i].y;
+            if (vertices[i].z < zLowest) zLowest = vertices[i].z;
+            if (vertices[i].z > zHighest) zHighest = vertices[i].z;
+            i++;
+        }
+        return new float[] { xLowest, xHighest, yLowest, yHighest, zLowest, zHighest };
     }
 }
