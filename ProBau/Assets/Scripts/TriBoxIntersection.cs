@@ -8,15 +8,26 @@ public class TriBoxIntersection : MonoBehaviour
     public Mesh mesh;
     public Texture2D tex;
     public float height;
+
     private void Start()
     {
-        //var startT = System.DateTime.Now;
-        //float voxelcount = 0;
+        var startT = System.DateTime.Now;
+        float voxelcount = 0;
         //var textureCoordinates = mesh.uv;
 
         mesh = OptimizeMesh(mesh, height);
+        float[] minMax = minMaxMesh(mesh);
+
+        int Height = (int)(minMax[3] / gridsize) + 2;
+        int Width = (int)(minMax[1] / gridsize) + 2;
+        int Depth = (int)(minMax[5] / gridsize) + 2;
+        var container = new bool[Width, Height, Depth];
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
+
+        //Debug.Log("w " + Width);
+        //Debug.Log("h " + Height);
+        //Debug.Log("d " + Depth);
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
@@ -32,16 +43,40 @@ public class TriBoxIntersection : MonoBehaviour
                 {
                     for (float z = SnapToGrid(min.z); z <= SnapToGrid(max.z); z += gridsize)
                     {
-                        if(TestTriangleBoxOverlap(new Vector3(x ,y ,z), new Vector3(gridsize / 2, gridsize / 2, gridsize / 2), new Vector3[] { a, b, c })){
-                            //VoxelTools.MakeCube(new Vector3(x, y, z), voxelColor, gridsize);
-                            VoxelTools.MakeCube(new Vector3(x, y, z), VoxelTools.GetRandomColor(), gridsize);
-                            //voxelcount++;
+                        var xR = (int)Mathf.Round(x / gridsize);
+                        var yR = (int)Mathf.Round(y / gridsize);
+                        var zR = (int)Mathf.Round(z / gridsize);
+                        if (!container[xR, yR, zR])
+                        {
+                            if (TestTriangleBoxOverlap(new Vector3(x, y, z), new Vector3(gridsize / 2, gridsize / 2, gridsize / 2), new Vector3[] { a, b, c }))
+                            {
+                                //Debug.Log("x " + (int)(x / gridsize));
+                                //Debug.Log("y " + (int)(y / gridsize));
+                                //Debug.Log("z " + (int)(z / gridsize));
+                                container[xR, yR, zR] = true;
+                                //VoxelTools.MakeCube(new Vector3(x, y, z), voxelColor, gridsize);
+                                //VoxelTools.MakeCube(new Vector3(x, y, z), VoxelTools.GetRandomColor(), gridsize);
+                                voxelcount++;
+                            }
                         }
                     }
                 }
             }
         }
-        //Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
+        Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
+        for (int x = 0; x < container.GetLength(0); x++)
+        {
+            for (int y = 0; y < container.GetLength(1); y++)
+            {
+                for (int z = 0; z < container.GetLength(2); z++)
+                {
+                    if (container[x, y, z])
+                    {
+                        VoxelTools.MakeCube(new Vector3(x + 30, y, z) * gridsize, VoxelTools.GetRandomColor(), gridsize);
+                    }
+                }
+            }
+        }
     }
 
     private Mesh OptimizeMesh(Mesh inputMesh, float height)
@@ -49,23 +84,27 @@ public class TriBoxIntersection : MonoBehaviour
         float[] minMax = minMaxMesh(mesh);
         float origHeight = minMax[3] - minMax[2];
         float scale = height / origHeight;
-
-        for(int n=0; n<inputMesh.vertices.Length;n++)
+        var nMesh = inputMesh;
+        var vertsTemp = new Vector3[inputMesh.vertices.Length];
+        //Debug.Log(inputMesh.vertices[50]);
+        for (int n = 0; n < inputMesh.vertices.Length; n++)
         {
             Vector3 vert = inputMesh.vertices[n];
             vert.x -= minMax[0];
             vert.y -= minMax[2];
             vert.z -= minMax[4];
             vert *= scale;
-            inputMesh.vertices[n] = vert;
+            vertsTemp[n] = vert;
         }
-        return inputMesh;
+        nMesh.vertices = vertsTemp;
+        //Debug.Log(nMesh.vertices[50]);
+        return nMesh;
     }
 
 
     public float SnapToGrid(float val)
     {
-            return (Mathf.Round(val / gridsize) * gridsize);
+        return (Mathf.Round(val / gridsize) * gridsize);
     }
 
 
