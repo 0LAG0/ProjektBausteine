@@ -9,6 +9,7 @@ public class TriBoxIntersection : MonoBehaviour
     public Texture2D tex;
     public float height;
 
+
     private void Start()
     {
         var startT = System.DateTime.Now;
@@ -51,7 +52,14 @@ public class TriBoxIntersection : MonoBehaviour
                 }
             }
         }
-        Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
+        BlockSelector selector = new BlockSelector(null);
+        var buildingBlocks = selector.calculateBlocks(container);
+        foreach(BuildingBlock bb in buildingBlocks)
+        {
+            Debug.Log(buildingBlocks.Length);
+            VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
+        }
+        /* Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
         for (int x = 0; x < container.GetLength(0); x++)
         {
             for (int y = 0; y < container.GetLength(1); y++)
@@ -65,6 +73,7 @@ public class TriBoxIntersection : MonoBehaviour
                 }
             }
         }
+        */
     }
 
     private Mesh OptimizeMesh(Mesh inputMesh, float height)
