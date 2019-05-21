@@ -25,10 +25,6 @@ public class TriBoxIntersection : MonoBehaviour
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
 
-        //Debug.Log("w " + Width);
-        //Debug.Log("h " + Height);
-        //Debug.Log("d " + Depth);
-
         for (int i = 0; i < triangles.Length; i += 3)
         {
             Vector3 a = verticez[triangles[i]];
@@ -37,25 +33,17 @@ public class TriBoxIntersection : MonoBehaviour
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
             //Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
-            for (float x = SnapToGrid(min.x); x <= SnapToGrid(max.x); x += gridsize)
+            for (int x = SnapToGrid(min.x); x <= SnapToGrid(max.x); x ++)
             {
-                for (float y = SnapToGrid(min.y); y <= SnapToGrid(max.y); y += gridsize)
+                for (int y = SnapToGrid(min.y); y <= SnapToGrid(max.y); y ++)
                 {
-                    for (float z = SnapToGrid(min.z); z <= SnapToGrid(max.z); z += gridsize)
+                    for (int z = SnapToGrid(min.z); z <= SnapToGrid(max.z); z ++)
                     {
-                        var xR = (int)Mathf.Round(x / gridsize);
-                        var yR = (int)Mathf.Round(y / gridsize);
-                        var zR = (int)Mathf.Round(z / gridsize);
-                        if (!container[xR, yR, zR])
+                        if (!container[x, y, z])
                         {
-                            if (TestTriangleBoxOverlap(new Vector3(x, y, z), new Vector3(gridsize / 2, gridsize / 2, gridsize / 2), new Vector3[] { a, b, c }))
+                            if (TestTriangleBoxOverlap(new Vector3(x * gridsize, y * gridsize, z * gridsize), new Vector3(gridsize / 2, gridsize / 2, gridsize / 2), new Vector3[] { a, b, c }))
                             {
-                                //Debug.Log("x " + (int)(x / gridsize));
-                                //Debug.Log("y " + (int)(y / gridsize));
-                                //Debug.Log("z " + (int)(z / gridsize));
-                                container[xR, yR, zR] = true;
-                                //VoxelTools.MakeCube(new Vector3(x, y, z), voxelColor, gridsize);
-                                //VoxelTools.MakeCube(new Vector3(x, y, z), VoxelTools.GetRandomColor(), gridsize);
+                                container[x, y, z] = true;
                                 voxelcount++;
                             }
                         }
@@ -72,7 +60,7 @@ public class TriBoxIntersection : MonoBehaviour
                 {
                     if (container[x, y, z])
                     {
-                        VoxelTools.MakeCube(new Vector3(x + 30, y, z) * gridsize, VoxelTools.GetRandomColor(), gridsize);
+                        VoxelTools.MakeCube(new Vector3(x , y, z) * gridsize, VoxelTools.GetRandomColor(), gridsize);
                     }
                 }
             }
@@ -102,9 +90,9 @@ public class TriBoxIntersection : MonoBehaviour
     }
 
 
-    public float SnapToGrid(float val)
+    public int SnapToGrid(float val)
     {
-        return (Mathf.Round(val / gridsize) * gridsize);
+        return (int)(Mathf.Round(val / gridsize));
     }
 
 
