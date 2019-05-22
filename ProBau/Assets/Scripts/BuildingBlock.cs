@@ -13,7 +13,7 @@ public class BuildingBlock
 
     private float volumeError;
 
-    bool isFlipped;
+    public bool isFlipped;
 
     public Vector3 pos;
 
