@@ -16,9 +16,7 @@ public class BlockSelector : MonoBehaviour
             possibleBlocks = Resources.FindObjectsOfTypeAll(typeof(BlockType)).Cast<BlockType>().ToList();
         }
         possibleBlocks.OrderByDescending(b => b.extends.x * b.extends.y * b.extends.z);
-        //Debug.Log(possibleBlocks[0].extends);
-        //Debug.Log(possibleBlocks[1].extends);
-        //Debug.Log(possibleBlocks[2].extends);
+        Debug.Log(possibleBlocks.Count);
     }
 
     /*private void Awake()
@@ -107,7 +105,7 @@ public class BlockSelector : MonoBehaviour
                 }
             }
         }
-        Debug.Log("success !");
+        //Debug.Log("success !");
         //voxels = temp;
         return true;
     }
@@ -118,13 +116,22 @@ public class BlockSelector : MonoBehaviour
         {
             BlockType bt = possibleBlocks[i];
             Vector3 absPos = pos + ((Vector3)bt.extends / 2);
+            //absPos = pos + ((Vector3)(new Vector3(bt.extends.z, bt.extends.y, bt.extends.x)) / 2);
             //Debug.Log(checkForFit(directionPreference, bt, ref voxels, pos));
             if (checkForFit(directionPreference, bt,ref voxels, pos))
             {
+                if (!directionPreference)
+                {
+                    absPos = pos + ((Vector3)(new Vector3(bt.extends.z, bt.extends.y, bt.extends.x)) / 2);
+                }
                 return new BuildingBlock(bt, directionPreference, absPos);
             }
             if (checkForFit(!directionPreference, bt,ref voxels, pos))
             {
+                if (!directionPreference)
+                {
+                    absPos = pos + ((Vector3)(new Vector3(bt.extends.z, bt.extends.y, bt.extends.x)) / 2);
+                }
                 return new BuildingBlock(bt, !directionPreference, absPos);
             }
         }

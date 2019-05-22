@@ -54,11 +54,22 @@ public class TriBoxIntersection : MonoBehaviour
         }
         BlockSelector selector = new BlockSelector(null);
         var buildingBlocks = selector.calculateBlocks(container);
+        Debug.Log(buildingBlocks.Count);
         //Debug.Log(buildingBlocks.Count);
         foreach(BuildingBlock bb in buildingBlocks)
         {
             //Debug.Log(bb);
-            VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
+            if (bb.isFlipped)
+            {
+                //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
+                VoxelTools.MakeCube(bb.pos, Color.red, bb.blockType.extends);
+            }
+            else
+            {
+                VoxelTools.MakeCube(bb.pos, Color.blue, bb.blockType.extends);
+            }
+
+            //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
 
         /* Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
