@@ -17,7 +17,7 @@ public class BlockType : ScriptableObject
     [SerializeField]
     private string blockTypeName;
 
-    [SerializeField]
-    private Mesh mesh;
+    //[SerializeField]
+    //private Mesh mesh;
 
 }

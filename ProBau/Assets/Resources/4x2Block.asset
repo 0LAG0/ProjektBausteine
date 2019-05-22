@@ -12,6 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8778784e3a0d914ba61f3038f41d244, type: 3}
   m_Name: 4x2Block
   m_EditorClassIdentifier: 
-  extends: {x: 0, y: 0, z: 0}
+  extends: {x: 4, y: 1, z: 2}
   blockTypeName: 
-  mesh: {fileID: 0}
