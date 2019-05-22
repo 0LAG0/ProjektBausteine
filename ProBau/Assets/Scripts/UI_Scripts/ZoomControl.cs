@@ -61,4 +61,9 @@ public class ZoomControl : MonoBehaviour
     {
         Zoom(1.0f, 2.0f);
     }
+
+    public void ZoomReset()
+    {
+        // TODO zoom reset
+    }
 }

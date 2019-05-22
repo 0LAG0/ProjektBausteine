@@ -41,4 +41,9 @@ public class RotationControl : MonoBehaviour
     {
         transform.Rotate(0, 0, 15);
     }
+
+    public void RotateReset()
+    {
+        // TODO rotate reset
+    }
 }
