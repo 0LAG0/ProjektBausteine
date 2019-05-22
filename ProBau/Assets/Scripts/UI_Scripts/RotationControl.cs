@@ -15,6 +15,18 @@ public class RotationControl : MonoBehaviour
         transform.Rotate(Vector3.right, yAxisRotation);
     }
 
+    private void Update()
+    {
+        if (!Input.GetMouseButton(0))
+        {
+            return;
+        }
+        else
+        {
+            OnMouseDrag();
+        }
+    }
+
     public void RotateX()
     {
         transform.Rotate(15, 0, 0);
