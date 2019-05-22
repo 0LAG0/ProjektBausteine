@@ -14,4 +14,19 @@ public class RotationControl : MonoBehaviour
         transform.Rotate(Vector3.down, xAxisRotation);
         transform.Rotate(Vector3.right, yAxisRotation);
     }
+
+    public void RotateX()
+    {
+        transform.Rotate(15, 0, 0);
+    }
+
+    public void RotateY()
+    {
+        transform.Rotate(0, 15, 0);
+    }
+
+    public void RotateZ()
+    {
+        transform.Rotate(0, 0, 15);
+    }
 }
