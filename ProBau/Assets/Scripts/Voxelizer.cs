@@ -20,7 +20,7 @@ public class Voxelizer : MonoBehaviour
                 {
                     if (isPointInside(mesh, new Vector3(x, y, z)))
                     {
-                        VoxelTools.MakeCube(new Vector3(x, y, z), VoxelTools.GetRandomColor(), 2f);
+                        //VoxelTools.MakeCube(new Vector3(x, y, z), VoxelTools.GetRandomColor(), new Vector3(2,2,2));
                     }
                 }
             }

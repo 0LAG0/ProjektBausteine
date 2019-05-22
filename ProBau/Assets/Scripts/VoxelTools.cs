@@ -34,21 +34,6 @@ public class VoxelTools : MonoBehaviour
         return new Color(r, g, b);
     }
 
-    public static GameObject MakeCube(float x, float y, float z)
-    {
-        return MakeCube(x, y, z, Color.red, 1);
-    }
-
-    public static GameObject MakeCube(float x, float y, float z, Color color)
-    {
-        return MakeCube(x, y, z, color, 1);
-    }
-
-    public static GameObject MakeCube(float x, float y, float z, Color color, float size)
-    {
-        return MakeCube(new Vector3(x, y, z), color, size);
-    }
-
     private static GameObject GetCubePrefab()
     {
         if (cubePrefab == null)
@@ -56,7 +41,7 @@ public class VoxelTools : MonoBehaviour
         return cubePrefab;
     }
 
-    public static GameObject MakeCube(Vector3 position, Color color, float size)
+    public static GameObject MakeCube(Vector3 position, Color color, Vector3 size)
     {
         cubeCount++;
         if (cubeContainer == null)
@@ -72,7 +57,7 @@ public class VoxelTools : MonoBehaviour
         cube.name = "cube " + cubeCount;
 
         cube.GetComponent<Renderer>().material.color = color;
-        cube.transform.localScale = new Vector3(size, size, size);
+        cube.transform.localScale = new Vector3(size.x, size.y, size.z);
 
         return cube;
     }
