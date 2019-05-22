@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /* Sources: 
  * https://www.youtube.com/watch?v=T-AbCUuLViA&feature=youtu.be 
@@ -9,12 +10,19 @@ using UnityEngine;
 
 public class ChangeModell : MonoBehaviour
 {
+    // Attach this script to a DropDown GameObject
+    Dropdown m_Dropdown;
+
     private List<GameObject> models;
     // Default index of the model
     private int selectionIndex = 0;
 
     private void Start()
     {
+        // Fetch the DropDown component from the GameObject
+        m_Dropdown = GetComponent<Dropdown>();
+
+
         models = new List<GameObject>();
 
         foreach(Transform t in transform)
@@ -24,17 +32,6 @@ public class ChangeModell : MonoBehaviour
         }
 
         models[selectionIndex].SetActive(true);
-    }
-
-    private void Update() // ändern für Dropdown!
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-            Select(2);
-        if (Input.GetKeyDown(KeyCode.S))
-            Select(0);
-        if (Input.GetKeyDown(KeyCode.D))
-            Select(1);
-
     }
 
     // Select any model at any time
