@@ -64,8 +64,16 @@ public class VoxelTools : MonoBehaviour
 
     public static void MakeAllCubesFall()
     {
-        foreach (GameObject cube in cubes)
+        foreach (GameObject cube in cubes) { 
             if (cube.GetComponent<Rigidbody>() == null)
+            {
                 cube.AddComponent<Rigidbody>();
+            }
+
+            if (cube.GetComponent<BoxCollider>() == null)
+            {
+                cube.AddComponent<BoxCollider>();
+            }
+        }
     }
 }
