@@ -9,6 +9,13 @@ public class TriBoxIntersection : MonoBehaviour
     public Texture2D tex;
     public float height;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            VoxelTools.MakeAllCubesFall();
+        }
+    }
 
     private void Start()
     {
@@ -61,32 +68,19 @@ public class TriBoxIntersection : MonoBehaviour
             //Debug.Log(bb);
             if (bb.isFlipped)
             {
-                //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
-                VoxelTools.MakeCube(bb.pos, Color.red, bb.blockType.extends);
+                VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
+                //VoxelTools.MakeCube(bb.pos, Color.red, new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
+                //VoxelTools.MakeCube(bb.pos, Color.red, bb.blockType.extends);
             }
             else
             {
-                VoxelTools.MakeCube(bb.pos, Color.blue, bb.blockType.extends);
+                VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
+                //VoxelTools.MakeCube(bb.pos, Color.blue, bb.blockType.extends);
+                //VoxelTools.GetRandomColor()
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
-
-        /* Debug.Log("Lag: Time needed: " + (System.DateTime.Now - startT) + " for " + voxelcount + " Voxels");
-        for (int x = 0; x < container.GetLength(0); x++)
-        {
-            for (int y = 0; y < container.GetLength(1); y++)
-            {
-                for (int z = 0; z < container.GetLength(2); z++)
-                {
-                    if (container[x, y, z])
-                    {
-                        VoxelTools.MakeCube(new Vector3(x , y, z) * gridsize, VoxelTools.GetRandomColor(), gridsize);
-                    }
-                }
-            }
-        }
-        */
     }
 
     private Mesh OptimizeMesh(Mesh inputMesh, float height)
@@ -111,14 +105,10 @@ public class TriBoxIntersection : MonoBehaviour
         return nMesh;
     }
 
-
     public int SnapToGrid(float val)
     {
         return (int)(Mathf.Round(val / gridsize));
     }
-
-
-
 
     //stolen from here: http://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/code/tribox3.txt
     public static bool TestTriangleBoxOverlap(Vector3 boxCenter, Vector3 boxHalfSize, Vector3[] vertices)

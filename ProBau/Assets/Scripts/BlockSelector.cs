@@ -19,32 +19,6 @@ public class BlockSelector : MonoBehaviour
         Debug.Log(possibleBlocks.Count);
     }
 
-    /*private void Awake()
-    {
-        if (possibleBlocks == null)
-        {
-            possibleBlocks = Resources.FindObjectsOfTypeAll(typeof(BlockType)).Cast<BlockType>().ToList();
-        }
-        possibleBlocks.OrderByDescending(b => b.extends.x * b.extends.y * b.extends.z);
-    }*/
-
-    /*public BuildingBlock[,,] calculateBlocks(bool[,,] voxels)
-    {
-        BuildingBlock[,,] returnArray = new BuildingBlock[voxels.GetLength(0), voxels.GetLength(1), voxels.GetLength(2)];
-        for (int y = 0; y < voxels.GetLength(1); y++)
-        {
-            bool directionPreference = (y % 2 == 0);
-            for (int x = 0; x < voxels.GetLength(0); x++)
-            {
-                for (int z = 0; z < voxels.GetLength(2); z++)
-                {
-                    getLargestPossibleBlock(directionPreference, new Vector3Int(x, y, z), ref voxels);
-                }
-            }
-        }
-        return returnArray;
-    }*/
-
     public List<BuildingBlock> calculateBlocks(bool[,,] voxels)
     {
         List<BuildingBlock> returnList = new List<BuildingBlock>();
@@ -116,11 +90,11 @@ public class BlockSelector : MonoBehaviour
         {
             BlockType bt = possibleBlocks[i];
             Vector3 absPos = pos + ((Vector3)bt.extends / 2);
-            //absPos = pos + ((Vector3)(new Vector3(bt.extends.z, bt.extends.y, bt.extends.x)) / 2);
+            //Vector3 absPos = pos + ((Vector3)(new Vector3(bt.extends.z, bt.extends.y, bt.extends.x)) / 2);
             //Debug.Log(checkForFit(directionPreference, bt, ref voxels, pos));
             if (checkForFit(directionPreference, bt,ref voxels, pos))
             {
-                if (!directionPreference)
+                if (directionPreference)
                 {
                     absPos = pos + ((Vector3)(new Vector3(bt.extends.z, bt.extends.y, bt.extends.x)) / 2);
                 }
