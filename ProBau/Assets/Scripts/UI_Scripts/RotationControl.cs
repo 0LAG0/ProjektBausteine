@@ -44,6 +44,6 @@ public class RotationControl : MonoBehaviour
 
     public void RotateReset()
     {
-        // TODO rotate reset
+        transform.rotation = Quaternion.identity;
     }
 }

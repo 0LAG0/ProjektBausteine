@@ -9,11 +9,13 @@ public class ZoomControl : MonoBehaviour
     float ZoomMinBound = 0.1f;
     float ZoomMaxBound = 180.0f;
     Camera cam;
+    float originalFieldOfView;
 
     // Use this for initialization
     void Start()
     {
         cam = GetComponent<Camera>();
+        originalFieldOfView = cam.fieldOfView;
     }
 
     void Update()
@@ -64,6 +66,6 @@ public class ZoomControl : MonoBehaviour
 
     public void ZoomReset()
     {
-        // TODO zoom reset
+        cam.fieldOfView = originalFieldOfView;
     }
 }
