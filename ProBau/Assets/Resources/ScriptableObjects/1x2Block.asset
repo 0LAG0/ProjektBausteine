@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8778784e3a0d914ba61f3038f41d244, type: 3}
   m_Name: 1x2Block
   m_EditorClassIdentifier: 
-  extends: {x: 2, y: 1, z: 2}
+  extends: {x: 2, y: 1, z: 1}
   blockTypeName: 

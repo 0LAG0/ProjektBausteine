@@ -21,7 +21,7 @@ public class TriBoxIntersection : MonoBehaviour
     {
         var startT = System.DateTime.Now;
         float voxelcount = 0;
-        //var textureCoordinates = mesh.uv;
+        var textureCoordinates = mesh.uv;
 
         mesh = OptimizeMesh(mesh, height);
         float[] minMax = minMaxMesh(mesh);
@@ -62,19 +62,25 @@ public class TriBoxIntersection : MonoBehaviour
         BlockSelector selector = new BlockSelector(null);
         var buildingBlocks = selector.calculateBlocks(container);
         Debug.Log(buildingBlocks.Count);
-        //Debug.Log(buildingBlocks.Count);
         foreach(BuildingBlock bb in buildingBlocks)
         {
+            Color color = Color.red;
+            if (bb.blockType.extends.z == 2)
+            {
+                color = Color.blue;
+            }
             //Debug.Log(bb);
             if (bb.isFlipped)
             {
-                VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
+                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
+                //VoxelTools.MakeCube(new Vector3(bb.pos.x, bb.pos.y * 10, bb.pos.z), VoxelTools.GetRandomColor(), new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
                 //VoxelTools.MakeCube(bb.pos, Color.red, new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
                 //VoxelTools.MakeCube(bb.pos, Color.red, bb.blockType.extends);
             }
             else
             {
-                VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
+                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.blockType.extends.x, bb.blockType.extends.y, bb.blockType.extends.z));
+                //VoxelTools.MakeCube(new Vector3(bb.pos.x, bb.pos.y * 10, bb.pos.z), VoxelTools.GetRandomColor(), bb.blockType.extends);
                 //VoxelTools.MakeCube(bb.pos, Color.blue, bb.blockType.extends);
                 //VoxelTools.GetRandomColor()
             }
@@ -82,6 +88,27 @@ public class TriBoxIntersection : MonoBehaviour
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
     }
+
+    /*private Vector2 CalcUniqueUV(Vector3 p, Vector3 p1, Vector3 p2, Vector3 p3, Vector2 uv1, Vector2 uv2, Vector2 uv3)
+    {
+        // calculate vectors from point f to vertices p1, p2 and p3:
+        var f1 = p1 - p;
+        var f2 = p2 - p;
+        var f3 = p3 - p;
+        // calculate the areas (parameters order is essential in this case):
+        Vector3 va= Vector3.Cross(p1 - p2, p1 - p3); // main triangle cross product
+        Vector3 va1= Vector3.Cross(f2, f3); // p1's triangle cross product
+        Vector3 va2= Vector3.Cross(f3, f1); // p2's triangle cross product
+        Vector3 va3= Vector3.Cross(f1, f2); // p3's triangle cross product
+        float a= va.magnitude; // main triangle area
+        // calculate barycentric coordinates with sign:
+        float a1= va1.magnitude / a * Mathf.Sign(Vector3.Dot(va, va1));
+        float a2= va2.magnitude / a * Mathf.Sign(Vector3.Dot(va, va2));
+        float a3= va3.magnitude / a * Mathf.Sign(Vector3.Dot(va, va3));
+        // find the uv corresponding to point f (uv1/uv2/uv3 are associated to p1/p2/p3):
+        Vector2 uv = uv1 * a1 + uv2 * a2 + uv3 * a3;
+        return uv;
+    }*/
 
     private Mesh OptimizeMesh(Mesh inputMesh, float height)
     {
