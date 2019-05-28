@@ -20,22 +20,18 @@ public class ConversionController : MonoBehaviour
     private void Start()
     {
         BlockSelector selector = new BlockSelector(null);
-        var buildingBlocks = selector.calculateBlocks(Voxelizer.Voxelize(mesh,tex, targetHeight));
+        var buildingBlocks = selector.calculateBlocksSpiral(Voxelizer.Voxelize(mesh,tex, targetHeight));
         Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
-            Color color = Color.red;
-            if (bb.blockType.extends.z == 2)
-            {
-                color = Color.blue;
-            }
+            
             if (bb.isFlipped)
             {
-                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
+                VoxelTools.MakeCube(bb.pos, bb.blockColor, new Vector3(bb.extends.z, bb.extends.y, bb.extends.x));
             }
             else
             {
-                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.blockType.extends.x, bb.blockType.extends.y, bb.blockType.extends.z));
+                VoxelTools.MakeCube(bb.pos, bb.blockColor, new Vector3(bb.extends.x, bb.extends.y, bb.extends.z));
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);

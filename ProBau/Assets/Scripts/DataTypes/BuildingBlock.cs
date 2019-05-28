@@ -10,9 +10,11 @@ using UnityEngine;
 /// </summary>
 public class BuildingBlock
 {
-    public BlockType blockType;
+    public Vector3Int extends;
 
-    private Color blockColor;
+    public Vector3Int direction;
+
+    public Color blockColor;
 
     private float volumeError;
 
@@ -20,10 +22,12 @@ public class BuildingBlock
 
     public Vector3 pos;
 
-    public BuildingBlock(BlockType bt, bool flipped, Vector3 pos)
+    public BuildingBlock(Vector3Int extends, Vector3Int direction, bool flipped, Vector3 pos , Color blockColor)
     {
-        blockType = bt;
+        this.extends = extends;
+        this.direction = direction;
         isFlipped = flipped;
         this.pos = pos;
+        this.blockColor = blockColor;
     }
 }
