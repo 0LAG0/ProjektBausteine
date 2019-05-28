@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 namespace BrickIt.Vector3Extensions
 {
+    /// <summary>
+    /// Vector3 extensions.
+    /// </summary>
     public static class Vector3Extensions
     {
         /// <summary>

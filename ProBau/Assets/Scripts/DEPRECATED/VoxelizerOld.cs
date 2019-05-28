@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Voxelizer : MonoBehaviour
+/// <summary>
+/// Old voxelizier.
+/// </summary>
+/// <remarks>DEPRECATED - MARKED FOR DELETION</remarks>
+public class VoxelizerOld : MonoBehaviour
 {
     public Mesh mesh;
     //public float height;

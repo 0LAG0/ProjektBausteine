@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// Scriptable Object which contains the information for a 'lego-block'.
+/// </summary>
 [CreateAssetMenu(fileName = "New BlockData", menuName = "Block Data", order = 51)]
 public class BlockType : ScriptableObject
 {

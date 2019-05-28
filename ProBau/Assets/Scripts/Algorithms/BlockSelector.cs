@@ -3,7 +3,10 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockSelector : MonoBehaviour
+/// <summary>
+/// Class performing the combination of voxels to larger blocks.
+/// </summary>
+public class BlockSelector
 {
     private List<BlockType> possibleBlocks;
 
@@ -16,17 +19,6 @@ public class BlockSelector : MonoBehaviour
             possibleBlocks = Resources.FindObjectsOfTypeAll(typeof(BlockType)).Cast<BlockType>().ToList();
         }
         possibleBlocks = possibleBlocks.OrderByDescending(b => b.extends.x * b.extends.y * b.extends.z * b.extends.z * b.extends.z).ToList();
-        /*Debug.Log(possibleBlocks[0].extends);
-        Debug.Log(possibleBlocks[1].extends);
-        Debug.Log(possibleBlocks[2].extends);
-        Debug.Log(possibleBlocks[3].extends);
-        Debug.Log(possibleBlocks[4].extends);
-        Debug.Log(possibleBlocks[5].extends);
-        Debug.Log(possibleBlocks[6].extends);
-        Debug.Log(possibleBlocks[7].extends);
-        Debug.Log(possibleBlocks[8].extends);
-        Debug.Log(possibleBlocks[9].extends);
-        Debug.Log(possibleBlocks[10].extends);*/
     }
 
     public List<BuildingBlock> calculateBlocks(bool[,,] voxels)
@@ -46,8 +38,6 @@ public class BlockSelector : MonoBehaviour
                 }
             }
         }
-        //Debug.Log(returnList.Count);
-        //Debug.Log(returnList[1]);
         return returnList;
     }
 
@@ -124,7 +114,7 @@ public class BlockSelector : MonoBehaviour
 
     private bool checkForFit(bool flipped, BlockType checkType, ref bool[,,] voxels, Vector3Int pos)
     {
-        //Debug.Log(checkType.extends);
+
         int xExtends = checkType.extends.x;
         int zExtends = checkType.extends.z;
         if (flipped)
@@ -132,8 +122,6 @@ public class BlockSelector : MonoBehaviour
             xExtends = checkType.extends.z;
             zExtends = checkType.extends.x;
         }
-
-        //var temp = voxels;
 
         for (int y = 0; y < checkType.extends.y; y++)
         {
@@ -160,8 +148,7 @@ public class BlockSelector : MonoBehaviour
                 }
             }
         }
-        //Debug.Log("success !");
-        //voxels = temp;
+
         return true;
     }
 
@@ -171,8 +158,7 @@ public class BlockSelector : MonoBehaviour
         {
             BlockType bt = possibleBlocks[i];
             Vector3 absPos = pos + ((Vector3)bt.extends / 2);
-            //Vector3 absPos = pos + ((Vector3)(new Vector3(bt.extends.z, bt.extends.y, bt.extends.x)) / 2);
-            //Debug.Log(checkForFit(directionPreference, bt, ref voxels, pos));
+
             if (checkForFit(!directionPreference, bt, ref voxels, pos))
             {
                 if (!directionPreference)

@@ -2,33 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TriBoxIntersection : MonoBehaviour
+
+/// <summary>
+/// Class used for voxelization.
+/// Uses TriBoxIntersection to determine if a block should get set.
+/// </summary>
+public class Voxelizer : MonoBehaviour
 {
-    public float gridsize;
-    public Mesh mesh;
-    public Texture2D tex;
-    public float height;
-
-    private void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            VoxelTools.MakeAllCubesFall();
-        }
-    }
-
-    private void Start()
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="mesh"></param>
+    /// <param name="tex"></param>
+    /// <param name="height"></param>
+    /// <returns></returns>
+    /// <remarks>NEEDS TO HANDLE COLOR!</remarks>
+    public static bool[,,] Voxelize(Mesh mesh, Texture2D tex, float height)
     {
         var startT = System.DateTime.Now;
-        float voxelcount = 0;
+        //float voxelcount = 0;
         var textureCoordinates = mesh.uv;
 
         mesh = OptimizeMesh(mesh, height);
         float[] minMax = minMaxMesh(mesh);
 
-        int Height = (int)(minMax[3] / gridsize) + 2;
-        int Width = (int)(minMax[1] / gridsize) + 2;
-        int Depth = (int)(minMax[5] / gridsize) + 2;
+        int Height = (int)(minMax[3] / GlobalConstants.VoxelHeight) + 2;
+        int Width = (int)(minMax[1] / GlobalConstants.VoxelWidth) + 2;
+        int Depth = (int)(minMax[5] / GlobalConstants.VoxelWidth) + 2;
         var container = new bool[Width, Height, Depth];
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
@@ -41,78 +41,31 @@ public class TriBoxIntersection : MonoBehaviour
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
             //Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
-            for (int x = SnapToGrid(min.x); x <= SnapToGrid(max.x); x ++)
+            for (int x = SnapToWidth(min.x); x <= SnapToWidth(max.x); x++)
             {
-                for (int y = SnapToGrid(min.y); y <= SnapToGrid(max.y); y ++)
+                for (int y = SnapToHeight(min.y); y <= SnapToHeight(max.y); y++)
                 {
-                    for (int z = SnapToGrid(min.z); z <= SnapToGrid(max.z); z ++)
+                    for (int z = SnapToWidth(min.z); z <= SnapToWidth(max.z); z++)
                     {
                         if (!container[x, y, z])
                         {
-                            if (TestTriangleBoxOverlap(new Vector3(x * gridsize, y * gridsize, z * gridsize), new Vector3(gridsize / 2, gridsize / 2, gridsize / 2), new Vector3[] { a, b, c }))
+                            if (TestTriangleBoxOverlap(new Vector3(x * GlobalConstants.VoxelWidth, y * GlobalConstants.VoxelHeight, z * GlobalConstants.VoxelWidth)
+                                , new Vector3(GlobalConstants.VoxelWidth / 2, GlobalConstants.VoxelHeight / 2, GlobalConstants.VoxelWidth / 2), new Vector3[] { a, b, c }))
                             {
                                 container[x, y, z] = true;
-                                voxelcount++;
+                                //voxelcount++;
                             }
                         }
                     }
                 }
             }
         }
-        BlockSelector selector = new BlockSelector(null);
-        var buildingBlocks = selector.calculateBlocks(container);
-        Debug.Log(buildingBlocks.Count);
-        foreach(BuildingBlock bb in buildingBlocks)
-        {
-            Color color = Color.red;
-            if (bb.blockType.extends.z == 2)
-            {
-                color = Color.blue;
-            }
-            //Debug.Log(bb);
-            if (bb.isFlipped)
-            {
-                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
-                //VoxelTools.MakeCube(new Vector3(bb.pos.x, bb.pos.y * 10, bb.pos.z), VoxelTools.GetRandomColor(), new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
-                //VoxelTools.MakeCube(bb.pos, Color.red, new Vector3(bb.blockType.extends.z, bb.blockType.extends.y, bb.blockType.extends.x));
-                //VoxelTools.MakeCube(bb.pos, Color.red, bb.blockType.extends);
-            }
-            else
-            {
-                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.blockType.extends.x, bb.blockType.extends.y, bb.blockType.extends.z));
-                //VoxelTools.MakeCube(new Vector3(bb.pos.x, bb.pos.y * 10, bb.pos.z), VoxelTools.GetRandomColor(), bb.blockType.extends);
-                //VoxelTools.MakeCube(bb.pos, Color.blue, bb.blockType.extends);
-                //VoxelTools.GetRandomColor()
-            }
-
-            //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
-        }
+        return container;
     }
 
-    /*private Vector2 CalcUniqueUV(Vector3 p, Vector3 p1, Vector3 p2, Vector3 p3, Vector2 uv1, Vector2 uv2, Vector2 uv3)
+    private static Mesh OptimizeMesh(Mesh inputMesh, float height)
     {
-        // calculate vectors from point f to vertices p1, p2 and p3:
-        var f1 = p1 - p;
-        var f2 = p2 - p;
-        var f3 = p3 - p;
-        // calculate the areas (parameters order is essential in this case):
-        Vector3 va= Vector3.Cross(p1 - p2, p1 - p3); // main triangle cross product
-        Vector3 va1= Vector3.Cross(f2, f3); // p1's triangle cross product
-        Vector3 va2= Vector3.Cross(f3, f1); // p2's triangle cross product
-        Vector3 va3= Vector3.Cross(f1, f2); // p3's triangle cross product
-        float a= va.magnitude; // main triangle area
-        // calculate barycentric coordinates with sign:
-        float a1= va1.magnitude / a * Mathf.Sign(Vector3.Dot(va, va1));
-        float a2= va2.magnitude / a * Mathf.Sign(Vector3.Dot(va, va2));
-        float a3= va3.magnitude / a * Mathf.Sign(Vector3.Dot(va, va3));
-        // find the uv corresponding to point f (uv1/uv2/uv3 are associated to p1/p2/p3):
-        Vector2 uv = uv1 * a1 + uv2 * a2 + uv3 * a3;
-        return uv;
-    }*/
-
-    private Mesh OptimizeMesh(Mesh inputMesh, float height)
-    {
-        float[] minMax = minMaxMesh(mesh);
+        float[] minMax = minMaxMesh(inputMesh);//hat mal auf this.mesh refferenziert
         float origHeight = minMax[3] - minMax[2];
         float scale = height / origHeight;
         var nMesh = inputMesh;
@@ -132,13 +85,17 @@ public class TriBoxIntersection : MonoBehaviour
         return nMesh;
     }
 
-    public int SnapToGrid(float val)
+    private static int SnapToWidth(float val)
     {
-        return (int)(Mathf.Round(val / gridsize));
+        return (int)(Mathf.Round(val / GlobalConstants.VoxelWidth));
+    }
+    private static int SnapToHeight(float val)
+    {
+        return (int)(Mathf.Round(val / GlobalConstants.VoxelHeight));
     }
 
     //stolen from here: http://fileadmin.cs.lth.se/cs/Personal/Tomas_Akenine-Moller/code/tribox3.txt
-    public static bool TestTriangleBoxOverlap(Vector3 boxCenter, Vector3 boxHalfSize, Vector3[] vertices)
+    private static bool TestTriangleBoxOverlap(Vector3 boxCenter, Vector3 boxHalfSize, Vector3[] vertices)
     {
         // Move the triangle into the box's local coordinates
         vertices[0] -= boxCenter;
@@ -233,7 +190,7 @@ public class TriBoxIntersection : MonoBehaviour
         return false;
     }
 
-    public float[] minMaxMesh(Mesh mesh)
+    private static float[] minMaxMesh(Mesh mesh)
     {
         Vector3[] vertices = mesh.vertices;
         float xLowest = Mathf.Infinity;

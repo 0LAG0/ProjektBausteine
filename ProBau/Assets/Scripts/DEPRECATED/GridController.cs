@@ -4,6 +4,11 @@ using UnityEngine;
 using System.Linq;
 using BrickIt.Vector3Extensions;
 
+/// <summary>
+/// Class for creating a voxel-grid based, specific to a modell.
+/// Uses 'unity.physics.checkbox' to determine which voxel to set.
+/// </summary>
+/// <remarks>DEPRECATED - MARKED FOR DELETION</remarks>
 public class GridController : MonoBehaviour
 {
     [SerializeField]

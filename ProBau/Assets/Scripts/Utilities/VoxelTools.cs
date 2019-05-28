@@ -4,11 +4,12 @@ using System.Collections.Generic;
 
 public class VoxelTools : MonoBehaviour
 {
-
+    [SerializeField]
     private static GameObject cubePrefab;
     private static GameObject cubeContainer;
     private static int cubeCount = 0;
     private static List<GameObject> cubes;
+
 
     public static Color GetRandomColor()
     {
@@ -37,7 +38,8 @@ public class VoxelTools : MonoBehaviour
     private static GameObject GetCubePrefab()
     {
         if (cubePrefab == null)
-            cubePrefab = Resources.Load("Cube") as GameObject;
+            cubePrefab = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        cubePrefab.transform.localScale = new Vector3(GlobalConstants.VoxelWidth, GlobalConstants.VoxelHeight, GlobalConstants.VoxelWidth);
         return cubePrefab;
     }
 
@@ -64,7 +66,8 @@ public class VoxelTools : MonoBehaviour
 
     public static void MakeAllCubesFall()
     {
-        foreach (GameObject cube in cubes) { 
+        foreach (GameObject cube in cubes)
+        {
             if (cube.GetComponent<Rigidbody>() == null)
             {
                 cube.AddComponent<Rigidbody>();

@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
+/// <summary>
+/// Instanciatable Building Block.
+/// </summary>
 public class BuildingBlock
 {
     public BlockType blockType;

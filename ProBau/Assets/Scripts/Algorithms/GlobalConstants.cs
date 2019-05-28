@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 class GlobalConstants
 {
-    public const float VoxelWidth=0.8f;
-    public const float VoxelHeight = 0.96f;
+    public const float VoxelWidth = 1f;
+    public const float VoxelHeight = 1f;
 
 }
