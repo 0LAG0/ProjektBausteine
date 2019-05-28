@@ -64,7 +64,7 @@ public class BlockSelector
                     if (voxels[k, y, i])
                     {
                         bool flipPref = (Random.Range(1,10) % 2 == 0);
-                        returnList.Add(getLargestPossibleBlock(flipPref,GlobalConstants.BlockDirections[0], new Vector3Int(k, y, i), ref voxels));
+                        returnList.Add(getLargestPossibleBlock(flipPref,GlobalConstants.BlockDirections[0], new Vector3Int(k, y, i), voxels));
                     }
                     //test for block [k][i]
                 }
@@ -74,7 +74,7 @@ public class BlockSelector
                     if (voxels[i, y, lastCol])
                     {
                         bool flipPref = (Random.Range(1, 10) % 2 == 0);
-                        returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[1], new Vector3Int(i, y, lastCol), ref voxels));
+                        returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[1], new Vector3Int(i, y, lastCol), voxels));
                     }
                     //test for block [i][lastCol]
                 }
@@ -86,7 +86,7 @@ public class BlockSelector
                         if (voxels[lastRow, y, i])
                         {
                             bool flipPref = (Random.Range(1, 10) % 2 == 0);
-                            returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[3], new Vector3Int(lastRow, y, i), ref voxels));
+                            returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[3], new Vector3Int(lastRow, y, i), voxels));
                         }
                         //test for block [lastRow][i]
                     }
@@ -99,7 +99,7 @@ public class BlockSelector
                         if (voxels[i, y, l])
                         {
                             bool flipPref = (Random.Range(1, 10) % 2 == 0);
-                            returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[2], new Vector3Int(i, y, l), ref voxels));
+                            returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[2], new Vector3Int(i, y, l), voxels));
                         }
                         //test for block [i][l]
                     }
@@ -113,7 +113,7 @@ public class BlockSelector
         return returnList;
     }
 
-    private bool checkForFit(bool flipped, Vector3Int direction, Vector3Int checkType, ref bool[,,] voxels, Vector3Int pos)
+    private bool checkForFit(bool flipped, Vector3Int direction, Vector3Int checkType, bool[,,] voxels, Vector3Int pos)
     {
         // DIRECTION NEEDS TO BE HOOKED UP
         int xExtends = checkType.x;
@@ -131,7 +131,13 @@ public class BlockSelector
                 for (int z = 0; Mathf.Abs(z) < zExtends; z += direction.z)
                 {
                     //temp[pos.x + x, pos.y + y, pos.z + z] = false;
-                    if (pos.x + x >= voxels.GetLength(0) || pos.z + z >= voxels.GetLength(2) || pos.y + y >= voxels.GetLength(1) || !voxels[pos.x + x, pos.y + y, pos.z + z])
+                    if (pos.x + x >= voxels.GetLength(0) ||
+                        pos.z + z >= voxels.GetLength(2) ||
+                        pos.y + y >= voxels.GetLength(1) ||
+                        pos.x + x < 0 ||
+                        pos.z + z < 0 ||
+                        pos.y + y < 0 ||
+                        !voxels[pos.x + x, pos.y + y, pos.z + z])
                     {
                         return false;
                     }
@@ -139,11 +145,11 @@ public class BlockSelector
             }
         }
 
-        for (int y = 0; y < checkType.y; y++)
+        for (int y = 0; Mathf.Abs(y) < checkType.y; y += direction.y)
         {
-            for (int x = 0; x < xExtends; x++)
+            for (int x = 0; Mathf.Abs(x) < xExtends; x += direction.x)
             {
-                for (int z = 0; z < zExtends; z++)
+                for (int z = 0; Mathf.Abs(z) < zExtends; z += direction.z)
                 {
                     voxels[pos.x + x, pos.y + y, pos.z + z] = false;
                 }
@@ -153,14 +159,14 @@ public class BlockSelector
         return true;
     }
 
-    private BuildingBlock getLargestPossibleBlock(bool flipPref, Vector3Int direction, Vector3Int pos, ref bool[,,] voxels)
+    private BuildingBlock getLargestPossibleBlock(bool flipPref, Vector3Int direction, Vector3Int pos, bool[,,] voxels)
     {
         for (int i = 0; i < possibleExtends.Count; i++)
         {
             Vector3Int bt = possibleExtends[i];
             Vector3 absPos = pos + ((Vector3)bt / 2);
 
-            if (checkForFit(!flipPref, direction, bt, ref voxels, pos))
+            if (checkForFit(!flipPref, direction, bt, voxels, pos))
             {
                 if (!flipPref)
                 {
@@ -168,7 +174,7 @@ public class BlockSelector
                 }
                 return new BuildingBlock(bt, direction,!flipPref, absPos, Color.blue);
             }
-            if (checkForFit(flipPref, direction, bt, ref voxels, pos))
+            if (checkForFit(flipPref, direction, bt, voxels, pos))
             {
                 if (flipPref)
                 {
