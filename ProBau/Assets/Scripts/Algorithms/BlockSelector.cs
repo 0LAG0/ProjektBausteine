@@ -63,8 +63,8 @@ public class BlockSelector
                 {
                     if (voxels[k, y, i])
                     {
-                        bool flipPref = (Random.Range(1,10) % 2 == 0);
-                        returnList.Add(getLargestPossibleBlock(flipPref,GlobalConstants.BlockDirections[0], new Vector3Int(k, y, i), voxels));
+                        bool flipPref = (Random.Range(1, 10) % 2 == 0);
+                        returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[0], new Vector3Int(k, y, i), voxels));
                     }
                     //test for block [k][i]
                 }
@@ -74,7 +74,7 @@ public class BlockSelector
                     if (voxels[i, y, lastCol])
                     {
                         bool flipPref = (Random.Range(1, 10) % 2 == 0);
-                        returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[1], new Vector3Int(i, y, lastCol), voxels));
+                        returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[2], new Vector3Int(i, y, lastCol), voxels));
                     }
                     //test for block [i][lastCol]
                 }
@@ -99,7 +99,7 @@ public class BlockSelector
                         if (voxels[i, y, l])
                         {
                             bool flipPref = (Random.Range(1, 10) % 2 == 0);
-                            returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[2], new Vector3Int(i, y, l), voxels));
+                            returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[1], new Vector3Int(i, y, l), voxels));
                         }
                         //test for block [i][l]
                     }
@@ -124,7 +124,7 @@ public class BlockSelector
             zExtends = checkType.x;
         }
 
-        for (int y = 0; Mathf.Abs(y) < checkType.y; y+=direction.y)
+        for (int y = 0; Mathf.Abs(y) < checkType.y; y += direction.y)
         {
             for (int x = 0; Mathf.Abs(x) < xExtends; x += direction.x)
             {
@@ -164,23 +164,31 @@ public class BlockSelector
         for (int i = 0; i < possibleExtends.Count; i++)
         {
             Vector3Int bt = possibleExtends[i];
-            Vector3 absPos = pos + ((Vector3)bt / 2);
-
-            if (checkForFit(!flipPref, direction, bt, voxels, pos))
+            //Vector3 absPos = pos + ((Vector3)bt / 2);
+            Vector3 absPos = pos + (new Vector3(bt.x * direction.x, bt.y, bt.z * direction.z)) / 2 + (Vector3)direction * -0.5f;
+            Color color = Color.red;
+            if (bt.x == 2)
             {
-                if (!flipPref)
-                {
-                    absPos = pos + ((Vector3)(new Vector3(bt.z, bt.y, bt.x)) / 2);
-                }
-                return new BuildingBlock(bt, direction,!flipPref, absPos, Color.blue);
+                color = Color.blue;
             }
+
             if (checkForFit(flipPref, direction, bt, voxels, pos))
             {
                 if (flipPref)
                 {
-                    absPos = pos + ((Vector3)(new Vector3(bt.z, bt.y, bt.x)) / 2);
+                    //absPos = pos + (new Vector3(bt.z, bt.y, bt.x) / 2);
+                    absPos = pos + ((new Vector3(bt.z * direction.x, bt.y, bt.x * direction.z)) / 2) + (Vector3)direction * -0.5f;
                 }
-                return new BuildingBlock(bt, direction, flipPref, absPos,Color.red);
+                return new BuildingBlock(bt, direction, flipPref, absPos, color);
+            }
+            if (checkForFit(!flipPref, direction, bt, voxels, pos))
+            {
+                if (!flipPref)
+                {
+                    //absPos = pos + (new Vector3(bt.z, bt.y, bt.x) / 2);
+                    absPos = pos + ((new Vector3(bt.z * direction.x, bt.y, bt.x * direction.z)) / 2) + (Vector3)direction * -0.5f;
+                }
+                return new BuildingBlock(bt, direction, !flipPref, absPos, color);
             }
         }
         return null;

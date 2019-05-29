@@ -52,6 +52,8 @@ public class Voxelizer : MonoBehaviour
                             if (TestTriangleBoxOverlap(new Vector3(x * GlobalConstants.VoxelWidth, y * GlobalConstants.VoxelHeight, z * GlobalConstants.VoxelWidth)
                                 , new Vector3(GlobalConstants.VoxelWidth / 2, GlobalConstants.VoxelHeight / 2, GlobalConstants.VoxelWidth / 2), new Vector3[] { a, b, c }))
                             {
+
+                                //VoxelTools.MakeCube(new Vector3(x, y, z), Color.green, new Vector3(0.2f, 1.2f, 0.2f));
                                 container[x, y, z] = true;
                                 //voxelcount++;
                             }
