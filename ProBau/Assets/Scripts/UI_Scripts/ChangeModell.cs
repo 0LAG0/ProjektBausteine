@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.IO;
-using UnityEditor;
 
 /* Sources: 
  * https://www.youtube.com/watch?v=T-AbCUuLViA&feature=youtu.be 
@@ -45,26 +43,5 @@ public class ChangeModell : MonoBehaviour
         models[selectionIndex].SetActive(false);
         selectionIndex = index;
         models[selectionIndex].SetActive(true);
-    }
-
-
-    // source: https://docs.unity3d.com/ScriptReference/EditorUtility.OpenFilePanel.html
-    // found these, but so far couldn't use them: http://wiki.unity3d.com/index.php?title=ObjImporter & http://wiki.unity3d.com/index.php/FastObjImporter
-    /// <summary>
-    /// Open file system dialog to import own 3D modell
-    /// </summary>
-    public void OpenFilePanel()
-    {
-        GameObject modell = GameObject.Find("ModelsContainer");
-
-        string path = EditorUtility.OpenFilePanel("Importiere dein 3D Modell", "", "obj");
-
-        if (path.Length != 0)
-        {
-            var newModell = File.ReadAllBytes(path);
-            // TODO convert byte[] to modell/game object
-            //models.Add(newModell);
-            //Select(models.IndexOf(newModell));
-        }
     }
 }
