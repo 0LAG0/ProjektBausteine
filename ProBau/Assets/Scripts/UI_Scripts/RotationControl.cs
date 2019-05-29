@@ -17,13 +17,14 @@ public class RotationControl : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButton(0))
+        if (!Input.GetMouseButton(0))       // || out of preview area
         {
             return;
         }
         else
         {
             OnMouseDrag();
+            //Vector3 newRotation = transform.Rotate();
         }
     }
 
@@ -45,5 +46,6 @@ public class RotationControl : MonoBehaviour
     public void RotateReset()
     {
         transform.rotation = Quaternion.identity;
+        // newRotation = Quaternion.identity;
     }
 }
