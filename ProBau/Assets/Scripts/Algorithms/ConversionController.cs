@@ -17,21 +17,34 @@ public class ConversionController : MonoBehaviour
     /// </summary>
     public float targetHeight;
 
+    private void Update()
+    {
+        if (Input.GetKeyDown("space"))
+        {
+            VoxelTools.MakeAllCubesFall();
+        }
+    }
+
     private void Start()
     {
         BlockSelector selector = new BlockSelector(null);
-        var buildingBlocks = selector.calculateBlocksSpiral(Voxelizer.Voxelize(mesh,tex, targetHeight));
-        Debug.Log(buildingBlocks.Count);
+        var buildingBlocks = selector.calculateBlocksSpiral(Voxelizer.Voxelize(mesh, tex, targetHeight));
+        //Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
-            
+            Color color = Color.blue;
             if (bb.isFlipped)
             {
-                VoxelTools.MakeCube(bb.pos, bb.blockColor, new Vector3(bb.extends.z, bb.extends.y, bb.extends.x));
+                color = Color.red;
+            }
+
+            if (bb.isFlipped)
+            {
+                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.extends.z, bb.extends.y, bb.extends.x));
             }
             else
             {
-                VoxelTools.MakeCube(bb.pos, bb.blockColor, new Vector3(bb.extends.x, bb.extends.y, bb.extends.z));
+                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.extends.x, bb.extends.y, bb.extends.z));
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
