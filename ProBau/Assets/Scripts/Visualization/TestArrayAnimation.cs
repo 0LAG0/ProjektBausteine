@@ -13,7 +13,6 @@ public class TestArrayAnimation : MonoBehaviour
     public Mesh mesh;
     public Texture2D tex;
     public float targetHeight;
-    BlockSelector selector = new BlockSelector(null);
     //better not touch this -.-
 
 
@@ -36,7 +35,7 @@ public class TestArrayAnimation : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
 
     void Start()
@@ -51,6 +50,7 @@ public class TestArrayAnimation : MonoBehaviour
         // pos: the position of the brick (center)
         // extends: the blocktype (a 2x4 block would be (2,1,4))
         // isFlipped: the brick is rotated by 90° (pos still stays the same)
+        BlockSelector selector = new BlockSelector(null);
         var buildingBlocks = selector.calculateBlocksSpiral(Voxelizer.Voxelize(mesh, tex, targetHeight));
         //
         //
@@ -95,7 +95,7 @@ public class TestArrayAnimation : MonoBehaviour
             count += 1;
             source.Play();
         }
-    
+
     }
 
     //Sortiert Array nach Y-Werten
