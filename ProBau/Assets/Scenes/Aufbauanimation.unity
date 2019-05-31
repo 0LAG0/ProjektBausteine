@@ -129,8 +129,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 395922767}
-  - component: {fileID: 395922766}
   - component: {fileID: 395922768}
+  - component: {fileID: 395922766}
   m_Layer: 0
   m_Name: "LegoGed\xF6ns"
   m_TagString: Untagged
@@ -147,18 +147,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 395922765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd21d306c9e44d94d8c78b34d54ef620, type: 3}
+  m_Script: {fileID: 11500000, guid: 264605e73b5def441814add5e126c519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steine:
-  - {fileID: 5747111064228904125}
-  - {fileID: 4174865678333619138}
-  - {fileID: 555401427839610260}
-  - {fileID: 9017913265526720812}
-  - {fileID: 2887600623511700061}
-  - {fileID: 6904133760224683340}
-  - {fileID: 5670821077619906017}
-  startHeight: 20
+  mesh: {fileID: 4300000, guid: 7afa0857693fbf54bbca8c8e14281aa6, type: 3}
+  tex: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
+  targetHeight: 50
+  steine: []
+  startHeight: 10
   speed: 10
 --- !u!4 &395922767
 Transform:
