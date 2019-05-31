@@ -5,6 +5,21 @@ using System.Linq;
 
 public class TestArrayAnimation : MonoBehaviour
 {
+
+
+
+
+    //better not touch this -.-
+    public Mesh mesh;
+    public Texture2D tex;
+    public float targetHeight;
+    //better not touch this -.-
+
+
+
+
+
+
     public GameObject[] steine;
 
     private float[] positionY;
@@ -20,11 +35,31 @@ public class TestArrayAnimation : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
 
     void Start()
     {
+
+
+
+
+        //
+        // use this to animate bricks
+        // for now you only need pos/extends/isFlipped
+        // pos: the position of the brick (center)
+        // extends: the blocktype (a 2x4 block would be (2,1,4))
+        // isFlipped: the brick is rotated by 90° (pos still stays the same)
+        BlockSelector selector = new BlockSelector(null);
+        var buildingBlocks = selector.calculateBlocksSpiral(Voxelizer.Voxelize(mesh, tex, targetHeight));
+        //
+        //
+        Debug.Log(buildingBlocks.Count);
+
+
+
+
+
         steine = sortedArray(steine);
         for (int i = 0; i < steine.Length; i++)
         {
@@ -60,7 +95,7 @@ public class TestArrayAnimation : MonoBehaviour
             count += 1;
             source.Play();
         }
-    
+
     }
 
     //Sortiert Array nach Y-Werten

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mesh: {fileID: 4300000, guid: 7afa0857693fbf54bbca8c8e14281aa6, type: 3}
   tex: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
-  targetHeight: 50
+  targetHeight: 20
 --- !u!4 &671116584
 Transform:
   m_ObjectHideFlags: 0
@@ -373,7 +373,7 @@ PrefabInstance:
     - target: {fileID: 8381041313556200436, guid: f4515589ab8aae748b3d22ca6d9d8012,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8381041313556200436, guid: f4515589ab8aae748b3d22ca6d9d8012,
         type: 3}
