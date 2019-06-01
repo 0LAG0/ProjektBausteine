@@ -336,9 +336,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4bf7b1b57d0d5438745853ad89f02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 4300000, guid: 7afa0857693fbf54bbca8c8e14281aa6, type: 3}
+  mesh: {fileID: -7284989440109441873, guid: 7d41edc6fb845d749b60f30bce9139fd, type: 3}
   tex: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
-  targetHeight: 20
+  targetHeight: 200
 --- !u!4 &671116584
 Transform:
   m_ObjectHideFlags: 0

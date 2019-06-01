@@ -32,19 +32,21 @@ public class ConversionController : MonoBehaviour
         //Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
-            Color color = Color.blue;
-            if (bb.isFlipped)
+            Color color = Color.red;
+            if (bb.extends.x == 2)
             {
-                color = Color.red;
+                color = Color.blue;
             }
 
             if (bb.isFlipped)
             {
-                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.extends.z, bb.extends.y, bb.extends.x));
+                Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
+                VoxelTools.MakeCube(position, color, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
             }
             else
             {
-                VoxelTools.MakeCube(bb.pos, color, new Vector3(bb.extends.x, bb.extends.y, bb.extends.z));
+                Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
+                VoxelTools.MakeCube(position, color, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
