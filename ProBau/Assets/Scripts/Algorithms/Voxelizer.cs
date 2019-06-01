@@ -91,6 +91,7 @@ public class Voxelizer : MonoBehaviour
     {
         return (int)(Mathf.Round(val / GlobalConstants.VoxelWidth));
     }
+
     private static int SnapToHeight(float val)
     {
         return (int)(Mathf.Round(val / GlobalConstants.VoxelHeight));

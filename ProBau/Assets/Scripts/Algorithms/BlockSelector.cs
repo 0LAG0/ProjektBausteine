@@ -113,6 +113,103 @@ public class BlockSelector
         return returnList;
     }
 
+    public List<BuildingBlock> calculateBlocksSpiralWithBounds(bool[,,] voxels)
+    {
+        int width = voxels.GetLength(0);
+        int depth = voxels.GetLength(2);
+        int height = voxels.GetLength(1);
+
+        List<BuildingBlock> returnList = new List<BuildingBlock>();
+        for (int y = 0; y < height; y++)
+        {
+            //int maxX = width-1;
+            //int maxZ = depth-1;
+            //int i;
+            //int x = 0;
+            //int z = 0;
+
+            int maxZ = 0;
+            int maxX = 0;
+            int i;
+            int minZ = int.MaxValue;
+            int minX = int.MaxValue;
+
+            //min max y-level
+            for (int x = 0; x < width; x++)
+            {
+                for (int z = 0; z < depth; z++)
+                {
+                    if (voxels[x, y, z])
+                    {
+                        if (z < minZ)  minZ = z;
+                        if (x < minX)  minX = x;
+                        if (z > maxZ) maxZ = z;
+                        if (x > maxX)  maxX = x;
+                    }
+                }
+            }
+
+            //bool directionPreference = (y % 2 == 0);
+            while (minZ <= maxZ && minX <= maxX)
+            {
+                for (i = minX; i <= maxX; i++)
+                {
+                    if (voxels[i, y, minZ])
+                    {
+                        bool flipPref = (Random.Range(1, 10) % 2 == 0);
+                        returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[0], new Vector3Int(i, y, minZ), voxels));
+                    }
+                    //test for block [k][i]
+                }
+                minZ++;
+                for (i = minZ; i <= maxZ; i++)
+                {
+                    if (voxels[maxX, y, i])
+                    {
+                        bool flipPref = (Random.Range(1, 10) % 2 == 0);
+                        returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[1], new Vector3Int(maxX, y, i), voxels));
+                    }
+                    //test for block [i][lastCol]
+                }
+                maxX--;
+                if (minZ <= maxZ)
+                {
+                    for (i = maxX; i >= minX; i--)
+                    {
+                        if (voxels[i, y, maxZ])
+                        {
+                            bool flipPref = (Random.Range(1, 10) % 2 == 0);
+                            returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[3], new Vector3Int(i, y, maxZ), voxels));
+                        }
+                        //test for block [lastRow][i]
+                    }
+                }
+                maxZ--;
+                if (minX <= maxX)
+                {
+                    for (i = maxZ; i >= minZ; i--)
+                    {
+                        if (voxels[minX, y, i])
+                        {
+                            bool flipPref = (Random.Range(1, 10) % 2 == 0);
+                            returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[2], new Vector3Int(minX, y, i), voxels));
+                        }
+                        //test for block [i][l]
+                    }
+                }
+                minX++;
+            }
+        }
+
+        //Debug.Log(returnList.Count);
+        //Debug.Log(returnList[1]);
+        return returnList;
+    }
+
+
+
+
+
     private bool checkForFit(bool flipped, Vector3Int direction, Vector3Int checkType, bool[,,] voxels, Vector3Int pos)
     {
         // DIRECTION NEEDS TO BE HOOKED UP
