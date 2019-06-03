@@ -113,6 +113,81 @@ public class BlockSelector
         return returnList;
     }
 
+
+
+
+
+
+/*public List<BuildingBlock> calculateBlocksLooseFirst(bool[,,] voxels)
+    {
+        List<BuildingBlock> returnList = new List<BuildingBlock>();
+
+
+        for (int y = 0; y < voxels.GetLength(1); y++)
+        {
+            bool directionPreference = (y % 2 == 0);
+            for (int x = 0; x < voxels.GetLength(0); x++)
+            {
+                for (int z = 0; z < voxels.GetLength(2); z++)
+                {
+                    if (voxels[x, y, z])
+                    {
+                        Vector3Int direction = calculateBestDirection(voxels, x, y, z);
+                        returnList.Add(getLargestPossibleBlock(directionPreference, direction, new Vector3Int(x, y, z), voxels));
+                    }
+                }
+            }
+        }
+
+        return returnList;
+    }*/
+
+
+
+
+
+
+
+
+   /* private Vector3Int calculateBestDirection(bool[,,] voxels, int x, int y, int z)
+    {
+        Vector3Int returnVector = new Vector3Int();
+        bool up = voxels[x, y, z + 1];
+        bool upright = voxels[x + 1, y, z + 1];
+        bool right = voxels[x + 1, y, z];
+        bool rightdown = voxels[x + 1, y, z - 1];
+        bool down = voxels[x, y, z - 1];
+        bool downleft = voxels[x - 1, y, z - 1];
+        bool left = voxels[x - 1, y, z];
+        bool leftup = voxels[x - 1, y, z + 1];
+
+
+        if (up)
+        {
+
+        }
+        else if (right)
+        {
+
+        }
+        else if (down)
+        {
+
+        }
+        else if (left)
+        {
+
+        }
+
+        return returnVector;
+    }*/
+
+
+
+
+
+
+
     public List<BuildingBlock> calculateBlocksSpiralWithBounds(bool[,,] voxels)
     {
         int width = voxels.GetLength(0);
@@ -141,10 +216,10 @@ public class BlockSelector
                 {
                     if (voxels[x, y, z])
                     {
-                        if (z < minZ)  minZ = z;
-                        if (x < minX)  minX = x;
+                        if (z < minZ) minZ = z;
+                        if (x < minX) minX = x;
                         if (z > maxZ) maxZ = z;
-                        if (x > maxX)  maxX = x;
+                        if (x > maxX) maxX = x;
                     }
                 }
             }
