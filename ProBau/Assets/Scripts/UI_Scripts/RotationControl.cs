@@ -5,14 +5,17 @@
 public class RotationControl : MonoBehaviour
 {
     float rotationSpeed = 2f;
+    GameObject modelsContainer;
 
     void OnMouseDrag()
     {
+        modelsContainer = GameObject.Find("ModelsContainer");
+
         float xAxisRotation = Input.GetAxis("Mouse X") * rotationSpeed;
         float yAxisRotation = Input.GetAxis("Mouse Y") * rotationSpeed;
 
-        transform.Rotate(Vector3.down, xAxisRotation);
-        transform.Rotate(Vector3.right, yAxisRotation);
+        modelsContainer.transform.Rotate(Vector3.down, xAxisRotation);
+        modelsContainer.transform.Rotate(Vector3.right, yAxisRotation);
     }
 
     private void Update()
@@ -24,7 +27,6 @@ public class RotationControl : MonoBehaviour
         else
         {
             OnMouseDrag();
-            //Vector3 newRotation = transform.Rotate();
         }
     }
 
@@ -45,7 +47,7 @@ public class RotationControl : MonoBehaviour
 
     public void RotateReset()
     {
-        transform.rotation = new Quaternion(0, 0, 0, 0);
-        // newRotation = Quaternion.identity;
+        //transform.rotation = new Quaternion(0, 0, 0, 0);
+        transform.rotation = Quaternion.identity;
     }
 }
