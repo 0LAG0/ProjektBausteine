@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 using System.Globalization;
 using System;
 
-public class ColorCalculation2 : MonoBehaviour
+public class ColorCalculation : MonoBehaviour
 {
     static List<string> hexColorsList2 = new List<string>()
-    {  "#FFEC6C", "#FAC80A", "#FCAC00", "#D67923", "#B40000","#720012", "#901F76", "#D3359D", "#FF9ECD",
+    {"#FFEC6C", "#FAC80A", "#FCAC00", "#D67923", "#B40000","#720012", "#901F76", "#D3359D", "#FF9ECD",
     "#CDA4DE", "#A06EB9", "#441A91", "#19325A", "#1E5AA8", "#7396C8", "#9DC3F7", "#70819A", "#68C3E2", "#469BC3",
     "#D3F2EA", "#E2F99A", "#A5CA18", "#58AB41", "#00852B", "#00451A", "#3E3C39", "#1B2A34", "#646464", "#8C8C8C",
     "#969696", "#F4F4F4", "#708E7C", "#77774E", "#897D62", "#B0A06F", "#FFC995", "#BB805A", "#AA7D55", "#91501C",
@@ -20,14 +20,14 @@ public class ColorCalculation2 : MonoBehaviour
     public GameObject myObject;
     public Texture2D myTexture;
 
-    void Start()
-    {
-        myObject = GameObject.FindWithTag("object");
-        myTexture = myObject.GetComponent<Renderer>().material.mainTexture as Texture2D;
-        Texture2D newTexture = colorCalculate(myTexture);
-        newTexture.Apply();
-        myObject.GetComponent<Renderer>().material.mainTexture = newTexture as Texture;
-    }
+    //void Start()
+    //{
+    //    myObject = GameObject.FindWithTag("object");
+    //    myTexture = myObject.GetComponent<Renderer>().material.mainTexture as Texture2D;
+    //    Texture2D newTexture = colorCalculate(myTexture);
+    //    newTexture.Apply();
+    //    myObject.GetComponent<Renderer>().material.mainTexture = newTexture as Texture;
+    //}
 
     private Texture2D colorCalculate(Texture2D colorTexture)
     {
@@ -80,7 +80,32 @@ public class ColorCalculation2 : MonoBehaviour
         return newColorMap;
     }
 
-    private static List<Color> getRgbList(List<string> hexColors)
+
+    //Transform source color to lego color
+    public Color convertColor(Color srcColor)
+    {
+        Color nearestColor = new Color();
+        int defaultColorNumber = colorList.Count;
+        Dictionary<int, float> distanceList = new Dictionary<int, float>();
+        for (int i = 0; i < defaultColorNumber; i++)
+        {
+            Color indexColor = colorList.ElementAt(i);
+            float distance = Mathf.Pow(srcColor.r - indexColor.r, 2) + Mathf.Pow(srcColor.g - indexColor.g, 2) +
+                Mathf.Pow(srcColor.b - indexColor.b, 2) + Mathf.Pow(srcColor.a - indexColor.a, 2);
+            distanceList.Add(i, distance);
+        }
+
+        if (distanceList.Count >= 0)
+        {
+            float minDistance = distanceList.Values.Min();
+            int indexMinDistance = distanceList.First(x => x.Value == minDistance).Key;
+            nearestColor = colorList.ElementAt(indexMinDistance);
+        }
+
+        return nearestColor;
+    }
+
+        private static List<Color> getRgbList(List<string> hexColors)
     {
         List<Color> colorVectors = new List<Color>();
         for (int i = 0; i < hexColors.Count; i++)
