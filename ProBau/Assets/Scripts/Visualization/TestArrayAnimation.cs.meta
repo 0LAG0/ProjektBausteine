@@ -3,7 +3,31 @@ guid: 264605e73b5def441814add5e126c519
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - mesh: {instanceID: 0}
+  - tex: {instanceID: 0}
+  - brick_1x1: {fileID: 7715595106667231711, guid: c475dd910ae847949b1cb304311f2232,
+      type: 3}
+  - brick_1x2: {fileID: 6042401185128639515, guid: a4d06d92ea3cf8745aba901de03e70d2,
+      type: 3}
+  - brick_1x3: {fileID: 4687404495791935806, guid: f65d50c510b8ed84ba12787c8c8935ad,
+      type: 3}
+  - brick_1x4: {fileID: 7974612692917499801, guid: bfee48c6d6488e5478647b285158bb5e,
+      type: 3}
+  - brick_1x6: {fileID: 5781319533224638094, guid: 87db655583e8c4d42a75ce110237ced8,
+      type: 3}
+  - brick_1x8: {fileID: 6020224174814627326, guid: b9423346e2b4036409f8794eedb2707b,
+      type: 3}
+  - brick_2x2: {fileID: 3627126295028474415, guid: 826de333c202e874c917600f9bdb019c,
+      type: 3}
+  - brick_2x3: {fileID: 7236568757209760874, guid: dc37d6540a89d7f439ab5cb75ac9e407,
+      type: 3}
+  - brick_2x4: {fileID: 6525495635664292299, guid: 5b6ebdb7bfe28274d8195eebf99a0d01,
+      type: 3}
+  - brick_2x6: {fileID: 7546129301085662312, guid: b22d4ef86a1b8b94b8367a99ee125ef4,
+      type: 3}
+  - brick_2x8: {fileID: 1402803843934406729, guid: a74ef286efe1b4b428b6c99598ac1fb2,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
