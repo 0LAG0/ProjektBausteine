@@ -3,9 +3,10 @@ using System.IO;
 using UnityEditor;
 using ImporterObj;
 
-// source: https://docs.unity3d.com/ScriptReference/EditorUtility.OpenFilePanel.html
-// obj importer: http://wiki.unity3d.com/index.php?title=ObjImporter
-// found also another obj importer (optimized for blender modells and faster): http://wiki.unity3d.com/index.php/FastObjImporter
+/* source: https://docs.unity3d.com/ScriptReference/EditorUtility.OpenFilePanel.html
+ * obj importer: http://wiki.unity3d.com/index.php?title=ObjImporter
+ * found also another obj importer (optimized for blender modells and faster):
+ * http://wiki.unity3d.com/index.php/FastObjImporter */
 
 public class ImportModell : MonoBehaviour
 {
