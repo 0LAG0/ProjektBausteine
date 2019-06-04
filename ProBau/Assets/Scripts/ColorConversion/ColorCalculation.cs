@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 using System.Globalization;
 using System;
 
-public class ColorCalculation2 : MonoBehaviour
+public class ColorCalculation : MonoBehaviour
 {
     static List<string> hexColorsList2 = new List<string>()
     {  "#FFEC6C", "#FAC80A", "#FCAC00", "#D67923", "#B40000","#720012", "#901F76", "#D3359D", "#FF9ECD",
@@ -15,7 +15,7 @@ public class ColorCalculation2 : MonoBehaviour
     "#969696", "#F4F4F4", "#708E7C", "#77774E", "#897D62", "#B0A06F", "#FFC995", "#BB805A", "#AA7D55", "#91501C",
     "#372100"};
 
-    List<Color> colorList = getRgbList(hexColorsList2);
+    static List<Color> colorList = getRgbList(hexColorsList2);
 
     public GameObject myObject;
     public Texture2D myTexture;
@@ -29,39 +29,42 @@ public class ColorCalculation2 : MonoBehaviour
         myObject.GetComponent<Renderer>().material.mainTexture = newTexture as Texture;
     }
 
-    private Texture2D colorCalculate(Texture2D colorTexture)
+    private static Dictionary<Color, Color> getLookupTable(Texture2D input)
+    {
+        Dictionary<Color, Color> table = new Dictionary<Color, Color>();
+        var colorsDistinct = input.GetPixels(0, 0, input.width, input.height).Distinct();
+        foreach (var color in colorsDistinct)
+        {
+            Dictionary<Color, float> distanceList = new Dictionary<Color, float>();
+            foreach(var legoColor in colorList)
+            {
+                float distance = Mathf.Pow(color.r - legoColor.r, 2) + Mathf.Pow(color.g - legoColor.g, 2) +
+                        Mathf.Pow(color.b - legoColor.b, 2) + Mathf.Pow(color.a - legoColor.a, 2);
+                distanceList.Add(legoColor, distance);
+            }
+            table.Add(color, distanceList.OrderBy(kvp => kvp.Value).First().Key);
+        }
+        return table;
+    }
+
+    public static Texture2D colorCalculate(Texture2D colorTexture)
     {
         int defaultColorNumber = colorList.Count;
         int width = colorTexture.width;
         int height = colorTexture.height;
-        Color[] myObjColor = getColorMap(colorTexture);
+        Color[] texture = getColorMap(colorTexture);
+        Dictionary<Color, Color > lookup = getLookupTable(colorTexture);
 
-        for (int j = 0; j < myObjColor.Length; j++)
+        for (int j = 0; j < texture.Length; j++)
         {
-            Dictionary<int, float> distanceList = new Dictionary<int, float>();
-            Color currentColor = myObjColor[j];
-            for (int i = 0; i < defaultColorNumber; i++)
-            {
-                Color indexColor = colorList.ElementAt(i);
-                float distance = Mathf.Pow(currentColor.r - indexColor.r, 2) + Mathf.Pow(currentColor.g - indexColor.g, 2) +
-                    Mathf.Pow(currentColor.b - indexColor.b, 2) + Mathf.Pow(currentColor.a - indexColor.a, 2);
-                distanceList.Add(i, distance);
-            }
-
-            if (distanceList.Count >= 0)
-            {
-                float minDistance = distanceList.Values.Min();
-                int indexMinDistance = distanceList.First(x => x.Value == minDistance).Key;
-                Color nearestColor = colorList.ElementAt(indexMinDistance);
-                myObjColor[j] = nearestColor;
-            }
+            texture[j] = lookup[texture[j]];
         }
 
-        Texture2D newTexture = setColorMap(myObjColor, width, height);
+        Texture2D newTexture = setColorMap(texture, width, height);
         return newTexture;
     }
 
-    public Color[] getColorMap(Texture2D colorMap)
+    public static Color[] getColorMap(Texture2D colorMap)
     {
         int width = colorMap.width;
         int height = colorMap.height;
@@ -72,7 +75,7 @@ public class ColorCalculation2 : MonoBehaviour
         return argb;
     }
 
-    public Texture2D setColorMap(Color[] argb, int width, int height)
+    public static Texture2D setColorMap(Color[] argb, int width, int height)
     {
         Texture2D newColorMap = new Texture2D(width, height);
         Debug.Log(argb[0]);

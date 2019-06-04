@@ -17,10 +17,10 @@ public class Voxelizer : MonoBehaviour
     /// <param name="height"></param>
     /// <returns></returns>
     /// <remarks>NEEDS TO HANDLE COLOR!</remarks>
-    public static bool[,,] Voxelize(Mesh mesh, Texture2D tex, float height)
+    public static Voxel[,,] Voxelize(Mesh mesh, Texture2D tex, float height)
     {
         var startT = System.DateTime.Now;
-        //float voxelcount = 0;
+        float voxelcount = 0;
         var textureCoordinates = mesh.uv;
 
         mesh = OptimizeMesh(mesh, height);
@@ -29,7 +29,8 @@ public class Voxelizer : MonoBehaviour
         int Height = (int)(minMax[3] / GlobalConstants.VoxelHeight) + 2;
         int Width = (int)(minMax[1] / GlobalConstants.VoxelWidth) + 2;
         int Depth = (int)(minMax[5] / GlobalConstants.VoxelWidth) + 2;
-        var container = new bool[Width, Height, Depth];
+        var container = new Voxel[Width, Height, Depth];
+        Debug.Log(container[0,0,0]);
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
 
@@ -40,28 +41,32 @@ public class Voxelizer : MonoBehaviour
             Vector3 c = verticez[triangles[i + 2]];
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
-            //Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
+            Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
+            // TODO -- Change Color to Lego Color. 
+
             for (int x = SnapToWidth(min.x); x <= SnapToWidth(max.x); x++)
             {
                 for (int y = SnapToHeight(min.y); y <= SnapToHeight(max.y); y++)
                 {
                     for (int z = SnapToWidth(min.z); z <= SnapToWidth(max.z); z++)
                     {
-                        if (!container[x, y, z])
+                        if (container[x, y, z].id==null)
                         {
                             if (TestTriangleBoxOverlap(new Vector3(x * GlobalConstants.VoxelWidth, y * GlobalConstants.VoxelHeight, z * GlobalConstants.VoxelWidth)
                                 , new Vector3(GlobalConstants.VoxelWidth / 2, GlobalConstants.VoxelHeight / 2, GlobalConstants.VoxelWidth / 2), new Vector3[] { a, b, c }))
                             {
 
                                 //VoxelTools.MakeCube(new Vector3(x, y, z), Color.green, new Vector3(0.2f, 1.2f, 0.2f));
-                                container[x, y, z] = true;
-                                //voxelcount++;
+                                container[x, y, z].id = 0;
+                                container[x, y, z].color = voxelColor;
+                                voxelcount++;
                             }
                         }
                     }
                 }
             }
         }
+        Debug.Log(voxelcount);
         return container;
     }
 
