@@ -79,74 +79,13 @@ public class TestArrayAnimation : MonoBehaviour
         Debug.Log(buildingBlocks.Count);
         brickSize = buildingBlocks.Count;
 
-        //Steine generieren abhängig von den BuildingBlocksliste
-        /*
-        steine = new GameObject[buildingBlocks.Count];
-        for(int i = 0; i < buildingBlocks.Count; i++)
-        {
-            if(buildingBlocks[i].extends == stein_1x1)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_1x1, position, Quaternion.identity);
-            }
-            else if(buildingBlocks[i].extends == stein_1x2)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_1x2, position, Quaternion.identity);
-            }
-            else if (buildingBlocks[i].extends == stein_1x3)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_1x3, position, Quaternion.identity); 
-            }
-            else if (buildingBlocks[i].extends == stein_1x4)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_1x4, position, Quaternion.identity);
-            }
-            else if (buildingBlocks[i].extends == stein_1x6)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_1x6, position, Quaternion.identity);
-            }
-            else if (buildingBlocks[i].extends == stein_1x8)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_1x8, position, Quaternion.identity);
-            }
-            else if (buildingBlocks[i].extends == stein_2x2)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_2x2, position, Quaternion.identity);
-            }
-            else if (buildingBlocks[i].extends == stein_2x3)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_2x3, position, Quaternion.identity);
-            }
-            else if (buildingBlocks[i].extends == stein_2x4)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_2x4, position, Quaternion.identity);
-            }
-            else if (buildingBlocks[i].extends == stein_2x6)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_2x6, position, Quaternion.identity);
-            }
-            else if (buildingBlocks[i].extends == stein_2x8)
-            {
-                Vector3 position = buildingBlocks[i].pos;
-                Instantiate(brick_2x8, position, Quaternion.identity);
-            }
-        }*/
-
         //Vector entlang der Y-Achse
         temp = new Vector3(0, startHeight, 0);
         startPosition = new Vector3[steine.Length];
         endPosition = new Vector3[steine.Length];
 
         buildingBlocks.Sort(SortByY);
+        instantiateBricks();
 
         /*steine = sortedArray(steine);
         for (int i = 0; i < steine.Length; i++)
@@ -157,9 +96,6 @@ public class TestArrayAnimation : MonoBehaviour
         }*/
 
         source = GetComponent<AudioSource>();
-
-
-
     }
 
     private int SortByY(BuildingBlock a, BuildingBlock b)
@@ -187,13 +123,12 @@ public class TestArrayAnimation : MonoBehaviour
         if (animationOn == true)
         {
             count += 1;
-            GameObject brick = checkBrick(buildingBlocks[count]);
+            /*GameObject brick = checkBrick(buildingBlocks[count]);
             Vector3 position = buildingBlocks[count].pos;
-            Instantiate(brick, position, Quaternion.identity);
-            /* steine[count].SetActive(true);
+            Instantiate(brick, position, Quaternion.identity);*/
+            steine[count].SetActive(true);
             steine[count].transform.position = Vector3.Lerp(startPosition[count], endPosition[count], Time.deltaTime * speed);
-            if (steine[count].transform.position == endPosition[count])*/
-
+            if (steine[count].transform.position == endPosition[count])
             source.Play();
         }
 
@@ -308,6 +243,70 @@ public class TestArrayAnimation : MonoBehaviour
         return brickObject;
     }
 
+    private void instantiateBricks()
+    {
+        steine = new GameObject[buildingBlocks.Count];
+        for (int i = 0; i < buildingBlocks.Count; i++)
+        {
+            /*if (buildingBlocks[i].isFlipped)
+            {
+
+            }
+            else
+            {
+                Quaternion rot = Quaternion.Euler(-90, 0, 0);
+            }
+            */
+            Quaternion rot = Quaternion.Euler(-90, 0, 0);
+
+            Vector3 position = buildingBlocks[i].pos;
+            if (buildingBlocks[i].extends == stein_1x1)
+            {
+                steine[i] = Instantiate(brick_1x1, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_1x2)
+            {
+                steine[i] = Instantiate(brick_1x2, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_1x3)
+            {
+                steine[i] = Instantiate(brick_1x3, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_1x4)
+            {
+                steine[i] = Instantiate(brick_1x4, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_1x6)
+            {
+                steine[i] = Instantiate(brick_1x6, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_1x8)
+            {
+                steine[i] = Instantiate(brick_1x8, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_2x2)
+            {
+                steine[i] = Instantiate(brick_2x2, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_2x3)
+            {
+                steine[i] = Instantiate(brick_2x3, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_2x4)
+            {
+                steine[i] = Instantiate(brick_2x4, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_2x6)
+            {
+                steine[i] = Instantiate(brick_2x6, position, rot);
+            }
+            else if (buildingBlocks[i].extends == stein_2x8)
+            {
+                steine[i] = Instantiate(brick_2x8, position, rot);
+            }
+            steine[i].SetActive(false);
+        }
+    }
     //Sortiert Array nach Y-Werten
     private GameObject[] sortedArray(GameObject[] steine)
     {
