@@ -155,7 +155,7 @@ public class BlockSelector
             {
                 for (i = minX; i <= maxX; i++)
                 {
-                    if (voxels[i, y, minZ].id != null)
+                    if (voxels[i, y, minZ].id == 0)
                     {
                         bool flipPref = (Random.Range(1, 10) % 2 == 0);
                         returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[0], new Vector3Int(i, y, minZ), voxels));
@@ -164,7 +164,7 @@ public class BlockSelector
                 minZ++;
                 for (i = minZ; i <= maxZ; i++)
                 {
-                    if (voxels[maxX, y, i].id != null)
+                    if (voxels[maxX, y, i].id == 0)
                     {
                         bool flipPref = (Random.Range(1, 10) % 2 == 0);
                         returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[1], new Vector3Int(maxX, y, i), voxels));
@@ -175,7 +175,7 @@ public class BlockSelector
                 {
                     for (i = maxX; i >= minX; i--)
                     {
-                        if (voxels[i, y, maxZ].id != null)
+                        if (voxels[i, y, maxZ].id == 0)
                         {
                             bool flipPref = (Random.Range(1, 10) % 2 == 0);
                             returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[3], new Vector3Int(i, y, maxZ), voxels));
@@ -187,7 +187,7 @@ public class BlockSelector
                 {
                     for (i = maxZ; i >= minZ; i--)
                     {
-                        if (voxels[minX, y, i].id != null)
+                        if (voxels[minX, y, i].id == 0)
                         {
                             bool flipPref = (Random.Range(1, 10) % 2 == 0);
                             returnList.Add(getLargestPossibleBlock(flipPref, GlobalConstants.BlockDirections[2], new Vector3Int(minX, y, i), voxels));
