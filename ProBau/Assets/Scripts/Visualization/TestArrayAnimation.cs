@@ -16,7 +16,7 @@ public class TestArrayAnimation : MonoBehaviour
 
 
     //public GameObject[] steineListe;
-    public GameObject[] steine;
+    private GameObject[] steine;
     private List<BuildingBlock> buildingBlocks;
 
     private float[] positionY;
@@ -81,8 +81,8 @@ public class TestArrayAnimation : MonoBehaviour
 
         //Vector entlang der Y-Achse
         temp = new Vector3(0, startHeight, 0);
-        startPosition = new Vector3[steine.Length];
-        endPosition = new Vector3[steine.Length];
+        startPosition = new Vector3[brickSize];
+        endPosition = new Vector3[brickSize];
 
         buildingBlocks.Sort(SortByY);
         instantiateBricks();
@@ -127,9 +127,9 @@ public class TestArrayAnimation : MonoBehaviour
             Vector3 position = buildingBlocks[count].pos;
             Instantiate(brick, position, Quaternion.identity);*/
             steine[count].SetActive(true);
-            steine[count].transform.position = Vector3.Lerp(startPosition[count], endPosition[count], Time.deltaTime * speed);
-            if (steine[count].transform.position == endPosition[count])
-            source.Play();
+            //steine[count].transform.position = Vector3.Lerp(startPosition[count], endPosition[count], Time.deltaTime * speed);
+            //if (steine[count].transform.position == endPosition[count])
+            //source.Play();
         }
 
 
@@ -245,21 +245,22 @@ public class TestArrayAnimation : MonoBehaviour
 
     private void instantiateBricks()
     {
+        Quaternion rot = Quaternion.Euler(0, 0, 0);
         steine = new GameObject[buildingBlocks.Count];
         for (int i = 0; i < buildingBlocks.Count; i++)
         {
-            /*if (buildingBlocks[i].isFlipped)
+            if (buildingBlocks[i].isFlipped)
             {
-
+                Debug.Log(buildingBlocks[i].isFlipped);
+                rot = Quaternion.Euler(-90, 90, 0);
             }
             else
             {
-                Quaternion rot = Quaternion.Euler(-90, 0, 0);
+                rot = Quaternion.Euler(-90, 0, 0);
             }
-            */
-            Quaternion rot = Quaternion.Euler(-90, 0, 0);
-
-            Vector3 position = buildingBlocks[i].pos;
+            float yPos = buildingBlocks[i].pos.y;
+            Vector3 ausgleich = new Vector3(0, yPos*0.95f, 0);
+            Vector3 position = buildingBlocks[i].pos + ausgleich;
             if (buildingBlocks[i].extends == stein_1x1)
             {
                 steine[i] = Instantiate(brick_1x1, position, rot);
@@ -270,6 +271,7 @@ public class TestArrayAnimation : MonoBehaviour
             }
             else if (buildingBlocks[i].extends == stein_1x3)
             {
+                position -= new Vector3(0, -0.97f, 0); 
                 steine[i] = Instantiate(brick_1x3, position, rot);
             }
             else if (buildingBlocks[i].extends == stein_1x4)
@@ -290,6 +292,7 @@ public class TestArrayAnimation : MonoBehaviour
             }
             else if (buildingBlocks[i].extends == stein_2x3)
             {
+                position -= new Vector3(0, -0.97f, 0);
                 steine[i] = Instantiate(brick_2x3, position, rot);
             }
             else if (buildingBlocks[i].extends == stein_2x4)
@@ -305,6 +308,8 @@ public class TestArrayAnimation : MonoBehaviour
                 steine[i] = Instantiate(brick_2x8, position, rot);
             }
             steine[i].SetActive(false);
+            endPosition[i] = position;
+            startPosition[i] = position + temp;
         }
     }
     //Sortiert Array nach Y-Werten
