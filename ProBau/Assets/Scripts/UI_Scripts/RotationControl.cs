@@ -17,7 +17,7 @@ public class RotationControl : MonoBehaviour
 
     private void Update()
     {
-        if (!Input.GetMouseButton(0))       // || out of preview area
+        if (!Input.GetMouseButton(0))  // || out of preview area
         {
             return;
         }
