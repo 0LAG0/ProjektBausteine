@@ -29,7 +29,7 @@ public class ConversionController : MonoBehaviour
     {
         BlockSelector selector = new BlockSelector(null);
         tex = ColorCalculation.colorCalculate(tex);
-        var buildingBlocks = selector.calculateBlocksSpiral(Voxelizer.Voxelize(mesh, tex, targetHeight));
+        var buildingBlocks = selector.calculateBlocksSpiralWithBounds(Voxelizer.Voxelize(mesh, tex, targetHeight));
         Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {

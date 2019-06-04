@@ -114,27 +114,6 @@ public class BlockSelector
         //Debug.Log(returnList[1]);
         return returnList;
     }
-lock> returnList = new List<BuildingBlock>();
-
-
-        for (int y = 0; y < voxels.GetLength(1); y++)
-        {
-            bool directionPreference = (y % 2 == 0);
-            for (int x = 0; x < voxels.GetLength(0); x++)
-            {
-                for (int z = 0; z < voxels.GetLength(2); z++)
-                {
-                    if (voxels[x, y, z])
-                    {
-                        Vector3Int direction = calculateBestDirection(voxels, x, y, z);
-                        returnList.Add(getLargestPossibleBlock(directionPreference, direction, new Vector3Int(x, y, z), voxels));
-                    }
-                }
-            }
-        }
-
-        return returnList;
-    }*/
 
     public List<BuildingBlock> calculateBlocksSpiralWithBounds(Voxel[,,] voxels)
     {
