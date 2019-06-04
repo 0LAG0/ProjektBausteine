@@ -30,7 +30,7 @@ public class Voxelizer : MonoBehaviour
         int Width = (int)(minMax[1] / GlobalConstants.VoxelWidth) + 2;
         int Depth = (int)(minMax[5] / GlobalConstants.VoxelWidth) + 2;
         var container = new Voxel[Width, Height, Depth];
-        Debug.Log(container[0,0,0]);
+        //Debug.Log(container[0,0,0]);
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
 
@@ -50,7 +50,7 @@ public class Voxelizer : MonoBehaviour
                 {
                     for (int z = SnapToWidth(min.z); z <= SnapToWidth(max.z); z++)
                     {
-                        if (container[x, y, z].id==null)
+                        if (container[x, y, z].id == null)
                         {
                             if (TestTriangleBoxOverlap(new Vector3(x * GlobalConstants.VoxelWidth, y * GlobalConstants.VoxelHeight, z * GlobalConstants.VoxelWidth)
                                 , new Vector3(GlobalConstants.VoxelWidth / 2, GlobalConstants.VoxelHeight / 2, GlobalConstants.VoxelWidth / 2), new Vector3[] { a, b, c }))
