@@ -6,10 +6,9 @@ using UnityEngine.UI;
 public class MultiToggle : MonoBehaviour
 {
     [SerializeField]
-    private Toggle _allToggle;
+    public Toggle _allToggle;
 
-    [SerializeField]
-    private List<Toggle> _toggleGroup;
+    public List<Toggle> _toggleGroup;
 
     [SerializeField]
     private GameObject GroupContainer;

@@ -16,6 +16,8 @@ public class ChangeModell : MonoBehaviour
     // Default index of the model
     private int selectionIndex = 0;
 
+    public GameObject activeObject { get; private set; }
+
     private void Start()
     {
         // Fetch the DropDown component from the GameObject
@@ -42,6 +44,8 @@ public class ChangeModell : MonoBehaviour
 
         models[selectionIndex].SetActive(false);
         selectionIndex = index;
-        models[selectionIndex].SetActive(true);
+        activeObject = models[selectionIndex];
+        activeObject.SetActive(true);
+        
     }
 }

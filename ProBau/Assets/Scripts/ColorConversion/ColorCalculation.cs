@@ -24,22 +24,22 @@ public class ColorCalculation : MonoBehaviour
     {
         myObject = GameObject.FindWithTag("object");
         myTexture = myObject.GetComponent<Renderer>().material.mainTexture as Texture2D;
-        Texture2D newTexture = colorCalculate(myTexture);
+        Texture2D newTexture = colorCalculate(myTexture, colorList);
         newTexture.Apply();
         myObject.GetComponent<Renderer>().material.mainTexture = newTexture as Texture;
     }
 
-    private static Dictionary<Color, Color> getLookupTable(Texture2D input)
+    private static Dictionary<Color, Color> getLookupTable(Texture2D input, List<Color> legoColors)
     {
         Dictionary<Color, Color> table = new Dictionary<Color, Color>();
         var colorsDistinct = input.GetPixels(0, 0, input.width, input.height).Distinct();
         foreach (var color in colorsDistinct)
         {
             Dictionary<Color, float> distanceList = new Dictionary<Color, float>();
-            foreach(var legoColor in colorList)
+            foreach(var legoColor in legoColors)
             {
                 float distance = Mathf.Pow(color.r - legoColor.r, 2) + Mathf.Pow(color.g - legoColor.g, 2) +
-                        Mathf.Pow(color.b - legoColor.b, 2) + Mathf.Pow(color.a - legoColor.a, 2);
+                        Mathf.Pow(color.b - legoColor.b, 2);
                 distanceList.Add(legoColor, distance);
             }
             table.Add(color, distanceList.OrderBy(kvp => kvp.Value).First().Key);
@@ -47,13 +47,13 @@ public class ColorCalculation : MonoBehaviour
         return table;
     }
 
-    public static Texture2D colorCalculate(Texture2D colorTexture)
+    public static Texture2D colorCalculate(Texture2D colorTexture, List<Color> colors)
     {
-        int defaultColorNumber = colorList.Count;
+        int defaultColorNumber = colors.Count;
         int width = colorTexture.width;
         int height = colorTexture.height;
         Color[] texture = getColorMap(colorTexture);
-        Dictionary<Color, Color > lookup = getLookupTable(colorTexture);
+        Dictionary<Color, Color > lookup = getLookupTable(colorTexture, colors);
 
         for (int j = 0; j < texture.Length; j++)
         {
@@ -61,6 +61,7 @@ public class ColorCalculation : MonoBehaviour
         }
 
         Texture2D newTexture = setColorMap(texture, width, height);
+        newTexture.Apply();
         return newTexture;
     }
 
@@ -71,14 +72,12 @@ public class ColorCalculation : MonoBehaviour
         int size = width * height;
         Color[] argb = new Color[size];
         argb = colorMap.GetPixels(0, 0, width, height);
-        Debug.Log(argb[0]);
         return argb;
     }
 
     public static Texture2D setColorMap(Color[] argb, int width, int height)
     {
         Texture2D newColorMap = new Texture2D(width, height);
-        Debug.Log(argb[0]);
         newColorMap.SetPixels(argb);
         return newColorMap;
     }

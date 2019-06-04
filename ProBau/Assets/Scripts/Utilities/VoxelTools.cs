@@ -48,7 +48,7 @@ public class VoxelTools : MonoBehaviour
         cubeCount++;
         if (cubeContainer == null)
         {
-            cubeContainer = new GameObject("cube container");
+            cubeContainer = new GameObject(GlobalConstants.cubeContainerName);
             cubes = new List<GameObject>();
         }
 
