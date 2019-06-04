@@ -19,6 +19,8 @@ public class TestArrayAnimation : MonoBehaviour
 
     private float[] positionY;
 
+
+
     //Vektoren für extends-Werte
     Vector3 stein_1x1 = new Vector3(1, 1, 1);
     Vector3 stein_1x2 = new Vector3(1, 1, 2);
@@ -118,7 +120,7 @@ public class TestArrayAnimation : MonoBehaviour
     void Update()
     {
         //Animation anhalten mit T  & starten mit R
-        if (Input.GetKey(KeyCode.T) && animationOn)
+        if ((Input.GetKey(KeyCode.T) && animationOn) || (animationOn && count == steine.Length - 1))
         {
             animationOn = false;
             Debug.Log(animationOn);
