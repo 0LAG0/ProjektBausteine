@@ -153,12 +153,6 @@ MonoBehaviour:
   mesh: {fileID: 4300000, guid: 7afa0857693fbf54bbca8c8e14281aa6, type: 3}
   tex: {fileID: 2800000, guid: ab8ff66e633562e42887f9475e7c1251, type: 3}
   targetHeight: 20
-  steine:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   brick_1x1: {fileID: 7715595106667231711, guid: c475dd910ae847949b1cb304311f2232,
     type: 3}
   brick_1x2: {fileID: 6042401185128639515, guid: a4d06d92ea3cf8745aba901de03e70d2,
