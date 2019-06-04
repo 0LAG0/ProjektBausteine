@@ -24,29 +24,25 @@ public class ConversionController : MonoBehaviour
             VoxelTools.MakeAllCubesFall();
         }
     }
-
+    
     private void Start()
     {
         BlockSelector selector = new BlockSelector(null);
+        tex = ColorCalculation.colorCalculate(tex);
         var buildingBlocks = selector.calculateBlocksSpiral(Voxelizer.Voxelize(mesh, tex, targetHeight));
-        //Debug.Log(buildingBlocks.Count);
+        Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
-            Color color = Color.red;
-            if (bb.extends.x == 2)
-            {
-                color = Color.blue;
-            }
 
             if (bb.isFlipped)
             {
                 Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
-                VoxelTools.MakeCube(position, color, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
+                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
             }
             else
             {
                 Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
-                VoxelTools.MakeCube(position, color, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
+                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);

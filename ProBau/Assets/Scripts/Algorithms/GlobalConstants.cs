@@ -35,7 +35,7 @@ class GlobalConstants
             new Vector3Int(1,1,1),
             new Vector3Int(-1,1,1),
             new Vector3Int(1,1,-1),
-            new Vector3Int(-1,1,-1)
+            new Vector3Int(1,-1,1)
         };
 
     }
