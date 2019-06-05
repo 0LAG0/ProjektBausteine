@@ -150,7 +150,7 @@ public class BlockSelector
                     }
                 }
             }
-            
+
             while (minZ <= maxZ && minX <= maxX)
             {
                 for (i = minX; i <= maxX; i++)
@@ -216,7 +216,7 @@ public class BlockSelector
             xExtends = checkType.z;
             zExtends = checkType.x;
         }
-        var startColor = voxels[pos.x , pos.y , pos.z].color;
+        var startColor = voxels[pos.x, pos.y, pos.z].color;
         for (int y = 0; Mathf.Abs(y) < checkType.y; y += direction.y)
         {
             for (int x = 0; Mathf.Abs(x) < xExtends; x += direction.x)
@@ -261,32 +261,18 @@ public class BlockSelector
         for (int i = 0; i < possibleExtends.Count; i++)
         {
             Vector3Int bt = possibleExtends[i];
-            //Vector3 absPos = pos + ((Vector3)bt / 2);
-            Vector3 absPos = pos + (new Vector3(bt.x * direction.x, bt.y, bt.z * direction.z)) / 2 + (Vector3)direction * -0.5f;
             Color color = voxels[pos.x, pos.y, pos.z].color;
 
+            int id = voxels[pos.x, pos.y, pos.z].id ?? default(int);
             if (checkForFit(flipPref, direction, bt, voxels, pos))
             {
-                //int id = voxels[pos.x, pos.y, pos.z].id ?? default(int);
-                if (flipPref)
-                {
-                    //absPos = pos + (new Vector3(bt.z, bt.y, bt.x) / 2);
-                    absPos = pos + ((new Vector3(bt.z * direction.x, bt.y, bt.x * direction.z)) / 2) + (Vector3)direction * -0.5f;
-                }
-                return new BuildingBlock(bt, direction, flipPref, absPos, color);
+                return new BuildingBlock(bt, direction, flipPref, color, id, pos);
             }
             if (checkForFit(!flipPref, direction, bt, voxels, pos))
             {
-                //int id = voxels[pos.x, pos.y, pos.z].id ?? default(int);
-                if (!flipPref)
-                {
-                    //absPos = pos + (new Vector3(bt.z, bt.y, bt.x) / 2);
-                    absPos = pos + ((new Vector3(bt.z * direction.x, bt.y, bt.x * direction.z)) / 2) + (Vector3)direction * -0.5f;
-                }
-                return new BuildingBlock(bt, direction, !flipPref, absPos, color);
+                return new BuildingBlock(bt, direction, !flipPref, color, id, pos);
             }
         }
-        Debug.Log("wtf");
         return null;
     }
 }
