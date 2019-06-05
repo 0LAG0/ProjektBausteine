@@ -6,7 +6,7 @@ MonoImporter:
   defaultReferences:
   - mesh: {instanceID: 0}
   - tex: {instanceID: 0}
-  - brick_1x1: {fileID: 7715595106667231711, guid: c475dd910ae847949b1cb304311f2232,
+  - brick_1x1: {fileID: 4707448076148659238, guid: 77c13114f6f1e754cb3c33f0eb54f609,
       type: 3}
   - brick_1x2: {fileID: 6042401185128639515, guid: a4d06d92ea3cf8745aba901de03e70d2,
       type: 3}
