@@ -176,7 +176,7 @@ MonoBehaviour:
   brick_2x8: {fileID: 1402803843934406729, guid: a74ef286efe1b4b428b6c99598ac1fb2,
     type: 3}
   startHeight: 10
-  speed: 10
+  speed: 0.1
   startPosition: []
   endPosition: []
 --- !u!4 &395922767

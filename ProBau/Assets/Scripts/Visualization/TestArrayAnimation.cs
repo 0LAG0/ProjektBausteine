@@ -252,11 +252,11 @@ public class TestArrayAnimation : MonoBehaviour
             if (buildingBlocks[i].isFlipped)
             {
                 Debug.Log(buildingBlocks[i].isFlipped);
-                rot = Quaternion.Euler(-90, 90, 0);
+                rot = Quaternion.Euler(-90, 0, 0);
             }
             else
             {
-                rot = Quaternion.Euler(-90, 0, 0);
+                rot = Quaternion.Euler(-90, 90, 0);
             }
             float yPos = buildingBlocks[i].pos.y;
             Vector3 ausgleich = new Vector3(0, yPos*0.95f, 0);
