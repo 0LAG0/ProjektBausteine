@@ -25,7 +25,6 @@ public class ConversionController : MonoBehaviour
         }
     }
 
-    /*
     private void Start()
     {
         BlockSelector selector = new BlockSelector(null);
@@ -49,8 +48,8 @@ public class ConversionController : MonoBehaviour
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
     }
-    */
 
+    
     public void runBrickification(BrickItConfiguration cfg)
     {
         mesh = cfg.mesh;

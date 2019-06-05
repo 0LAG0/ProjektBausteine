@@ -262,7 +262,7 @@ public class BlockSelector
         {
             Vector3Int bt = possibleExtends[i];
             //Vector3 absPos = pos + ((Vector3)bt / 2);
-            Vector3 absPos = pos + (new Vector3(bt.x * direction.x, bt.y, bt.z * direction.z)) / 2 + (Vector3)direction * -0.5f;
+            Vector3 absPos = pos + (new Vector3(bt.x * direction.x, bt.y * direction.y, bt.z * direction.z)) / 2 + (Vector3)direction * -0.5f;
             Color color = voxels[pos.x, pos.y, pos.z].color;
 
             if (checkForFit(flipPref, direction, bt, voxels, pos))
@@ -271,7 +271,7 @@ public class BlockSelector
                 if (flipPref)
                 {
                     //absPos = pos + (new Vector3(bt.z, bt.y, bt.x) / 2);
-                    absPos = pos + ((new Vector3(bt.z * direction.x, bt.y, bt.x * direction.z)) / 2) + (Vector3)direction * -0.5f;
+                    absPos = pos + ((new Vector3(bt.z * direction.x, bt.y*direction.y, bt.x * direction.z)) / 2) + (Vector3)direction * -0.5f;
                 }
                 return new BuildingBlock(bt, direction, flipPref, absPos, color);
             }
@@ -281,7 +281,7 @@ public class BlockSelector
                 if (!flipPref)
                 {
                     //absPos = pos + (new Vector3(bt.z, bt.y, bt.x) / 2);
-                    absPos = pos + ((new Vector3(bt.z * direction.x, bt.y, bt.x * direction.z)) / 2) + (Vector3)direction * -0.5f;
+                    absPos = pos + ((new Vector3(bt.z * direction.x, bt.y * direction.y, bt.x * direction.z)) / 2) + (Vector3)direction * -0.5f;
                 }
                 return new BuildingBlock(bt, direction, !flipPref, absPos, color);
             }

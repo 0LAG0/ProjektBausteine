@@ -22,8 +22,11 @@ public class BuildingBlock
 
     public Vector3 pos;
 
-    public BuildingBlock(Vector3Int extends, Vector3Int direction, bool flipped, Vector3 pos , Color blockColor)
+    int blockid;
+
+    public BuildingBlock(Vector3Int extends, Vector3Int direction, bool flipped, Vector3 pos , Color blockColor, int blockid)
     {
+        this.blockid = blockid;
         this.extends = extends;
         this.direction = direction;
         isFlipped = flipped;
