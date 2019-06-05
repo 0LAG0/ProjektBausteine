@@ -29,20 +29,27 @@ public class ConversionController : MonoBehaviour
     {
         BlockSelector selector = new BlockSelector(null);
         tex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
-        var buildingBlocks = selector.calculateBlocksSpiralWithBounds(Voxelizer.Voxelize(mesh, tex, targetHeight));
+        var voxels = Voxelizer.Voxelize(mesh, tex, targetHeight);
+        var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
         ///Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
-
+            bb.calcAdjacencies(voxels, buildingBlocks);
+            Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
+            Color testColor = Color.green;
+            if (bb.adjacencies.Count==0)
+            {
+                testColor = Color.magenta;
+            }
+            
             if (bb.isFlipped)
             {
-                Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
-                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
+                
+                VoxelTools.MakeCube(position, testColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
             }
             else
             {
-                Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
-                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
+                VoxelTools.MakeCube(position, testColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
