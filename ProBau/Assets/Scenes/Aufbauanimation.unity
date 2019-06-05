@@ -153,27 +153,27 @@ MonoBehaviour:
   mesh: {fileID: 4300000, guid: 7afa0857693fbf54bbca8c8e14281aa6, type: 3}
   tex: {fileID: 2800000, guid: ab8ff66e633562e42887f9475e7c1251, type: 3}
   targetHeight: 20
-  brick_1x1: {fileID: 7715595106667231711, guid: c475dd910ae847949b1cb304311f2232,
+  brick_1x1: {fileID: 1530464364181850387, guid: 77c13114f6f1e754cb3c33f0eb54f609,
     type: 3}
-  brick_1x2: {fileID: 6042401185128639515, guid: a4d06d92ea3cf8745aba901de03e70d2,
+  brick_1x2: {fileID: 8373197027888729011, guid: e37b630ad8b55be4885dcae694aecd4e,
     type: 3}
-  brick_1x3: {fileID: 4687404495791935806, guid: f65d50c510b8ed84ba12787c8c8935ad,
+  brick_1x3: {fileID: 3533163104193062738, guid: 53209b51229710040aade443d70fdbc7,
     type: 3}
-  brick_1x4: {fileID: 7974612692917499801, guid: bfee48c6d6488e5478647b285158bb5e,
+  brick_1x4: {fileID: 9087454021480828395, guid: b3a5ba5cb6c6e7844acd6cdfa44cb855,
     type: 3}
-  brick_1x6: {fileID: 5781319533224638094, guid: 87db655583e8c4d42a75ce110237ced8,
+  brick_1x6: {fileID: 6481991837183931936, guid: 0a4b705f6e783994490765948c1cb0a9,
     type: 3}
-  brick_1x8: {fileID: 6020224174814627326, guid: b9423346e2b4036409f8794eedb2707b,
+  brick_1x8: {fileID: 1691146825996728397, guid: 5ff05dd757384dc478cfd98b66ad415f,
     type: 3}
-  brick_2x2: {fileID: 3627126295028474415, guid: 826de333c202e874c917600f9bdb019c,
+  brick_2x2: {fileID: 5812194601690344833, guid: 090a7f2e15fd0c9459097cf22d16e61b,
     type: 3}
-  brick_2x3: {fileID: 7236568757209760874, guid: dc37d6540a89d7f439ab5cb75ac9e407,
+  brick_2x3: {fileID: 4805187909425553884, guid: 5363a3e7b8c366a43825f3ad3d87b4cf,
     type: 3}
-  brick_2x4: {fileID: 6525495635664292299, guid: 5b6ebdb7bfe28274d8195eebf99a0d01,
+  brick_2x4: {fileID: 4070483245466274884, guid: ae07d64b324751e4b9c6de7e7ee1131b,
     type: 3}
-  brick_2x6: {fileID: 7546129301085662312, guid: b22d4ef86a1b8b94b8367a99ee125ef4,
+  brick_2x6: {fileID: 3654540615016275317, guid: b227599519c06c1408387d531fc57fd7,
     type: 3}
-  brick_2x8: {fileID: 1402803843934406729, guid: a74ef286efe1b4b428b6c99598ac1fb2,
+  brick_2x8: {fileID: 5421121626022101882, guid: 7fc6878406229e14c84e6801178f9e7f,
     type: 3}
   startHeight: 10
   speed: 0.1

@@ -252,15 +252,17 @@ public class TestArrayAnimation : MonoBehaviour
             if (buildingBlocks[i].isFlipped)
             {
                 Debug.Log(buildingBlocks[i].isFlipped);
-                rot = Quaternion.Euler(-90, 0, 0);
+                rot = Quaternion.Euler(0, 0, 0);
             }
             else
             {
-                rot = Quaternion.Euler(-90, 90, 0);
+                rot = Quaternion.Euler(0, 90f, 0);
             }
-            float yPos = buildingBlocks[i].pos.y;
-            Vector3 ausgleich = new Vector3(0, yPos*0.95f, 0);
-            Vector3 position = buildingBlocks[i].pos + ausgleich;
+            float yPos = buildingBlocks[i].pos.y * 1.92f;
+            float xPos = buildingBlocks[i].pos.x * 1.6f;
+            float zPos = buildingBlocks[i].pos.z * 1.6f;
+            Vector3 ausgleich = new Vector3(xPos, yPos, zPos);
+            Vector3 position = new Vector3(xPos, yPos, zPos);
             if (buildingBlocks[i].extends == stein_1x1)
             {
                 steine[i] = Instantiate(brick_1x1, position, rot);
@@ -271,7 +273,7 @@ public class TestArrayAnimation : MonoBehaviour
             }
             else if (buildingBlocks[i].extends == stein_1x3)
             {
-                position -= new Vector3(0, -0.97f, 0); 
+                //position -= new Vector3(0, -0.97f, 0); 
                 steine[i] = Instantiate(brick_1x3, position, rot);
             }
             else if (buildingBlocks[i].extends == stein_1x4)
@@ -292,7 +294,7 @@ public class TestArrayAnimation : MonoBehaviour
             }
             else if (buildingBlocks[i].extends == stein_2x3)
             {
-                position -= new Vector3(0, -0.97f, 0);
+                //position -= new Vector3(0, -0.97f, 0);
                 steine[i] = Instantiate(brick_2x3, position, rot);
             }
             else if (buildingBlocks[i].extends == stein_2x4)
