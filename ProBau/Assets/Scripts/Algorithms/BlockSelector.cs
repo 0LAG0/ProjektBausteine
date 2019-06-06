@@ -264,10 +264,12 @@ public class BlockSelector
             Color color = voxels[pos.x, pos.y, pos.z].color;
 
             int id = voxels[pos.x, pos.y, pos.z].id ?? default(int);
+
             if (checkForFit(flipPref, direction, bt, voxels, pos))
             {
                 return new BuildingBlock(bt, direction, flipPref, color, id, pos);
             }
+
             if (checkForFit(!flipPref, direction, bt, voxels, pos))
             {
                 return new BuildingBlock(bt, direction, !flipPref, color, id, pos);

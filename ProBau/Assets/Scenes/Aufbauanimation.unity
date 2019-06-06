@@ -150,9 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 264605e73b5def441814add5e126c519, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 4300000, guid: 7afa0857693fbf54bbca8c8e14281aa6, type: 3}
+  mesh: {fileID: -7284989440109441873, guid: 7d41edc6fb845d749b60f30bce9139fd, type: 3}
   tex: {fileID: 2800000, guid: ab8ff66e633562e42887f9475e7c1251, type: 3}
-  targetHeight: 20
+  targetHeight: 200
   brick_1x1: {fileID: 1530464364181850387, guid: 77c13114f6f1e754cb3c33f0eb54f609,
     type: 3}
   brick_1x2: {fileID: 8373197027888729011, guid: e37b630ad8b55be4885dcae694aecd4e,
@@ -175,7 +175,6 @@ MonoBehaviour:
     type: 3}
   brick_2x8: {fileID: 5421121626022101882, guid: 7fc6878406229e14c84e6801178f9e7f,
     type: 3}
-  startHeight: 10
   speed: 0.1
   startPosition: []
   endPosition: []

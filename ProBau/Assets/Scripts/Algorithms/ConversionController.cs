@@ -34,22 +34,22 @@ public class ConversionController : MonoBehaviour
         ///Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
-            bb.calcAdjacencies(voxels, buildingBlocks);
+            //bb.calcAdjacencies(voxels, buildingBlocks);
             Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
-            Color testColor = Color.green;
+            /*Color testColor = Color.green;
             if (bb.adjacencies.Count==0)
             {
                 testColor = Color.magenta;
-            }
+            }*/
             
             if (bb.isFlipped)
             {
                 
-                VoxelTools.MakeCube(position, testColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
+                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
             }
             else
             {
-                VoxelTools.MakeCube(position, testColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
+                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
@@ -84,4 +84,3 @@ public class ConversionController : MonoBehaviour
         GameObject.Find(GlobalConstants.cubeContainerName).transform.position = cfg.posOfObject;
     }
 }
-
