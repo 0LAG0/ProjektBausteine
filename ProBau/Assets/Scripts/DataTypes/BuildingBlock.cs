@@ -66,7 +66,7 @@ public class BuildingBlock
                     }
                 }
 
-                if (initPos.y != voxels.GetLength(1))
+                if (initPos.y < voxels.GetLength(1))
                 {
                     int neigborId = voxels[initPos.x + x, initPos.y + 1, initPos.z + z].id ?? default(int);
                     if (neigborId != 0)

@@ -20,14 +20,14 @@ public class ColorCalculation : MonoBehaviour
     public GameObject myObject;
     public Texture2D myTexture;
 
-    void Start()
+    /*void Start()
     {
         myObject = GameObject.FindWithTag("object");
         myTexture = myObject.GetComponent<Renderer>().material.mainTexture as Texture2D;
         Texture2D newTexture = colorCalculate(myTexture, colorList);
         newTexture.Apply();
         myObject.GetComponent<Renderer>().material.mainTexture = newTexture as Texture;
-    }
+    }*/
 
     private static Dictionary<Color, Color> getLookupTable(Texture2D input, List<Color> legoColors)
     {
@@ -36,7 +36,7 @@ public class ColorCalculation : MonoBehaviour
         foreach (var color in colorsDistinct)
         {
             Dictionary<Color, float> distanceList = new Dictionary<Color, float>();
-            foreach(var legoColor in legoColors)
+            foreach (var legoColor in legoColors)
             {
                 float distance = Mathf.Pow(color.r - legoColor.r, 2) + Mathf.Pow(color.g - legoColor.g, 2) +
                         Mathf.Pow(color.b - legoColor.b, 2);
@@ -53,7 +53,7 @@ public class ColorCalculation : MonoBehaviour
         int width = colorTexture.width;
         int height = colorTexture.height;
         Color[] texture = getColorMap(colorTexture);
-        Dictionary<Color, Color > lookup = getLookupTable(colorTexture, colors);
+        Dictionary<Color, Color> lookup = getLookupTable(colorTexture, colors);
 
         for (int j = 0; j < texture.Length; j++)
         {
