@@ -20,14 +20,14 @@ public class ColorCalculation : MonoBehaviour
     public GameObject myObject;
     public Texture2D myTexture;
 
-    /*void Start()
+    void Start()
     {
         myObject = GameObject.FindWithTag("object");
         myTexture = myObject.GetComponent<Renderer>().material.mainTexture as Texture2D;
         Texture2D newTexture = colorCalculate(myTexture, colorList);
         newTexture.Apply();
         myObject.GetComponent<Renderer>().material.mainTexture = newTexture as Texture;
-    }*/
+    }
 
     private static Dictionary<Color, Color> getLookupTable(Texture2D input, List<Color> legoColors)
     {
