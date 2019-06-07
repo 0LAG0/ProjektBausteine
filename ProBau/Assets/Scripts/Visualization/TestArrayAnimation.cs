@@ -13,8 +13,6 @@ public class TestArrayAnimation : MonoBehaviour
     //better not touch this -.-
 
 
-
-
     //public GameObject[] steineListe;
     private GameObject[] steine;
     private List<BuildingBlock> buildingBlocks;
@@ -61,6 +59,8 @@ public class TestArrayAnimation : MonoBehaviour
 
     private bool animationOn = false;
 
+    float layer = 0;
+
     AudioSource source;
 
 
@@ -106,38 +106,38 @@ public class TestArrayAnimation : MonoBehaviour
         if ((Input.GetKey(KeyCode.T) && animationOn) || (animationOn && count == brickSize-1))
         {
             animationOn = false;
-            Debug.Log(animationOn);
+           // Debug.Log(animationOn);
         }
         if (Input.GetKey(KeyCode.R) && animationOn == false && count < brickSize)
         {
             animationOn = true;
             count += 1;
-            Debug.Log(animationOn);
+            //Debug.Log(animationOn);
         }
-
-        //Man muss hier die Taste gedrückt halten, damit die Steine runterfallen. Ich habe schon Jan gefragt, wie man das löst.
-        //Vielleicht findest du ja eine Möglichkeit
-        if (animationOn == true)
+        
+       if (animationOn == true)
         {
            
             Debug.Log(steine[count].transform.position);
-           
-            Debug.Log(endPosition[count]);
-            Debug.Log(endPosition[count]);
-            steine[count].SetActive(true);
-            //steine[count].transform.position = Vector3.Lerp(startPosition[count] , endPosition[count], Time.deltaTime * speed);
-            steine[count].transform.Translate(Vector3.down * Time.deltaTime * speed, Space.World);
 
-            if (steine[count].transform.position.y == endPosition[count].y)
+            //Debug.Log(endPosition[count]);
+            steine[count].SetActive(true);
+            source.Play();
+            count += 1;
+            //steine[count].transform.position = Vector3.Lerp(startPosition[count] , endPosition[count], Time.deltaTime * speed);
+            //steine[count].transform.Translate(Vector3.down * Time.deltaTime * speed, Space.World);
+
+           /* if (steine[count].transform.position.y == endPosition[count].y)
             {
                 steine[count].transform.position = endPosition[count];
                 count += 1;
             }
             //if (steine[count].transform.position == endPosition[count])
-            //source.Play();
-        }
-
-
+            
+            */
+    }
+        
+        
 
         //Hier kann man Stein für Stein anzeigen lassen.
         if (Input.GetKeyDown(KeyCode.S) && (count <= steine.Length - 1))
@@ -145,30 +145,28 @@ public class TestArrayAnimation : MonoBehaviour
             if (count == 0 && !steine[0].activeInHierarchy)
             {
                 steine[count].SetActive(true);
-                Debug.Log(count);
+                //Debug.Log(count);
             }
             else if (count < steine.Length - 1)
             {
                 count += 1;
                 steine[count].SetActive(true);
-                Debug.Log(count);
+               // Debug.Log(count);
             }
         }
 
-        //Hier sollte man Stein für Stein wieder abziehen.
-        //Wenn alle Steine angezeigt sind, dann würde er ja den letzten nicht abziehen. 
-        //Das habe ich hier versucht zu regeln, aber leider nicht geschafft.
+        //Stein für Stein wird abgezogen
         if (Input.GetKeyDown(KeyCode.D) && count >= 0)
         {
             if (count == 0 && steine[0].activeInHierarchy)
             {
                 steine[count].SetActive(false);
-                Debug.Log(count);
+                //Debug.Log(count);
             }
             else if (count > 0)
             {
                 steine[count].SetActive(false);
-                Debug.Log(count);
+                //Debug.Log(count);
                 count -= 1;
             }
 
@@ -182,20 +180,28 @@ public class TestArrayAnimation : MonoBehaviour
                 steine[i].SetActive(true);
             }
             count = steine.Length - 1;
-            Debug.Log(count);
+            //Debug.Log(count);
         }
 
-
-        //Steine wieder hochfallen lassen
-        /*
-        if (Input.GetKeyDown(KeyCode.H) && count > 0 && steine[count].transform.position == startPosition)
+        //Ebenen werden angezeigt und bleiben angezeigt.
+        if (Input.GetKeyDown(KeyCode.L))
         {
-            startPosition = steine[count].transform.position;
-            endPosition = new Vector3(steine[count].transform.position.x, positionY[count], steine[count].transform.position.z);
-            steine[count].transform.position = Vector3.Lerp(endPosition, startPosition, Time.deltaTime * speed);
-            count -= 1;
+            for (int i = 0; i <= steine.Length - 1; i++)
+            {
+                Debug.Log(layer);
+                Debug.Log(steine[i].transform.position.y);
+                if (steine[i].transform.position.y == layer)
+                {
+                    steine[i].SetActive(true);
+                }
+
+                else if (!steine[i].active)
+                {
+                    steine[i].SetActive(false);
+                }
+            }
+            layer += 1.92f;
         }
-        */
     }
 
     private void instantiateBricks()
@@ -206,7 +212,7 @@ public class TestArrayAnimation : MonoBehaviour
         {
             if (buildingBlocks[i].isFlipped)
             {
-                Debug.Log(buildingBlocks[i].isFlipped);
+                //Debug.Log(buildingBlocks[i].isFlipped);
                 rot = Quaternion.Euler(0, 0, 0);
             }
             else
@@ -264,7 +270,7 @@ public class TestArrayAnimation : MonoBehaviour
             steine[i].SetActive(false);
             endPosition[i] =  position;
 
-            steine[i].transform.position = position + temp;
+            steine[i].transform.position = position;//+ temp;
 
         }
     }
