@@ -28,7 +28,7 @@ public class ConversionController : MonoBehaviour
     private void Start()
     {
         BlockSelector selector = new BlockSelector(null);
-        tex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
+        //tex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
         var voxels = Voxelizer.Voxelize(mesh, tex, targetHeight);
         var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
         ///Debug.Log(buildingBlocks.Count);
@@ -41,10 +41,10 @@ public class ConversionController : MonoBehaviour
             {
                 testColor = Color.magenta;
             }*/
-            
+
             if (bb.isFlipped)
             {
-                
+
                 VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
             }
             else
@@ -56,7 +56,7 @@ public class ConversionController : MonoBehaviour
         }
     }
 
-    
+
     public void runBrickification(BrickItConfiguration cfg)
     {
         mesh = cfg.mesh;
