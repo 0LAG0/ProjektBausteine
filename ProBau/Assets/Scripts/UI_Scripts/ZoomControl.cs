@@ -4,12 +4,16 @@
 
 public class ZoomControl : MonoBehaviour
 {
-    float MouseZoomSpeed = 15.0f;
-    float TouchZoomSpeed = 0.1f;
-    float ZoomMinBound = 0.1f;
-    float ZoomMaxBound = 180.0f;
+    const float MouseZoomSpeed = 15.0f;
+    const float TouchZoomSpeed = 0.1f;
+    const float ZoomMinBound = 0.1f;
+    const float ZoomMaxBound = 180.0f;
+    const float ZoomRatio = 5f;
+    //const float ZoomRatioHeight = 1;
+
     Camera cam;
     float originalFieldOfView;
+    GameObject modellContainer;
 
     // Use this for initialization
     void Start()
@@ -50,7 +54,6 @@ public class ZoomControl : MonoBehaviour
     void Zoom(float deltaMagnitudeDiff, float speed)
     {
         cam.fieldOfView += deltaMagnitudeDiff * speed;
-        // set min and max value of Clamp function upon your requirement
         cam.fieldOfView = Mathf.Clamp(cam.fieldOfView, ZoomMinBound, ZoomMaxBound);
     }
 
@@ -64,8 +67,22 @@ public class ZoomControl : MonoBehaviour
         Zoom(1.0f, 2.0f);
     }
 
-    public void ZoomReset()
+    // Set zoom (fov of cam) to an appropriate value depending on the ratio (fov to model size)
+    public void AdjustZoom()
     {
+        // OLD ZOOM RESET
         cam.fieldOfView = originalFieldOfView;
+
+        /* NEW IDEA: cam fov depending on width/height of model 
+         * TODO: force to get data from child object && how to get data?
+         */
+        //modellContainer = GameObject.Find("ModelsContainer");
+        //Vector3 size = modellContainer.GetComponentInChildren<MeshRenderer>(false).bounds.size;
+        //Vector3 scale = modellContainer.GetComponentInChildren<MeshRenderer>(false).transform.lossyScale;
+        //float biggerValue = Mathf.Max(width, height);
+
+        //float newFoV = biggerValue / ZoomRatio;
+
+        //cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
     }
 }
