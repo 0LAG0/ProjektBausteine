@@ -190,7 +190,7 @@ public class TestArrayAnimation : MonoBehaviour
             {
                 Debug.Log(layer);
                 Debug.Log(steine[i].transform.position.y);
-                if (steine[i].transform.position.y == layer)
+                if (steine[i].transform.position.y <= layer)
                 {
                     steine[i].SetActive(true);
                 }
