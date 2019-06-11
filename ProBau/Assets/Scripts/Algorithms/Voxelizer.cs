@@ -39,6 +39,7 @@ public class Voxelizer : MonoBehaviour
         var container = new Voxel[Width, Height, Depth];
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
+        var normals = mesh.normals;
         //Texture2D newTex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
 
         for (int i = 0; i < triangles.Length; i += 3)
@@ -46,8 +47,12 @@ public class Voxelizer : MonoBehaviour
             Vector3 a = verticez[triangles[i]];
             Vector3 b = verticez[triangles[i + 1]];
             Vector3 c = verticez[triangles[i + 2]];
+
+            Vector3 aN = normals[triangles[i]];
+            Vector3 bN = normals[triangles[i + 1]];
+            Vector3 cN = normals[triangles[i + 2]];
             //Calc face normal and convert to direction
-            Vector3 normal = (a + b + c) / 3;
+            Vector3 normal = (aN + bN + cN) / 3;
             var xAbs = Mathf.Abs(normal.x);
             var yAbs = Mathf.Abs(normal.y);
             var zAbs = Mathf.Abs(normal.z);
@@ -73,7 +78,6 @@ public class Voxelizer : MonoBehaviour
             {
                 voxelColor = tex.GetPixelBilinear(mesh.uv[triangles[i]].x, mesh.uv[triangles[i]].y);
             }
-            // TODO -- Change Color to Lego Color. 
 
             for (int x = SnapToWidth(min.x); x <= SnapToWidth(max.x); x++)
             {
@@ -147,6 +151,18 @@ public class Voxelizer : MonoBehaviour
                                 container[x, y, z].id = 0;
                                 container[x, y, z].color = voxelColor;
                                 container[x, y, z].reverseNormal = normal;
+
+
+                                Debug.DrawLine(
+                                    //start
+                                    new Vector3(centerAbs.x, centerAbs.y, centerAbs.z),
+                                    //end
+                                    new Vector3(centerAbs.x, centerAbs.y, centerAbs.z) +
+                                    new Vector3(normal.x, normal.y, normal.z)/1.5f
+
+                                    , Color.magenta, 10000.0f);
+
+
                                 voxelcount++;
                             }
                         }
@@ -169,11 +185,11 @@ public class Voxelizer : MonoBehaviour
                     var posVector = new Vector3Int(x, y, z);
                     if (curVoxel.id != null)
                     {
-                        for (int i = 1; i < width+1; i++)
+                        for (int i = 1; i < width + 1; i++)
                         {
-                            var nextPos = (i * curVoxel.reverseNormal) + new Vector3Int(x,y,z);
+                            var nextPos = (i * curVoxel.reverseNormal) + new Vector3Int(x, y, z);
                             nextPos = nextPos.ClampToPositive();
-                            if(inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id != null)
+                            if (inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id != null)
                             {
                                 break;
                             }
