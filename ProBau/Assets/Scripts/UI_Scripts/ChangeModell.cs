@@ -40,7 +40,12 @@ public class ChangeModell : MonoBehaviour
             return;
         }
 
-        models[selectionIndex].SetActive(false);
+        foreach (Transform t in transform)
+        {
+            // to ensure that any other model (i.e., also imported models) are set to inactive
+            t.gameObject.SetActive(false);
+        }
+
         selectionIndex = index;
         models[selectionIndex].SetActive(true);
     }

@@ -10,36 +10,43 @@ using ImporterObj;
 
 public class ImportModell : MonoBehaviour
 {
-    private GameObject modelsContainer = GameObject.Find("ModelsContainer");
-    private GameObject importedModell = GameObject.Find("ImportedModell");
+    private GameObject modelsContainer;
+    private GameObject importedModel;
     public ObjImporter objImporter;
 
-    // Open file system dialog to import own 3D modell
-    public void OpenFilePanel()
+    public void Start()
     {
-        // destroy game object with imported modell if there is one (from former import)
-        if (importedModell) {
-            Destroy(importedModell);
+        modelsContainer = GameObject.Find("ModelsContainer");
+        importedModel = GameObject.Find("ImportedModel");
+        objImporter = new ObjImporter();
+    }
+
+    // Open file system dialog to import own 3D modell
+    public void ImportObj()
+    {
+        // destroy imported modell if there is one (from former import)
+        if (importedModel) {
+            Destroy(importedModel);
         }
 
-        string meshPath = EditorUtility.OpenFilePanel("Importiere dein 3D Modell", "", "obj");
+        string meshPath = EditorUtility.OpenFilePanel("Importiere dein 3D-Modell", "", "obj");
 
         if (meshPath.Length != 0)
         {
-            // deactivate default modell
-            modelsContainer.SetActive(false);
+            importedModel = new GameObject("ImportedModel");
+            importedModel.transform.parent = modelsContainer.transform;
 
-            // Approach 1 -> TODO convert byte[] to modell/game object
-            var newModell = File.ReadAllBytes(meshPath);
-            // idea: add modell to list and display it via select methXboxOneDeployMethod of ChangeModell
-            // models.Add(newModell);
-            // Select(models.IndexOf(newModell));
+            importedModel.AddComponent<MeshFilter>();
+            importedModel.GetComponent<MeshFilter>().mesh = objImporter.ImportFile(meshPath);
 
-            // Approach 2 -> TODO use obj importer (mesh on gameobject)
-            // importedModell.AddComponent<MeshFilter>();
-            // Mesh importedMesh = new Mesh();
-            // importedMesh = objImporter.ImportFile(meshPath);
-            // importedModell.GetComponent<MeshFilter>().mesh = importedMesh;
+            importedModel.AddComponent<MeshRenderer>();
+
+            foreach (Transform t in transform)
+            {
+                t.gameObject.SetActive(false);
+            }
+
+            importedModel.SetActive(true);
         }
     }
 }
