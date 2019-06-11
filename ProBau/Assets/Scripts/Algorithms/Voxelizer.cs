@@ -33,7 +33,7 @@ public class Voxelizer : MonoBehaviour
         var container = new Voxel[Width, Height, Depth];
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
-        Texture2D newTex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
+        //Texture2D newTex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
@@ -42,7 +42,7 @@ public class Voxelizer : MonoBehaviour
             Vector3 c = verticez[triangles[i + 2]];
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
-            Color voxelColor = newTex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
+            Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
             // TODO -- Change Color to Lego Color. 
 
             for (int x = SnapToWidth(min.x); x <= SnapToWidth(max.x); x++)
@@ -65,7 +65,6 @@ public class Voxelizer : MonoBehaviour
                 }
             }
         }
-        Debug.Log(voxelcount);
         return container;
     }
 
