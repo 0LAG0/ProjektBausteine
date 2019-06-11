@@ -17,7 +17,7 @@ public class Voxelizer : MonoBehaviour
     /// <param name="height"></param>
     /// <returns></returns>
     /// <remarks>NEEDS TO HANDLE COLOR!</remarks>
-    public static Voxel[,,] Voxelize(Mesh mesh, Texture2D tex, float height)
+    public static Voxel[,,] Voxelize(Mesh mesh, Texture2D tex, float height, int depth)
     {
         var startT = System.DateTime.Now;
         float voxelcount = 0;
@@ -25,6 +25,11 @@ public class Voxelizer : MonoBehaviour
 
 
         mesh = OptimizeMesh(mesh, height);
+        if (mesh.normals == null)
+        {
+            Debug.Log("created normals");
+            mesh.RecalculateNormals();
+        }
         float[] minMax = minMaxMesh(mesh);
 
         int Height = (int)(minMax[3] / GlobalConstants.VoxelHeight) + 2;
@@ -40,6 +45,7 @@ public class Voxelizer : MonoBehaviour
             Vector3 a = verticez[triangles[i]];
             Vector3 b = verticez[triangles[i + 1]];
             Vector3 c = verticez[triangles[i + 2]];
+
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
             Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
@@ -53,9 +59,65 @@ public class Voxelizer : MonoBehaviour
                     {
                         if (container[x, y, z].id == null)
                         {
-                            if (TestTriangleBoxOverlap(new Vector3(x * GlobalConstants.VoxelWidth, y * GlobalConstants.VoxelHeight, z * GlobalConstants.VoxelWidth)
-                                , new Vector3(GlobalConstants.VoxelWidth / 2, GlobalConstants.VoxelHeight / 2, GlobalConstants.VoxelWidth / 2), new Vector3[] { a, b, c }))
+                            var centerAbs = new Vector3(x * GlobalConstants.VoxelWidth, y * GlobalConstants.VoxelHeight, z * GlobalConstants.VoxelWidth);
+                            if (TestTriangleBoxOverlap(centerAbs, new Vector3(GlobalConstants.VoxelWidth / 2, GlobalConstants.VoxelHeight / 2, GlobalConstants.VoxelWidth / 2), new Vector3[] { a, b, c }))
                             {
+                                var distA = Vector3.Distance(centerAbs, a);
+                                var distB = Vector3.Distance(centerAbs, b);
+                                var distC = Vector3.Distance(centerAbs, c);
+                                Vector3 normal;
+                                if (distA < distB && distA < distC)
+                                {
+                                    normal = mesh.normals[triangles[i]];
+                                }
+                                else if (distB < distA && distB < distC)
+                                {
+                                    normal = mesh.normals[triangles[i + 1]];
+                                }
+                                else
+                                {
+                                    normal = mesh.normals[triangles[i + 2]];
+                                }
+                                var xAbs = Mathf.Abs(normal.x);
+                                var yAbs = Mathf.Abs(normal.y);
+                                var zAbs = Mathf.Abs(normal.z);
+                                if (xAbs < yAbs && xAbs < zAbs)
+                                {
+                                    var newX = x - (int)Mathf.Sign(normal.x);
+                                    container[x, y, z].normal = new Vector3(newX,y,z);
+                                    /*if (container[newX, y, z].id == null)
+                                    {
+                                        container[newX, y, z].id = 0;
+                                        container[newX, y, z].color = Color.red;
+                                    }*/
+                                }
+                                else if (yAbs < xAbs && yAbs < zAbs)
+                                {
+                                    var newY = y - (int)Mathf.Sign(normal.y);
+                                    container[x, y, z].normal = new Vector3(x, newY, z);
+                                    //Debug.Log(newY);
+                                    /*
+                                    if (newY > 0 && container[x, newY, z].id == null)
+                                    {
+                                        container[x, newY, z].id = 0;
+                                        container[x, newY, z].color = Color.red;
+                                    }
+                                    */
+                                }
+                                else
+                                {
+                                    var newZ = z - (int)Mathf.Sign(normal.z);
+                                    container[x, y, z].normal = new Vector3(x, y, newZ);
+                                    //Debug.Log(newZ);
+                                    /*if (container[x, y, newZ].id == null)
+                                    {
+                                        container[x, y, newZ].id = 0;
+                                        container[x, y, newZ].color = Color.red;
+                                    }*/
+                                }
+
+
+
                                 container[x, y, z].id = 0;
                                 container[x, y, z].color = voxelColor;
                                 voxelcount++;

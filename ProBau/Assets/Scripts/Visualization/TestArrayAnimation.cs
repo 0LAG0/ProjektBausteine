@@ -73,7 +73,7 @@ public class TestArrayAnimation : MonoBehaviour
         // extends: the blocktype (a 2x4 block would be (2,1,4))
         // isFlipped: the brick is rotated by 90° (pos still stays the same)
         BlockSelector selector = new BlockSelector(null);
-        buildingBlocks = selector.calculateBlocksSpiralWithBounds(Voxelizer.Voxelize(mesh, tex, targetHeight));
+        buildingBlocks = selector.calculateBlocksSpiralWithBounds(Voxelizer.Voxelize(mesh, tex, targetHeight, 0));
         //
         //
         Debug.Log(buildingBlocks.Count);

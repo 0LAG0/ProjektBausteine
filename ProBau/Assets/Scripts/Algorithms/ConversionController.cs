@@ -27,10 +27,11 @@ public class ConversionController : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log((int)0.12f);
         BlockSelector selector = new BlockSelector(null);
         Debug.Log(GlobalConstants.LegoColors[1]);
         tex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
-        var voxels = Voxelizer.Voxelize(mesh, tex, targetHeight);
+        var voxels = Voxelizer.Voxelize(mesh, tex, targetHeight, 0);
         var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
         ///Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
@@ -64,7 +65,7 @@ public class ConversionController : MonoBehaviour
         targetHeight = cfg.height;
         BlockSelector selector = new BlockSelector(cfg.brickExtends);
         tex = ColorCalculation.colorCalculate(tex, cfg.colors);
-        var buildingBlocks = selector.calculateBlocksSpiralWithBounds(Voxelizer.Voxelize(mesh, tex, targetHeight));
+        var buildingBlocks = selector.calculateBlocksSpiralWithBounds(Voxelizer.Voxelize(mesh, tex, targetHeight, 0));
         ///Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
