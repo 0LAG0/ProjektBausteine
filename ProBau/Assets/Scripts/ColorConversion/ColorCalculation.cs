@@ -44,6 +44,7 @@ public class ColorCalculation : MonoBehaviour
             }
             table.Add(color, distanceList.OrderBy(kvp => kvp.Value).First().Key);
         }
+
         return table;
     }
 
@@ -57,7 +58,9 @@ public class ColorCalculation : MonoBehaviour
 
         for (int j = 0; j < texture.Length; j++)
         {
+            //Debug.Log(texture[j]);
             texture[j] = lookup[texture[j]];
+            //Debug.Log(texture[j]);
         }
 
         Texture2D newTexture = setColorMap(texture, width, height);

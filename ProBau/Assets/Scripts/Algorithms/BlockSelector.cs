@@ -23,7 +23,7 @@ public class BlockSelector
         //possibleExtends = possibleExtends.OrderByDescending(b => b.x * b.y * b.z * b.z * b.z).ToList();
     }
 
-    public List<BuildingBlock> calculateBlocks(bool[,,] voxels)
+    /*public List<BuildingBlock> calculateBlocks(bool[,,] voxels)
     {
         List<BuildingBlock> returnList = new List<BuildingBlock>();
         for (int y = 0; y < voxels.GetLength(1); y++)
@@ -41,7 +41,7 @@ public class BlockSelector
             }
         }
         return returnList;
-    }
+    }*/
 
     public List<BuildingBlock> calculateBlocksSpiral(Voxel[,,] voxels)
     {

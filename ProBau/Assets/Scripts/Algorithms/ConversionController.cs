@@ -28,7 +28,8 @@ public class ConversionController : MonoBehaviour
     private void Start()
     {
         BlockSelector selector = new BlockSelector(null);
-        //tex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
+        Debug.Log(GlobalConstants.LegoColors[1]);
+        tex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
         var voxels = Voxelizer.Voxelize(mesh, tex, targetHeight);
         var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
         ///Debug.Log(buildingBlocks.Count);
