@@ -13,7 +13,7 @@ public class ZoomControl : MonoBehaviour
 
     Camera cam;
     float originalFieldOfView;
-    GameObject modellContainer;
+    GameObject modelContainer;
 
     // Use this for initialization
     void Start()
@@ -77,11 +77,10 @@ public class ZoomControl : MonoBehaviour
          * TODO: force to get data from child object && how to get data?
          */
         //modellContainer = GameObject.Find("ModelsContainer");
-        //Vector3 size = modellContainer.GetComponentInChildren<MeshRenderer>(false).bounds.size;
-        //Vector3 scale = modellContainer.GetComponentInChildren<MeshRenderer>(false).transform.lossyScale;
-        //float biggerValue = Mathf.Max(width, height);
+        //Vector3 size = modelContainer.GetComponentInChildren<MeshRenderer>(false).bounds.size;
+        //Vector3 scale = modelContainer.GetComponentInChildren<MeshRenderer>(false).transform.lossyScale;
 
-        //float newFoV = biggerValue / ZoomRatio;
+        //float newFoV = Mathf.Max(scale.x, scale.y) / ZoomRatio;
 
         //cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
     }
