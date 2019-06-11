@@ -8,7 +8,7 @@ using ImporterObj;
  * found also another obj importer (optimized for blender modells and faster):
  * http://wiki.unity3d.com/index.php/FastObjImporter */
 
-public class ImportModell : MonoBehaviour
+public class ImportModel : MonoBehaviour
 {
     private GameObject modelsContainer;
     private GameObject importedModel;

@@ -7,7 +7,7 @@ using UnityEngine.UI;
  * Character Selection [Tutorial][C#] - Unity 3d 
  * https://docs.unity3d.com/ScriptReference/UI.Dropdown-value.html */
 
-public class ChangeModell : MonoBehaviour
+public class ChangeModel : MonoBehaviour
 {
     // Attach this script to a DropDown GameObject
     Dropdown m_Dropdown;
