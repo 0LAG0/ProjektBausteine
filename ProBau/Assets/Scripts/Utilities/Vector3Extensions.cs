@@ -28,5 +28,16 @@ namespace BrickIt.Vector3Extensions
         {
             return new Vector3(vec0.x / vec1.x, vec0.y / vec1.y, vec0.z / vec1.z);
         }
+
+        public static Vector3 ClampToPositive(this Vector3 vec0)
+        {
+            if (vec0.x < 0)
+                vec0.x = 0;
+            if (vec0.y < 0)
+                vec0.y = 0;
+            if (vec0.z < 0)
+                vec0.z = 0;
+            return vec0;
+        }
     }
 }

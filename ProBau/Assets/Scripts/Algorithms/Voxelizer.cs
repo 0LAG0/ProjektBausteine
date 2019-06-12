@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using BrickIt.Vector3Extensions;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +22,7 @@ public class Voxelizer : MonoBehaviour
     {
         var startT = System.DateTime.Now;
         float voxelcount = 0;
-        var textureCoordinates = mesh.uv;
+        bool hasUV = mesh.uv != null && mesh.uv.Length != 0;
 
 
         mesh = OptimizeMesh(mesh, height);
@@ -38,6 +39,7 @@ public class Voxelizer : MonoBehaviour
         var container = new Voxel[Width, Height, Depth];
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
+        var normals = mesh.normals;
         //Texture2D newTex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
 
         for (int i = 0; i < triangles.Length; i += 3)
@@ -46,10 +48,36 @@ public class Voxelizer : MonoBehaviour
             Vector3 b = verticez[triangles[i + 1]];
             Vector3 c = verticez[triangles[i + 2]];
 
+            Vector3 aN = normals[triangles[i]];
+            Vector3 bN = normals[triangles[i + 1]];
+            Vector3 cN = normals[triangles[i + 2]];
+            //Calc face normal and convert to direction
+            Vector3 normal = (aN + bN + cN) / 3;
+            var xAbs = Mathf.Abs(normal.x);
+            var yAbs = Mathf.Abs(normal.y);
+            var zAbs = Mathf.Abs(normal.z);
+            if (xAbs < yAbs && xAbs < zAbs)
+            {
+                var newX = -(int)Mathf.Sign(normal.x);
+                normal = new Vector3(newX, 0, 0);
+            }
+            else if (yAbs < xAbs && yAbs < zAbs)
+            {
+                var newY = -(int)Mathf.Sign(normal.y);
+                normal = new Vector3(0, newY, 0);
+            }
+            else
+            {
+                var newZ = -(int)Mathf.Sign(normal.z);
+                normal = new Vector3(0, 0, newZ);
+            }
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
-            Color voxelColor = tex.GetPixelBilinear(textureCoordinates[triangles[i]].x, textureCoordinates[triangles[i]].y);
-            // TODO -- Change Color to Lego Color. 
+            Color voxelColor = GlobalConstants.stockColor;
+            if (hasUV)
+            {
+                voxelColor = tex.GetPixelBilinear(mesh.uv[triangles[i]].x, mesh.uv[triangles[i]].y);
+            }
 
             for (int x = SnapToWidth(min.x); x <= SnapToWidth(max.x); x++)
             {
@@ -62,10 +90,13 @@ public class Voxelizer : MonoBehaviour
                             var centerAbs = new Vector3(x * GlobalConstants.VoxelWidth, y * GlobalConstants.VoxelHeight, z * GlobalConstants.VoxelWidth);
                             if (TestTriangleBoxOverlap(centerAbs, new Vector3(GlobalConstants.VoxelWidth / 2, GlobalConstants.VoxelHeight / 2, GlobalConstants.VoxelWidth / 2), new Vector3[] { a, b, c }))
                             {
+                                /*
+                                 * Closest vertex Normal
                                 var distA = Vector3.Distance(centerAbs, a);
                                 var distB = Vector3.Distance(centerAbs, b);
                                 var distC = Vector3.Distance(centerAbs, c);
                                 Vector3 normal;
+                                
                                 if (distA < distB && distA < distC)
                                 {
                                     normal = mesh.normals[triangles[i]];
@@ -78,6 +109,7 @@ public class Voxelizer : MonoBehaviour
                                 {
                                     normal = mesh.normals[triangles[i + 2]];
                                 }
+                                
                                 var xAbs = Mathf.Abs(normal.x);
                                 var yAbs = Mathf.Abs(normal.y);
                                 var zAbs = Mathf.Abs(normal.z);
@@ -85,41 +117,52 @@ public class Voxelizer : MonoBehaviour
                                 {
                                     var newX = x - (int)Mathf.Sign(normal.x);
                                     container[x, y, z].normal = new Vector3(newX,y,z);
-                                    /*if (container[newX, y, z].id == null)
+                                    if (container[newX, y, z].id == null)
                                     {
                                         container[newX, y, z].id = 0;
                                         container[newX, y, z].color = Color.red;
-                                    }*/
+                                    }
                                 }
                                 else if (yAbs < xAbs && yAbs < zAbs)
                                 {
                                     var newY = y - (int)Mathf.Sign(normal.y);
                                     container[x, y, z].normal = new Vector3(x, newY, z);
                                     //Debug.Log(newY);
-                                    /*
+                                    
                                     if (newY > 0 && container[x, newY, z].id == null)
                                     {
                                         container[x, newY, z].id = 0;
                                         container[x, newY, z].color = Color.red;
                                     }
-                                    */
+                                    
                                 }
                                 else
                                 {
                                     var newZ = z - (int)Mathf.Sign(normal.z);
                                     container[x, y, z].normal = new Vector3(x, y, newZ);
                                     //Debug.Log(newZ);
-                                    /*if (container[x, y, newZ].id == null)
+                                    if (container[x, y, newZ].id == null)
                                     {
                                         container[x, y, newZ].id = 0;
                                         container[x, y, newZ].color = Color.red;
-                                    }*/
+                                    }
                                 }
-
-
-
+                                */
                                 container[x, y, z].id = 0;
                                 container[x, y, z].color = voxelColor;
+                                container[x, y, z].reverseNormal = normal;
+
+
+                                Debug.DrawLine(
+                                    //start
+                                    new Vector3(centerAbs.x, centerAbs.y, centerAbs.z),
+                                    //end
+                                    new Vector3(centerAbs.x, centerAbs.y, centerAbs.z) +
+                                    new Vector3(normal.x, normal.y, normal.z)/1.5f
+
+                                    , Color.magenta, 10000.0f);
+
+
                                 voxelcount++;
                             }
                         }
@@ -128,6 +171,36 @@ public class Voxelizer : MonoBehaviour
             }
         }
         return container;
+    }
+
+    public static Voxel[,,] AddWidth(Voxel[,,] inputVoxels, int width)
+    {
+        for (int x = 0; x < inputVoxels.GetLength(0); x++)
+        {
+            for (int y = 0; y < inputVoxels.GetLength(1); y++)
+            {
+                for (int z = 0; z < inputVoxels.GetLength(2); z++)
+                {
+                    var curVoxel = inputVoxels[x, y, z];
+                    var posVector = new Vector3Int(x, y, z);
+                    if (curVoxel.id != null)
+                    {
+                        for (int i = 1; i < width + 1; i++)
+                        {
+                            var nextPos = (i * curVoxel.reverseNormal) + new Vector3Int(x, y, z);
+                            nextPos = nextPos.ClampToPositive();
+                            if (inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id != null)
+                            {
+                                break;
+                            }
+                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id = 0;
+                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].color = GlobalConstants.stockColor;
+                        }
+                    }
+                }
+            }
+        }
+        return inputVoxels;
     }
 
     private static Mesh OptimizeMesh(Mesh inputMesh, float height)

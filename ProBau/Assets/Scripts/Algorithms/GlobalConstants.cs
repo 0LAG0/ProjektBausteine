@@ -15,6 +15,7 @@ class GlobalConstants
     public static readonly List<Vector3Int> BlockTypes;
     public static readonly List<Vector3Int> BlockDirections;
     public static readonly List<Color> LegoColors;
+    public static readonly Color stockColor = new Color32(244,244,244,255);
 
     static GlobalConstants()
     {

@@ -3,5 +3,5 @@ public struct Voxel
 {
     public int? id;
     public Color color;
-    public Vector3 normal;
+    public Vector3 reverseNormal;
 }
