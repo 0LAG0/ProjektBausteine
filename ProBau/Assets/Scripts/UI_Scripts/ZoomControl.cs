@@ -83,18 +83,43 @@ public class ZoomControl : MonoBehaviour
     // Set zoom (fov of cam) to an appropriate value depending on the ratio (fov to model size)
     public void AdjustZoom()
     {
-        // OLD ZOOM RESET
-        cam.fieldOfView = originalFieldOfView;
+        modelContainer = GameObject.Find("ModelsContainer");
+        MeshFilter meshFilter = modelContainer.GetComponentInChildren<MeshFilter>(false);
 
-        /* NEW IDEA: cam fov depending on width/height of model 
-         * TODO: force to get data from child object && how to get data?
-         */
-        //modellContainer = GameObject.Find("ModelsContainer");
+        if (meshFilter)
+        {
+            Debug.Log("mesh exists");
+
+            Vector3 size = meshFilter.mesh.bounds.size;
+
+            if (size.x > 0 && size.y > 0)
+            {
+                Debug.Log("size > 0");
+
+                float newFoV = Mathf.Max(size.x, size.y) / ZoomRatio;
+
+                if (newFoV < ZoomMinBound || newFoV > ZoomMaxBound)
+                {
+                    // TODO scale
+                    Debug.Log("scaling needed");
+                }
+
+                cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
+
+                Debug.Log("----");
+                Debug.Log("size: " + size);
+                Debug.Log("new fov: " + newFoV);
+                Debug.Log("cam.fieldOfView: " + cam.fieldOfView);
+                Debug.Log("___________________________________________");
+            }
+        }
+        else
+        {
+            cam.fieldOfView = originalFieldOfView;
+        }
+
+        //Vector3 size = modelContainer.GetComponentInChildren<MeshFilter>(false).mesh.bounds.size;
         //Vector3 size = modelContainer.GetComponentInChildren<MeshRenderer>(false).bounds.size;
         //Vector3 scale = modelContainer.GetComponentInChildren<MeshRenderer>(false).transform.lossyScale;
-
-        //float newFoV = Mathf.Max(scale.x, scale.y) / ZoomRatio;
-
-        //cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
     }
 }
