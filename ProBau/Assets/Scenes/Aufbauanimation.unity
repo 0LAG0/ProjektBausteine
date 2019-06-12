@@ -152,32 +152,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mesh: {fileID: -7284989440109441873, guid: 7d41edc6fb845d749b60f30bce9139fd, type: 3}
   tex: {fileID: 2800000, guid: ab8ff66e633562e42887f9475e7c1251, type: 3}
-  targetHeight: 50
-  brick_1x1: {fileID: 1434906701478993530, guid: 77c13114f6f1e754cb3c33f0eb54f609,
+  targetHeight: 20
+  brick_1x1: {fileID: 9158694817588218721, guid: 268d928f92d339b4388588d69c1db61d,
     type: 3}
-  brick_1x2: {fileID: 1992370638897003082, guid: e37b630ad8b55be4885dcae694aecd4e,
+  brick_1x2: {fileID: 7914229742677292092, guid: f8a24f5c536a8b444ac1e765f37d4e63,
     type: 3}
-  brick_1x3: {fileID: 435621426955164859, guid: 53209b51229710040aade443d70fdbc7,
+  brick_1x3: {fileID: 104559009332318914, guid: 9cac031a892cc3d4ebab5f958d8f6330,
     type: 3}
-  brick_1x4: {fileID: 5923913987846770063, guid: b3a5ba5cb6c6e7844acd6cdfa44cb855,
+  brick_1x4: {fileID: 210724177589305605, guid: b4e114ee68020f343952944c0038b9f7,
     type: 3}
-  brick_1x6: {fileID: 2313618532827228036, guid: 0a4b705f6e783994490765948c1cb0a9,
+  brick_1x6: {fileID: 7979608759448550283, guid: 0b21b330ba6a31144bdb8101afe0d377,
     type: 3}
-  brick_1x8: {fileID: 6723498577823002768, guid: 5ff05dd757384dc478cfd98b66ad415f,
+  brick_1x8: {fileID: 8763985961410557559, guid: 11f6a58325d202c478504e99f3031ca4,
     type: 3}
-  brick_2x2: {fileID: 4571082821236950467, guid: 090a7f2e15fd0c9459097cf22d16e61b,
+  brick_2x2: {fileID: 1972002637741307641, guid: 8f58083ab05351748accf300f20669a9,
     type: 3}
-  brick_2x3: {fileID: 561366625860821701, guid: 5363a3e7b8c366a43825f3ad3d87b4cf,
+  brick_2x3: {fileID: 536328179628029317, guid: 33273101c07b1f74bb17b310ef3c569f,
     type: 3}
-  brick_2x4: {fileID: 4027344961347224245, guid: ae07d64b324751e4b9c6de7e7ee1131b,
+  brick_2x4: {fileID: 6136550103375104765, guid: 5356277c6e9f78d49bff2f71f92ca9c0,
     type: 3}
-  brick_2x6: {fileID: 5024350100085838863, guid: b227599519c06c1408387d531fc57fd7,
+  brick_2x6: {fileID: 4339701762392015578, guid: 6635acd82723c534083b7a68ac0a8cf3,
     type: 3}
-  brick_2x8: {fileID: 1128780754693930899, guid: 7fc6878406229e14c84e6801178f9e7f,
+  brick_2x8: {fileID: 6182101224050749612, guid: b47c8a83f97159c48bdfb77e56f81e82,
     type: 3}
   speed: 0.1
-  startPosition: []
-  endPosition: []
 --- !u!4 &395922767
 Transform:
   m_ObjectHideFlags: 0

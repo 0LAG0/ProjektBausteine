@@ -51,15 +51,9 @@ public class TestArrayAnimation : MonoBehaviour
     private int count = 0;
     private int brickSize;
 
-    private Vector3 temp;
-    //Erhöhte Position der Steine
-    public Vector3[] startPosition;
-    //Originale Position der Steine
-    public Vector3[] endPosition;
-
     private bool animationOn = false;
-
-    float layer = 0;
+    float layerHeight = 1.92f;
+    int layer = 0;
 
     AudioSource source;
 
@@ -79,17 +73,8 @@ public class TestArrayAnimation : MonoBehaviour
         Debug.Log(buildingBlocks.Count);
         brickSize = buildingBlocks.Count;
 
-        //Vector entlang der Y-Achse
-        startHeight = buildingBlocks[brickSize - 1].pos.y + buildingBlocks[brickSize - 1].pos.y / 2;
-        temp = new Vector3(0, 50, 0);
-        startPosition = new Vector3[brickSize];
-        endPosition = new Vector3[brickSize];
-
-
-
         buildingBlocks.Sort(SortByY);
         instantiateBricks();
-
 
         source = GetComponent<AudioSource>();
     }
@@ -103,10 +88,10 @@ public class TestArrayAnimation : MonoBehaviour
     void Update()
     {
         //Animation anhalten mit T  & starten mit R
-        if ((Input.GetKey(KeyCode.T) && animationOn) || (animationOn && count == brickSize-1))
+        if ((Input.GetKey(KeyCode.T) && animationOn) || (animationOn && count == brickSize - 1))
         {
             animationOn = false;
-           // Debug.Log(animationOn);
+            // Debug.Log(animationOn);
         }
         if (Input.GetKey(KeyCode.R) && animationOn == false && count < brickSize)
         {
@@ -114,30 +99,17 @@ public class TestArrayAnimation : MonoBehaviour
             count += 1;
             //Debug.Log(animationOn);
         }
-        
-       if (animationOn == true)
+
+        if (animationOn == true)
         {
-           
+
             Debug.Log(steine[count].transform.position);
 
             //Debug.Log(endPosition[count]);
             steine[count].SetActive(true);
             source.Play();
             count += 1;
-            //steine[count].transform.position = Vector3.Lerp(startPosition[count] , endPosition[count], Time.deltaTime * speed);
-            //steine[count].transform.Translate(Vector3.down * Time.deltaTime * speed, Space.World);
-
-           /* if (steine[count].transform.position.y == endPosition[count].y)
-            {
-                steine[count].transform.position = endPosition[count];
-                count += 1;
-            }
-            //if (steine[count].transform.position == endPosition[count])
-            
-            */
-    }
-        
-        
+        }
 
         //Hier kann man Stein für Stein anzeigen lassen.
         if (Input.GetKeyDown(KeyCode.S) && (count <= steine.Length - 1))
@@ -151,7 +123,7 @@ public class TestArrayAnimation : MonoBehaviour
             {
                 count += 1;
                 steine[count].SetActive(true);
-               // Debug.Log(count);
+                // Debug.Log(count);
             }
         }
 
@@ -172,6 +144,7 @@ public class TestArrayAnimation : MonoBehaviour
 
         }
 
+
         //Hier kann man sich alle Steine anzeigen lassen
         if (Input.GetKeyDown(KeyCode.A) && count <= steine.Length - 1)
         {
@@ -183,95 +156,128 @@ public class TestArrayAnimation : MonoBehaviour
             //Debug.Log(count);
         }
 
+
         //Ebenen werden angezeigt und bleiben angezeigt.
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.K))
         {
+            int naechster = (int) Mathf.Round(steine[count + 1].transform.position.y / layerHeight);
+            layer = (int)Mathf.Round(steine[count].transform.position.y / layerHeight);
+            if (layer < naechster)
+            {
+                layer += 1;
+            }
             for (int i = 0; i <= steine.Length - 1; i++)
             {
-                Debug.Log(layer);
-                Debug.Log(steine[i].transform.position.y);
-                if (steine[i].transform.position.y <= layer)
+                int level = (int)Mathf.Round(steine[i].transform.position.y / layerHeight);
+                if (layer == level)
                 {
                     steine[i].SetActive(true);
+                    count = i;
                 }
+            }
+        }
 
-                else if (!steine[i].active)
+        //Ebenenweise abziehen
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            layer = (int)Mathf.Round(steine[count].transform.position.y / layerHeight);
+            for (int i = steine.Length - 1; i >= 0 ; i--)
+            {
+                int level = (int)Mathf.Round(steine[i].transform.position.y / layerHeight);
+                if (layer == level)
                 {
                     steine[i].SetActive(false);
+                    if (count > 0)
+                    {
+                        count = i - 1;
+                    }
                 }
             }
-            layer += 1.92f;
+
         }
     }
 
-    private void instantiateBricks()
-    {
-        Quaternion rot = Quaternion.Euler(0, 0, 0);
-        steine = new GameObject[buildingBlocks.Count];
-        for (int i = 0; i < buildingBlocks.Count; i++)
+        private void instantiateBricks()
         {
-            if (buildingBlocks[i].isFlipped)
+            Quaternion rot = Quaternion.Euler(0, 0, 0);
+            steine = new GameObject[buildingBlocks.Count];
+            for (int i = 0; i < buildingBlocks.Count; i++)
             {
-                //Debug.Log(buildingBlocks[i].isFlipped);
-                rot = Quaternion.Euler(0, 0, 0);
-            }
-            else
-            {
-                rot = Quaternion.Euler(0, 90f, 0);
-            }
-            float yPos = buildingBlocks[i].pos.y * 1.92f;
-            float xPos = buildingBlocks[i].pos.x * 1.6f;
-            float zPos = buildingBlocks[i].pos.z * 1.6f;
-            Vector3 position = new Vector3(xPos, yPos, zPos);
-            if (buildingBlocks[i].extends == stein_1x1)
-            {
-                steine[i] = Instantiate(brick_1x1, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_1x2)
-            {
-                steine[i] = Instantiate(brick_1x2, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_1x3)
-            { 
-                steine[i] = Instantiate(brick_1x3, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_1x4)
-            {
-                steine[i] = Instantiate(brick_1x4, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_1x6)
-            {
-                steine[i] = Instantiate(brick_1x6, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_1x8)
-            {
-                steine[i] = Instantiate(brick_1x8, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_2x2)
-            {
-                steine[i] = Instantiate(brick_2x2, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_2x3)
-            {
-                steine[i] = Instantiate(brick_2x3, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_2x4)
-            {
-                steine[i] = Instantiate(brick_2x4, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_2x6)
-            {
-                steine[i] = Instantiate(brick_2x6, position, rot);
-            }
-            else if (buildingBlocks[i].extends == stein_2x8)
-            {
-                steine[i] = Instantiate(brick_2x8, position, rot);
-            }
-            steine[i].SetActive(false);
-            endPosition[i] =  position;
+                if (buildingBlocks[i].isFlipped)
+                {
+                    //Debug.Log(buildingBlocks[i].isFlipped);
+                    rot = Quaternion.Euler(0, 0, 0);
+                }
+                else
+                {
+                    rot = Quaternion.Euler(0, 90f, 0);
+                }
+                float yPos = buildingBlocks[i].pos.y * 1.92f;
+                float xPos = buildingBlocks[i].pos.x * 1.6f;
+                float zPos = buildingBlocks[i].pos.z * 1.6f;
+                Vector3 position = new Vector3(xPos, yPos, zPos);
+                if (buildingBlocks[i].extends == stein_1x1)
+                {
+                    steine[i] = Instantiate(brick_1x1, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_1x2)
+                {
+                    steine[i] = Instantiate(brick_1x2, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_1x3)
+                {
+                    steine[i] = Instantiate(brick_1x3, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_1x4)
+                {
+                    steine[i] = Instantiate(brick_1x4, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_1x6)
+                {
+                    steine[i] = Instantiate(brick_1x6, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_1x8)
+                {
+                    steine[i] = Instantiate(brick_1x8, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_2x2)
+                {
+                    steine[i] = Instantiate(brick_2x2, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_2x3)
+                {
+                    steine[i] = Instantiate(brick_2x3, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_2x4)
+                {
+                    steine[i] = Instantiate(brick_2x4, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_2x6)
+                {
+                    steine[i] = Instantiate(brick_2x6, position, rot);
+                }
+                else if (buildingBlocks[i].extends == stein_2x8)
+                {
+                    steine[i] = Instantiate(brick_2x8, position, rot);
+                }
+                steine[i].SetActive(false);
 
-            steine[i].transform.position = position;//+ temp;
+                Color whateverColor = buildingBlocks[i].blockColor;
+                Color testcolor = new Color(1, 0, 0);
+                //steine[i].gameObject.AddComponent<MeshRenderer>();
 
+                MeshRenderer gameObjectRenderer = steine[i].GetComponentInChildren<MeshRenderer>();
+
+                Material newMaterial = new Material(Shader.Find("Diffuse"));
+
+                newMaterial.color = whateverColor;
+                gameObjectRenderer.material = newMaterial;
+
+                Debug.Log(buildingBlocks[i].blockColor);
+
+
+
+            }
         }
-    }
+    
 }
