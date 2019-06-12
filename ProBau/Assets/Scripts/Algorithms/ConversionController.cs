@@ -10,12 +10,9 @@ using UnityEngine;
 /// </summary>
 public class ConversionController : MonoBehaviour
 {
-    public Mesh mesh;
-    public Texture2D tex;
-    /// <summary>
-    /// Height in cm.
-    /// </summary>
-    public float targetHeight;
+    public int height;
+    public Mesh testMesh;
+    public Texture2D testTex;
 
     private void Update()
     {
@@ -27,9 +24,12 @@ public class ConversionController : MonoBehaviour
 
     private void Start()
     {
+        BrickItConfiguration testCFG = getTestCfg();
+        runBrickification(testCFG);
+        /*
         BlockSelector selector = new BlockSelector(null);
-        tex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
-        var voxels = Voxelizer.Voxelize(mesh, tex, targetHeight, 0);
+        var tex = ColorCalculation.colorCalculate(testCFG.tex, GlobalConstants.LegoColors);
+        var voxels = Voxelizer.Voxelize(testCFG.mesh, testCFG.tex, testCFG.height, 0);
         //voxels = Voxelizer.AddWidth(voxels, 2);
         var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
         ///Debug.Log(buildingBlocks.Count);
@@ -37,11 +37,11 @@ public class ConversionController : MonoBehaviour
         {
             //bb.calcAdjacencies(voxels, buildingBlocks);
             Vector3 position = new Vector3(bb.pos.x, bb.pos.y * GlobalConstants.VoxelHeight, bb.pos.z);
-            /*Color testColor = Color.green;
+            Color testColor = Color.green;
             if (bb.adjacencies.Count==0)
             {
                 testColor = Color.magenta;
-            }*/
+            }
 
             if (bb.isFlipped)
             {
@@ -54,35 +54,45 @@ public class ConversionController : MonoBehaviour
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
+        */
     }
-
 
     public void runBrickification(BrickItConfiguration cfg)
     {
-        mesh = cfg.mesh;
-        targetHeight = cfg.height;
         BlockSelector selector = new BlockSelector(cfg.brickExtends);
-        tex = ColorCalculation.colorCalculate(tex, cfg.colors);
-        var voxels = Voxelizer.Voxelize(mesh, tex, targetHeight, 0);
-        voxels = Voxelizer.AddWidth(voxels, 1);
+        var tex = ColorCalculation.colorCalculate(cfg.tex, cfg.colors);
+        var voxels = Voxelizer.Voxelize(cfg.mesh, tex, cfg.height, 0);
+        //voxels = Voxelizer.AddWidth(voxels, 1);
         var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
         ///Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
+            Vector3 position = new Vector3(bb.pos.x, bb.pos.y * GlobalConstants.VoxelHeight, bb.pos.z);
 
             if (bb.isFlipped)
             {
-                Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
-                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
+                //VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
             }
             else
             {
-                Vector3 position = new Vector3(bb.pos.x, bb.pos.y, bb.pos.z);
-                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
+                //VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
         GameObject.Find(GlobalConstants.cubeContainerName).transform.position = cfg.posOfObject;
+    }
+
+    private BrickItConfiguration getTestCfg()
+    {
+        var testCFG = new BrickItConfiguration();
+        testCFG.height = height;
+        testCFG.mesh = testMesh;
+        testCFG.tex = testTex;
+        testCFG.colors = GlobalConstants.LegoColors;
+        testCFG.brickExtends = GlobalConstants.BlockTypes;
+        testCFG.posOfObject = new Vector3(0, 0, 0);
+        testCFG.filled = false;
+        return testCFG;
     }
 }

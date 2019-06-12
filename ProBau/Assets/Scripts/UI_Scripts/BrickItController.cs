@@ -9,7 +9,7 @@ public class BrickItController : MonoBehaviour
     public MultiToggle colors;
     public Toggle filled;
     public Slider scaling;
-    public ChangeModell modelSelection;
+    public ChangeModel modelSelection;
     public ConversionController conversionController;
 
     private List<Vector3Int> getBricks()
@@ -22,7 +22,8 @@ public class BrickItController : MonoBehaviour
         var boolBricks = new List<bool>();
         bricks._toggleGroup.ForEach(e => boolBricks.Add(e.isOn));
         boolBricks.Reverse();
-        for (int i = 0; i < boolBricks.Count; i++)
+        output.Add(GlobalConstants.BlockTypes[0]);
+        for (int i = 1; i < boolBricks.Count; i++)
         {
             if (boolBricks[i])
             {

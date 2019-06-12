@@ -38,7 +38,10 @@ public class VoxelTools : MonoBehaviour
     private static GameObject GetCubePrefab()
     {
         if (cubePrefab == null)
+        {
             cubePrefab = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Destroy(cubePrefab);
+        }
         cubePrefab.transform.localScale = new Vector3(GlobalConstants.VoxelWidth, GlobalConstants.VoxelHeight, GlobalConstants.VoxelWidth);
         return cubePrefab;
     }
