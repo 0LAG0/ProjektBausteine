@@ -153,14 +153,14 @@ public class Voxelizer : MonoBehaviour
                                 container[x, y, z].reverseNormal = normal;
 
 
-                                Debug.DrawLine(
+                                /*Debug.DrawLine(
                                     //start
                                     new Vector3(centerAbs.x, centerAbs.y, centerAbs.z),
                                     //end
                                     new Vector3(centerAbs.x, centerAbs.y, centerAbs.z) +
                                     new Vector3(normal.x, normal.y, normal.z)/1.5f
 
-                                    , Color.magenta, 10000.0f);
+                                    , Color.magenta, 10000.0f); */
 
 
                                 voxelcount++;

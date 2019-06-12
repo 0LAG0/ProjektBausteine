@@ -51,12 +51,6 @@ public class TestArrayAnimation : MonoBehaviour
     private int count = 0;
     private int brickSize;
 
-    private Vector3 temp;
-    //Erhöhte Position der Steine
-    public Vector3[] startPosition;
-    //Originale Position der Steine
-    public Vector3[] endPosition;
-
     private bool animationOn = false;
 
     float layer = 0;
@@ -79,17 +73,8 @@ public class TestArrayAnimation : MonoBehaviour
         Debug.Log(buildingBlocks.Count);
         brickSize = buildingBlocks.Count;
 
-        //Vector entlang der Y-Achse
-        startHeight = buildingBlocks[brickSize - 1].pos.y + buildingBlocks[brickSize - 1].pos.y / 2;
-        temp = new Vector3(0, 50, 0);
-        startPosition = new Vector3[brickSize];
-        endPosition = new Vector3[brickSize];
-
-
-
         buildingBlocks.Sort(SortByY);
         instantiateBricks();
-
 
         source = GetComponent<AudioSource>();
     }
@@ -124,20 +109,7 @@ public class TestArrayAnimation : MonoBehaviour
             steine[count].SetActive(true);
             source.Play();
             count += 1;
-            //steine[count].transform.position = Vector3.Lerp(startPosition[count] , endPosition[count], Time.deltaTime * speed);
-            //steine[count].transform.Translate(Vector3.down * Time.deltaTime * speed, Space.World);
-
-           /* if (steine[count].transform.position.y == endPosition[count].y)
-            {
-                steine[count].transform.position = endPosition[count];
-                count += 1;
-            }
-            //if (steine[count].transform.position == endPosition[count])
-            
-            */
     }
-        
-        
 
         //Hier kann man Stein für Stein anzeigen lassen.
         if (Input.GetKeyDown(KeyCode.S) && (count <= steine.Length - 1))
@@ -184,7 +156,7 @@ public class TestArrayAnimation : MonoBehaviour
         }
 
         //Ebenen werden angezeigt und bleiben angezeigt.
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.K))
         {
             for (int i = 0; i <= steine.Length - 1; i++)
             {
@@ -195,7 +167,27 @@ public class TestArrayAnimation : MonoBehaviour
                     steine[i].SetActive(true);
                 }
 
-                else if (!steine[i].active)
+                else if (!steine[i].activeInHierarchy)
+                {
+                    steine[i].SetActive(false);
+                }
+            }
+            layer += 1.92f;
+        }
+
+        //Ebenenweise abziehen
+        if (Input.GetKeyDown(KeyCode.L) && layer > 0)
+        {
+            for (int i = 0; i <= steine.Length - 1; i++)
+            {
+                Debug.Log(layer);
+                Debug.Log(steine[i].transform.position.y);
+                if (steine[i].transform.position.y <= layer)
+                {
+                    steine[i].SetActive(false);
+                }
+
+                else if (!steine[i].activeInHierarchy)
                 {
                     steine[i].SetActive(false);
                 }
@@ -268,9 +260,19 @@ public class TestArrayAnimation : MonoBehaviour
                 steine[i] = Instantiate(brick_2x8, position, rot);
             }
             steine[i].SetActive(false);
-            endPosition[i] =  position;
 
-            steine[i].transform.position = position;//+ temp;
+            Color whateverColor = buildingBlocks[i].blockColor;
+
+            MeshRenderer gameObjectRenderer = steine[i].GetComponent<MeshRenderer>();
+
+            Material newMaterial = new Material(Shader.Find("Whatever name of the shader you want to use"));
+
+            newMaterial.color = whateverColor;
+            gameObjectRenderer.material = newMaterial;
+
+            Debug.Log(buildingBlocks[i].blockColor);
+
+
 
         }
     }
