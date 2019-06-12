@@ -9,11 +9,11 @@ public class ZoomControl : MonoBehaviour
     const float ZoomMinBound = 0.1f;
     const float ZoomMaxBound = 180.0f;
     const float ZoomRatio = 5f;
-    //const float ZoomRatioHeight = 1;
 
+    GameObject modelContainer;
+    GameObject previewArea;
     Camera cam;
     float originalFieldOfView;
-    GameObject modelContainer;
 
     // Use this for initialization
     void Start()
@@ -24,30 +24,43 @@ public class ZoomControl : MonoBehaviour
 
     void Update()
     {
-        if (Input.touchSupported)
+        previewArea = GameObject.Find("Preview_Area");
+        RectTransform previewRectTransform = previewArea.GetComponent<RectTransform>();
+
+        Vector3 mousePos = Input.mousePosition;
+        Vector2 normalizedMousePos = new Vector2(mousePos.x / Screen.width, mousePos.y / Screen.height);
+
+        if (normalizedMousePos.x > previewRectTransform.anchorMin.x
+            && normalizedMousePos.x < previewRectTransform.anchorMax.x
+            && normalizedMousePos.y > previewRectTransform.anchorMin.y
+            && normalizedMousePos.y < previewRectTransform.anchorMax.y
+            )
         {
-            // Pinch to zoom
-            if (Input.touchCount == 2)
+            if (Input.touchSupported)
             {
-                // get current touch positions
-                Touch tZero = Input.GetTouch(0);
-                Touch tOne = Input.GetTouch(1);
-                // get touch position from the previous frame
-                Vector2 tZeroPrevious = tZero.position - tZero.deltaPosition;
-                Vector2 tOnePrevious = tOne.position - tOne.deltaPosition;
+                // Pinch to zoom
+                if (Input.touchCount == 2)
+                {
+                    // get current touch positions
+                    Touch tZero = Input.GetTouch(0);
+                    Touch tOne = Input.GetTouch(1);
+                    // get touch position from the previous frame
+                    Vector2 tZeroPrevious = tZero.position - tZero.deltaPosition;
+                    Vector2 tOnePrevious = tOne.position - tOne.deltaPosition;
 
-                float oldTouchDistance = Vector2.Distance(tZeroPrevious, tOnePrevious);
-                float currentTouchDistance = Vector2.Distance(tZero.position, tOne.position);
+                    float oldTouchDistance = Vector2.Distance(tZeroPrevious, tOnePrevious);
+                    float currentTouchDistance = Vector2.Distance(tZero.position, tOne.position);
 
-                // get offset value
-                float deltaDistance = oldTouchDistance - currentTouchDistance;
-                Zoom(deltaDistance, TouchZoomSpeed);
+                    // get offset value
+                    float deltaDistance = oldTouchDistance - currentTouchDistance;
+                    Zoom(deltaDistance, TouchZoomSpeed);
+                }
             }
-        }
-        else
-        {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            Zoom(-scroll, MouseZoomSpeed);
+            else
+            {
+                float scroll = Input.GetAxis("Mouse ScrollWheel");
+                Zoom(-scroll, MouseZoomSpeed);
+            }
         }
     }
 
