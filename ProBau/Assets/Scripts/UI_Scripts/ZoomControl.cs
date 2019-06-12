@@ -8,7 +8,7 @@ public class ZoomControl : MonoBehaviour
     const float TouchZoomSpeed = 0.1f;
     const float ZoomMinBound = 0.1f;
     const float ZoomMaxBound = 180.0f;
-    const float ZoomRatio = 5f;
+    const float ZoomRatio = 0.2f;
 
     GameObject modelContainer;
     GameObject previewArea;
@@ -86,39 +86,39 @@ public class ZoomControl : MonoBehaviour
         modelContainer = GameObject.Find("ModelsContainer");
         MeshFilter meshFilter = modelContainer.GetComponentInChildren<MeshFilter>(false);
 
-        if (meshFilter)
-        {
-            Debug.Log("mesh exists");
+        //if (meshFilter)
+        //{
+        //    Debug.Log("mesh exists");
 
-            Vector3 size = meshFilter.mesh.bounds.size;
+        //    Vector3 size = meshFilter.mesh.bounds.size;
 
-            if (size.x > 0 && size.y > 0)
-            {
-                Debug.Log("size > 0");
+        //    if (size.x > 0 && size.y > 0)
+        //    {
+        //        Debug.Log("-- size > 0");
 
-                float newFoV = Mathf.Max(size.x, size.y) / ZoomRatio;
+        //        float newFoV = Mathf.Max(size.x, size.y) / ZoomRatio;
 
-                if (newFoV < ZoomMinBound || newFoV > ZoomMaxBound)
-                {
-                    // TODO scale
-                    Debug.Log("scaling needed");
-                }
+        //        if (newFoV < ZoomMinBound || newFoV > ZoomMaxBound)
+        //        {
+        //            // TODO scale
+        //            Debug.Log("---- scaling needed");
+        //        }
 
-                cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
+        //        cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
 
-                Debug.Log("----");
-                Debug.Log("size: " + size);
-                Debug.Log("new fov: " + newFoV);
-                Debug.Log("cam.fieldOfView: " + cam.fieldOfView);
-                Debug.Log("___________________________________________");
-            }
-        }
-        else
-        {
-            cam.fieldOfView = originalFieldOfView;
-        }
+        //        Debug.Log("-- size: " + size);
+        //        Debug.Log("-- new fov: " + newFoV);
+        //        Debug.Log("-- cam.fieldOfView: " + cam.fieldOfView);
+        //    }
+        //}
+        //else
+        //{
+        //    Debug.Log("no mesh...");
+              cam.fieldOfView = originalFieldOfView;
+        //}
 
-        //Vector3 size = modelContainer.GetComponentInChildren<MeshFilter>(false).mesh.bounds.size;
+        //Debug.Log("-----------------------------------------------------");
+
         //Vector3 size = modelContainer.GetComponentInChildren<MeshRenderer>(false).bounds.size;
         //Vector3 scale = modelContainer.GetComponentInChildren<MeshRenderer>(false).transform.lossyScale;
     }
