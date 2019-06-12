@@ -262,10 +262,12 @@ public class TestArrayAnimation : MonoBehaviour
             steine[i].SetActive(false);
 
             Color whateverColor = buildingBlocks[i].blockColor;
+            Color testcolor = new Color(1, 0, 0);
+            //steine[i].gameObject.AddComponent<MeshRenderer>();
 
-            MeshRenderer gameObjectRenderer = steine[i].GetComponent<MeshRenderer>();
+            MeshRenderer gameObjectRenderer = steine[i].GetComponentInChildren<MeshRenderer>();
 
-            Material newMaterial = new Material(Shader.Find("Whatever name of the shader you want to use"));
+            Material newMaterial = new Material(Shader.Find("Diffuse"));
 
             newMaterial.color = whateverColor;
             gameObjectRenderer.material = newMaterial;
