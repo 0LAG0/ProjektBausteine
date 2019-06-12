@@ -7,7 +7,7 @@ using UnityEngine.UI;
  * Character Selection [Tutorial][C#] - Unity 3d 
  * https://docs.unity3d.com/ScriptReference/UI.Dropdown-value.html */
 
-public class ChangeModell : MonoBehaviour
+public class ChangeModel : MonoBehaviour
 {
     // Attach this script to a DropDown GameObject
     Dropdown m_Dropdown;
@@ -42,7 +42,12 @@ public class ChangeModell : MonoBehaviour
             return;
         }
 
-        models[selectionIndex].SetActive(false);
+        foreach (Transform t in transform)
+        {
+            // to ensure that any other model (i.e., also imported models) are set to inactive
+            t.gameObject.SetActive(false);
+        }
+
         selectionIndex = index;
         activeObject = models[selectionIndex];
         activeObject.SetActive(true);
