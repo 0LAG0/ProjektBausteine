@@ -136,7 +136,7 @@ public class Voxelizer : MonoBehaviour
                             container[x, y, z].reverseNormal = new Vector3(0, 0, newZ);
                         } */
                         var newNormal = container[x, y, z].reverseNormal.normalized;
-                        container[x, y, z].reverseNormal = new Vector3(Mathf.Round(newNormal.x), 0, Mathf.Round(newNormal.z));
+                        container[x, y, z].reverseNormal = new Vector3(Mathf.Round(newNormal.x), Mathf.Round(newNormal.y), Mathf.Round(newNormal.z));
 
                         VoxelTools.MakeCube(new Vector3(x, y, z), Color.red, new Vector3(0.9f, 0.9f, 0.9f));
                         var newPos = new Vector3(x, y, z) + container[x, y, z].reverseNormal;
