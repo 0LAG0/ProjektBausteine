@@ -9810,6 +9810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textures:
+  - {fileID: 0}
   - {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
   - {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
   - {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
@@ -14645,6 +14646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textures:
+  - {fileID: 0}
   - {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
   - {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
   - {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
@@ -18689,6 +18691,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textures:
+  - {fileID: 0}
   - {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
   - {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
   - {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
@@ -21265,6 +21268,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textures:
+  - {fileID: 0}
   - {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
   - {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
   - {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
