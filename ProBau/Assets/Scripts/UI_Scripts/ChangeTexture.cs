@@ -13,16 +13,18 @@ public class ChangeTexture : MonoBehaviour
 
 {
     // Attach this script to a DropDown GameObject
-    /*Dropdown m_Dropdown;
-    // Fetch the DropDown component from the GameObject
-    m_Dropdown = GetComponent<Dropdown>();
-    */
+    // Dropdown m_Dropdown;
+    
     public Texture[] textures;
     public int currentTexture;
 
 
-    void Update()
+    public void Update()
     {
+
+        // Fetch the DropDown component from the GameObject
+        //m_Dropdown = GetComponent<Dropdown>();
+
         if (Input.GetKeyDown(KeyCode.A))
         {
             currentTexture++;

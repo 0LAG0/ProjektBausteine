@@ -4,16 +4,14 @@ using UnityEngine;
 
 /* Sources
  * Unity Tutorial: Open Panel on Button Click
- * https://www.youtube.com/watch?v=LziIlLB2Kt4&t=120s
- * Unity3D GUI 10: Windows (draggable)
- * https://www.youtube.com/watch?v=5VcARDodbb0 */
+ * https://www.youtube.com/watch?v=LziIlLB2Kt4&t=120s */
 
 
 public class OpenManual : MonoBehaviour
 {
     public GameObject Panel;
 
-    void OpenPanel()
+    public void OpenPanel()
     {
         if (Panel != null)
         {
