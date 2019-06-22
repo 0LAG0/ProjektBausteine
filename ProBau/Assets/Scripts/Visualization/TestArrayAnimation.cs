@@ -87,13 +87,13 @@ public class TestArrayAnimation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Animation anhalten mit T  & starten mit R
-        if ((Input.GetKey(KeyCode.T) && animationOn) || (animationOn && count == brickSize - 1))
+        //Animation mit G starten und H anhalten
+        if ((Input.GetKey(KeyCode.H) && animationOn) || (animationOn && count == brickSize - 1))
         {
             animationOn = false;
             // Debug.Log(animationOn);
         }
-        if (Input.GetKey(KeyCode.R) && animationOn == false && count < brickSize)
+        if (Input.GetKey(KeyCode.G) && animationOn == false && count < brickSize)
         {
             animationOn = true;
             count += 1;
@@ -155,9 +155,18 @@ public class TestArrayAnimation : MonoBehaviour
             count = steine.Length - 1;
             //Debug.Log(count);
         }
+        
+        // Reset Funktion
+        if (Input.GetKeyDown(KeyCode.R) && count >=0)
+        {
+            for (int i = 0; i <= steine.Length - 1; i++)
+            {
+                steine[i].SetActive(false);
+            }
+            count = 0;
+        }
 
-
-        //Ebenen werden angezeigt und bleiben angezeigt.
+        //Modell Ebene für Ebene aufbauen
         if (Input.GetKeyDown(KeyCode.K))
         {
             int naechster = (int) Mathf.Round(steine[count + 1].transform.position.y / layerHeight);
