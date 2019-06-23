@@ -10,7 +10,7 @@ public class ZoomControl : MonoBehaviour
     const float ZoomMaxBound = 180.0f;
     const float ZoomRatio = 0.2f;
 
-    GameObject modelContainer;
+    GameObject model;
     GameObject previewArea;
     Camera cam;
     float originalFieldOfView;
@@ -83,19 +83,15 @@ public class ZoomControl : MonoBehaviour
     // Set zoom (fov of cam) to an appropriate value depending on the ratio (fov to model size)
     public void AdjustZoom()
     {
-        modelContainer = GameObject.Find("ModelsContainer");
-        MeshFilter meshFilter = modelContainer.GetComponentInChildren<MeshFilter>(false);
+        model = GameObject.FindWithTag("model");
+        MeshFilter meshFilter = model.GetComponent<MeshFilter>();
 
         //if (meshFilter)
         //{
-        //    Debug.Log("mesh exists");
-
         //    Vector3 size = meshFilter.mesh.bounds.size;
 
         //    if (size.x > 0 && size.y > 0)
         //    {
-        //        Debug.Log("-- size > 0");
-
         //        float newFoV = Mathf.Max(size.x, size.y) / ZoomRatio;
 
         //        if (newFoV < ZoomMinBound || newFoV > ZoomMaxBound)
@@ -105,21 +101,14 @@ public class ZoomControl : MonoBehaviour
         //        }
 
         //        cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
-
-        //        Debug.Log("-- size: " + size);
-        //        Debug.Log("-- new fov: " + newFoV);
-        //        Debug.Log("-- cam.fieldOfView: " + cam.fieldOfView);
         //    }
         //}
         //else
         //{
-        //    Debug.Log("no mesh...");
               cam.fieldOfView = originalFieldOfView;
         //}
 
-        //Debug.Log("-----------------------------------------------------");
-
-        //Vector3 size = modelContainer.GetComponentInChildren<MeshRenderer>(false).bounds.size;
-        //Vector3 scale = modelContainer.GetComponentInChildren<MeshRenderer>(false).transform.lossyScale;
+        //Vector3 size = model.GetComponent<MeshRenderer>().bounds.size;
+        //Vector3 scale = model.GetComponent<MeshRenderer>().transform.lossyScale;
     }
 }
