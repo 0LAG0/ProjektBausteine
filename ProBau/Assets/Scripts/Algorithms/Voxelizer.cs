@@ -25,13 +25,13 @@ public class Voxelizer : MonoBehaviour
         bool hasUV = mesh.uv != null && mesh.uv.Length != 0;
 
 
-        mesh = OptimizeMesh(mesh, height);
+        mesh = MeshUtils.OptimizeMesh(mesh, height);
         if (mesh.normals == null)
         {
             Debug.Log("created normals");
         }
         mesh.RecalculateNormals();
-        float[] minMax = minMaxMesh(mesh);
+        float[] minMax = MeshUtils.GetBoundsPerDimension(mesh);
 
         int Height = (int)(minMax[3] / GlobalConstants.VoxelHeight) + 2;
         int Width = (int)(minMax[1] / GlobalConstants.VoxelWidth) + 2;
@@ -188,28 +188,6 @@ public class Voxelizer : MonoBehaviour
         return inputVoxels;
     }
 
-    private static Mesh OptimizeMesh(Mesh inputMesh, float height)
-    {
-        float[] minMax = minMaxMesh(inputMesh);//hat mal auf this.mesh refferenziert
-        float origHeight = minMax[3] - minMax[2];
-        float scale = height / origHeight;
-        var nMesh = inputMesh;
-        var vertsTemp = new Vector3[inputMesh.vertices.Length];
-        //Debug.Log(inputMesh.vertices[50]);
-        for (int n = 0; n < inputMesh.vertices.Length; n++)
-        {
-            Vector3 vert = inputMesh.vertices[n];
-            vert.x -= minMax[0];
-            vert.y -= minMax[2];
-            vert.z -= minMax[4];
-            vert *= scale;
-            vertsTemp[n] = vert;
-        }
-        nMesh.vertices = vertsTemp;
-        //Debug.Log(nMesh.vertices[50]);
-        return nMesh;
-    }
-
     private static int SnapToWidth(float val)
     {
         return (int)(Mathf.Round(val / GlobalConstants.VoxelWidth));
@@ -314,28 +292,5 @@ public class Voxelizer : MonoBehaviour
         if (Vector3.Dot(normal, max) >= 0) return true;
 
         return false;
-    }
-
-    private static float[] minMaxMesh(Mesh mesh)
-    {
-        Vector3[] vertices = mesh.vertices;
-        float xLowest = Mathf.Infinity;
-        float xHighest = 0;
-        float yLowest = Mathf.Infinity;
-        float yHighest = 0;
-        float zLowest = Mathf.Infinity;
-        float zHighest = 0;
-        int i = 0;
-        while (i < vertices.Length)
-        {
-            if (vertices[i].x < xLowest) xLowest = vertices[i].x;
-            if (vertices[i].x > xHighest) xHighest = vertices[i].x;
-            if (vertices[i].y < yLowest) yLowest = vertices[i].y;
-            if (vertices[i].y > yHighest) yHighest = vertices[i].y;
-            if (vertices[i].z < zLowest) zLowest = vertices[i].z;
-            if (vertices[i].z > zHighest) zHighest = vertices[i].z;
-            i++;
-        }
-        return new float[] { xLowest, xHighest, yLowest, yHighest, zLowest, zHighest };
     }
 }

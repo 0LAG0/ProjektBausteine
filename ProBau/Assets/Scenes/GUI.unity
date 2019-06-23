@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.448534, g: 0.4985817, b: 0.5756517, a: 1}
+  m_IndirectSpecularColor: {r: 0.4485337, g: 0.4985813, b: 0.57565093, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -795,7 +795,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1001 &98807435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -812,6 +812,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
+        type: 3}
+      propertyPath: m_TagString
+      value: model
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
         type: 3}
@@ -4202,9 +4207,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae4bf7b1b57d0d5438745853ad89f02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mesh: {fileID: 0}
-  tex: {fileID: 2800000, guid: ab8ff66e633562e42887f9475e7c1251, type: 3}
-  targetHeight: 200
+  height: 0
+  testMesh: {fileID: 0}
+  testTex: {fileID: 0}
 --- !u!4 &352871214
 Transform:
   m_ObjectHideFlags: 0
@@ -7971,7 +7976,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 777487700}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 395}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 916747626}
@@ -7984,7 +7989,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 458, y: 157}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &777487702
@@ -8932,7 +8937,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 903052040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 454, y: 158, z: -159}
+  m_LocalPosition: {x: 0, y: 0, z: -1000}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -10597,6 +10602,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 4b00e637c98e44e9f900897d922f8cc3,
+        type: 3}
+      propertyPath: m_TagString
+      value: model
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4b00e637c98e44e9f900897d922f8cc3,
         type: 3}
@@ -14869,7 +14879,7 @@ GameObject:
   - component: {fileID: 1474107975}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: model
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15197,6 +15207,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: HTWLogo
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a33d7c37b88984e5497d4b6ca8354c2b,
+        type: 3}
+      propertyPath: m_TagString
+      value: model
       objectReference: {fileID: 0}
     - target: {fileID: -5975033157549033438, guid: a33d7c37b88984e5497d4b6ca8354c2b,
         type: 3}
@@ -19216,7 +19231,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1861583032
 GameObject:
   m_ObjectHideFlags: 0
