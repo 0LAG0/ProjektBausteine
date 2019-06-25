@@ -71,11 +71,11 @@ public class ConversionController : MonoBehaviour
 
             if (bb.isFlipped)
             {
-                //VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
+                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y - 0.1f, bb.extends.x - 0.1f));
             }
             else
             {
-                //VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
+                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
             }
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
