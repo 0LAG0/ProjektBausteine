@@ -4,12 +4,11 @@ public class MeshUtils
 {
     public static Mesh OptimizeMesh(Mesh inputMesh, float height)
     {
-        float[] minMax = GetBoundsPerDimension(inputMesh);//hat mal auf this.mesh refferenziert
+        float[] minMax = GetBoundsPerDimension(inputMesh);
         float origHeight = minMax[3] - minMax[2];
         float scale = height / origHeight;
         var nMesh = inputMesh;
         var vertsTemp = new Vector3[inputMesh.vertices.Length];
-        //Debug.Log(inputMesh.vertices[50]);
         for (int n = 0; n < inputMesh.vertices.Length; n++)
         {
             Vector3 vert = inputMesh.vertices[n];
@@ -20,7 +19,6 @@ public class MeshUtils
             vertsTemp[n] = vert;
         }
         nMesh.vertices = vertsTemp;
-        //Debug.Log(nMesh.vertices[50]);
         return nMesh;
     }
 

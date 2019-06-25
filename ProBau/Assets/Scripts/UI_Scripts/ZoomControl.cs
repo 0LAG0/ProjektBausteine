@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 // source Zoom, ZoomIn, ZoomOut, Update: http://gyanendushekhar.com/2018/03/03/zoom-using-mouse-scroll-touch-unity-tutorial/
 // source AjustZoom: https://forum.unity.com/threads/fit-object-exactly-into-perspective-cameras-field-of-view-focus-the-object.496472/
@@ -10,6 +11,7 @@ public class ZoomControl : MonoBehaviour
     const float ZoomMinBound = 0.1f;
     const float ZoomMaxBound = 180f;
 
+    public Slider heightSlider;
     Camera cam;
     float originalFieldOfView;
     GameObject model;
@@ -78,12 +80,14 @@ public class ZoomControl : MonoBehaviour
         if (model != null)
         {
             MeshFilter meshFilter = model.GetComponentInChildren<MeshFilter>();
-
             cam.fieldOfView = originalFieldOfView;
 
             if (meshFilter)
             {
-                Mesh mesh = meshFilter.mesh;
+                var height = (int)Mathf.Round(heightSlider.value);
+                Mesh mesh = MeshUtils.OptimizeMesh(meshFilter.mesh, height);
+                mesh.RecalculateBounds();
+                meshFilter.mesh = mesh;
 
                 Vector3 size = mesh.bounds.size;
 
@@ -92,7 +96,7 @@ public class ZoomControl : MonoBehaviour
                 float cameraView = 2f * Mathf.Tan(0.5f * Mathf.Deg2Rad * cam.fieldOfView);  // Visible height 1 meter in front of cam
                 float distance = objectSize / cameraView;    // Combined wanted distance from the object
                 distance += 0.5f * objectSize;  // Estimated offset from the center to the outside of the object
-
+                
                 cam.transform.position = mesh.bounds.center + model.transform.position - distance * cam.transform.forward;
             }
         }
