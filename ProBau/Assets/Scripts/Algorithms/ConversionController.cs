@@ -26,35 +26,6 @@ public class ConversionController : MonoBehaviour
     {
         BrickItConfiguration testCFG = getTestCfg();
         runBrickification(testCFG);
-        /*
-        BlockSelector selector = new BlockSelector(null);
-        var tex = ColorCalculation.colorCalculate(testCFG.tex, GlobalConstants.LegoColors);
-        var voxels = Voxelizer.Voxelize(testCFG.mesh, testCFG.tex, testCFG.height, 0);
-        //voxels = Voxelizer.AddWidth(voxels, 2);
-        var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
-        ///Debug.Log(buildingBlocks.Count);
-        foreach (BuildingBlock bb in buildingBlocks)
-        {
-            //bb.calcAdjacencies(voxels, buildingBlocks);
-            Vector3 position = new Vector3(bb.pos.x, bb.pos.y * GlobalConstants.VoxelHeight, bb.pos.z);
-            Color testColor = Color.green;
-            if (bb.adjacencies.Count==0)
-            {
-                testColor = Color.magenta;
-            }
-
-            if (bb.isFlipped)
-            {
-                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z - 0.1f, bb.extends.y * GlobalConstants.VoxelHeight - 0.1f, bb.extends.x - 0.1f));
-            }
-            else
-            {
-                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x - 0.1f, bb.extends.y - 0.1f, bb.extends.z - 0.1f));
-            }
-
-            //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
-        }
-        */
     }
 
     public void runBrickification(BrickItConfiguration cfg)

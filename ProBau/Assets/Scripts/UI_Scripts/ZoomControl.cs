@@ -75,23 +75,26 @@ public class ZoomControl : MonoBehaviour
     public void AdjustZoom()
     {
         model = GameObject.FindWithTag("model");
-        MeshFilter meshFilter = model.GetComponentInChildren<MeshFilter>();
-
-        cam.fieldOfView = originalFieldOfView;
-
-        if (meshFilter)
+        if (model != null)
         {
-            Mesh mesh = meshFilter.mesh;
+            MeshFilter meshFilter = model.GetComponentInChildren<MeshFilter>();
 
-            Vector3 size = mesh.bounds.size;
+            cam.fieldOfView = originalFieldOfView;
 
-            float objectSize = Mathf.Max(size.x, size.y, size.z);
+            if (meshFilter)
+            {
+                Mesh mesh = meshFilter.mesh;
 
-            float cameraView = 2f * Mathf.Tan(0.5f * Mathf.Deg2Rad * cam.fieldOfView);  // Visible height 1 meter in front of cam
-            float distance = objectSize / cameraView;    // Combined wanted distance from the object
-            distance += 0.5f * objectSize;  // Estimated offset from the center to the outside of the object
+                Vector3 size = mesh.bounds.size;
 
-            cam.transform.position = mesh.bounds.center + model.transform.position - distance * cam.transform.forward;
+                float objectSize = Mathf.Max(size.x, size.y, size.z);
+
+                float cameraView = 2f * Mathf.Tan(0.5f * Mathf.Deg2Rad * cam.fieldOfView);  // Visible height 1 meter in front of cam
+                float distance = objectSize / cameraView;    // Combined wanted distance from the object
+                distance += 0.5f * objectSize;  // Estimated offset from the center to the outside of the object
+
+                cam.transform.position = mesh.bounds.center + model.transform.position - distance * cam.transform.forward;
+            }
         }
     }
 }
