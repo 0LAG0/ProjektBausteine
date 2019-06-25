@@ -95,11 +95,6 @@ public class Voxelizer : MonoBehaviour
                             {
                                 container[x, y, z].id = 0;
                                 container[x, y, z].color = voxelColor;
-
-
-
-
-
                                 voxelcount++;
                             }
                         }
@@ -116,40 +111,16 @@ public class Voxelizer : MonoBehaviour
                 {
                     if (container[x, y, z].id != null)
                     {
-                        /*
-                        var xAbs = Mathf.Abs(container[x, y, z].reverseNormal.x);
-                        var yAbs = Mathf.Abs(container[x, y, z].reverseNormal.y);
-                        var zAbs = Mathf.Abs(container[x, y, z].reverseNormal.z);
-                        if (xAbs < yAbs && xAbs < zAbs)
-                        {
-                            var newX = (int)Mathf.Sign(container[x, y, z].reverseNormal.x);
-                            container[x, y, z].reverseNormal = new Vector3(newX, 0, 0);
-                        }
-                        else if (yAbs < xAbs && yAbs < zAbs)
-                        {
-                            var newY = (int)Mathf.Sign(container[x, y, z].reverseNormal.y);
-                            container[x, y, z].reverseNormal = new Vector3(0, newY, 0);
-                        }
-                        else
-                        {
-                            var newZ = (int)Mathf.Sign(container[x, y, z].reverseNormal.z);
-                            container[x, y, z].reverseNormal = new Vector3(0, 0, newZ);
-                        } */
                         var newNormal = container[x, y, z].reverseNormal.normalized;
                         container[x, y, z].reverseNormal = new Vector3(Mathf.Round(newNormal.x), Mathf.Round(newNormal.y), Mathf.Round(newNormal.z));
 
-                        VoxelTools.MakeCube(new Vector3(x, y, z), Color.red, new Vector3(0.9f, 0.9f, 0.9f));
+                        //VoxelTools.MakeCube(new Vector3(x, y, z), Color.red, new Vector3(0.9f, 0.9f, 0.9f));
                         var newPos = new Vector3(x, y, z) + container[x, y, z].reverseNormal;
-                        if (container[(int)newPos.x, (int)newPos.y, (int)newPos.z].id==null)
-                            VoxelTools.MakeCube(newPos, Color.blue, new Vector3(0.9f, 0.9f, 0.9f));
-                        Debug.DrawLine(
-                                       //start
-                                       new Vector3(x, y, z),
-                                       //end
-                                       new Vector3(x, y, z) +
-                                       new Vector3(container[x, y, z].reverseNormal.x, container[x, y, z].reverseNormal.y, container[x, y, z].reverseNormal.z) * 2
-
-                                       , Color.magenta, 10000.0f);
+                        if (container[(int)newPos.x, (int)newPos.y, (int)newPos.z].id == null)
+                        {
+                            container[(int)newPos.x, (int)newPos.y, (int)newPos.z].id = 0;
+                            container[(int)newPos.x, (int)newPos.y, (int)newPos.z].color = container[x, y, z].color;
+                        }
                     }
                 }
             }
