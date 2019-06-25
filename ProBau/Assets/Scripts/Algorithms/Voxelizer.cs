@@ -26,7 +26,7 @@ public class Voxelizer : MonoBehaviour
 
 
 
-        mesh = OptimizeMesh(mesh, height);
+        mesh = MeshUtils.OptimizeMesh(mesh, height);
         mesh.RecalculateNormals();
         float[] minMax = MeshUtils.GetBoundsPerDimension(mesh);
 
@@ -231,28 +231,6 @@ public class Voxelizer : MonoBehaviour
         return vectorsToCheck;
     }
 
-    private static Mesh OptimizeMesh(Mesh inputMesh, float height)
-    {
-        float[] minMax = minMaxMesh(inputMesh);//hat mal auf this.mesh refferenziert
-        float origHeight = minMax[3] - minMax[2];
-        float scale = height / origHeight;
-        var nMesh = inputMesh;
-        var vertsTemp = new Vector3[inputMesh.vertices.Length];
-        //Debug.Log(inputMesh.vertices[50]);
-        for (int n = 0; n < inputMesh.vertices.Length; n++)
-        {
-            Vector3 vert = inputMesh.vertices[n];
-            vert.x -= minMax[0];
-            vert.y -= minMax[2];
-            vert.z -= minMax[4];
-            vert *= scale;
-            vertsTemp[n] = vert;
-        }
-        nMesh.vertices = vertsTemp;
-        //Debug.Log(nMesh.vertices[50]);
-        return nMesh;
-    }
-    
     private static int SnapToWidth(float val)
     {
         return (int)(Mathf.Round(val / GlobalConstants.VoxelWidth));
