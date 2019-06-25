@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.448534, g: 0.4985817, b: 0.5756517, a: 1}
+  m_IndirectSpecularColor: {r: 0.4485337, g: 0.4985813, b: 0.57565093, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1069,7 +1069,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1001 &98807435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1086,6 +1086,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
+        type: 3}
+      propertyPath: m_TagString
+      value: model
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
         type: 3}
@@ -11093,6 +11098,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5173d493e50fa43658813e17d1ae5aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textures: []
+  myDropdown: {fileID: 0}
 --- !u!1 &998440123
 GameObject:
   m_ObjectHideFlags: 0
@@ -11581,6 +11588,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 4b00e637c98e44e9f900897d922f8cc3,
+        type: 3}
+      propertyPath: m_TagString
+      value: model
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4b00e637c98e44e9f900897d922f8cc3,
         type: 3}
@@ -17052,6 +17064,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HTWLogo
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: a33d7c37b88984e5497d4b6ca8354c2b,
+        type: 3}
+      propertyPath: m_TagString
+      value: model
+      objectReference: {fileID: 0}
     - target: {fileID: -5975033157549033438, guid: a33d7c37b88984e5497d4b6ca8354c2b,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -18242,6 +18259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6d29fab0be2490f8937aff5d2e3eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Panel: {fileID: 0}
 --- !u!1 &1592349371
 GameObject:
   m_ObjectHideFlags: 0
@@ -18627,6 +18645,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6d29fab0be2490f8937aff5d2e3eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Panel: {fileID: 0}
 --- !u!1 &1635195608
 GameObject:
   m_ObjectHideFlags: 0
@@ -21203,7 +21222,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1861583032
 GameObject:
   m_ObjectHideFlags: 0
@@ -21303,6 +21322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5173d493e50fa43658813e17d1ae5aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textures: []
+  myDropdown: {fileID: 0}
 --- !u!1 &1865354314
 GameObject:
   m_ObjectHideFlags: 0
@@ -23995,6 +24016,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5173d493e50fa43658813e17d1ae5aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  textures: []
+  myDropdown: {fileID: 0}
 --- !u!1 &2120328607
 GameObject:
   m_ObjectHideFlags: 0
