@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 /// <summary>
@@ -17,7 +18,6 @@ public class Voxelizer : MonoBehaviour
     /// <param name="tex"></param>
     /// <param name="height"></param>
     /// <returns></returns>
-    /// <remarks>NEEDS TO HANDLE COLOR!</remarks>
     public static Voxel[,,] Voxelize(Mesh mesh, Texture2D tex, float height, int depth)
     {
         var startT = System.DateTime.Now;
@@ -25,11 +25,8 @@ public class Voxelizer : MonoBehaviour
         bool hasUV = mesh.uv != null && mesh.uv.Length != 0;
 
 
-        mesh = MeshUtils.OptimizeMesh(mesh, height);
-        if (mesh.normals == null)
-        {
-            Debug.Log("created normals");
-        }
+
+        mesh = OptimizeMesh(mesh, height);
         mesh.RecalculateNormals();
         float[] minMax = MeshUtils.GetBoundsPerDimension(mesh);
 
@@ -40,7 +37,6 @@ public class Voxelizer : MonoBehaviour
         var verticez = mesh.vertices;
         var triangles = mesh.triangles;
         var normals = mesh.normals;
-        //Texture2D newTex = ColorCalculation.colorCalculate(tex, GlobalConstants.LegoColors);
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
@@ -51,28 +47,8 @@ public class Voxelizer : MonoBehaviour
             Vector3 aN = normals[triangles[i]];
             Vector3 bN = normals[triangles[i + 1]];
             Vector3 cN = normals[triangles[i + 2]];
-            //Calc face normal and convert to direction
+
             Vector3 normal = (aN + bN + cN) / 3;
-            /*
-            var xAbs = Mathf.Abs(normal.x);
-            var yAbs = Mathf.Abs(normal.y);
-            var zAbs = Mathf.Abs(normal.z);
-            if (xAbs < yAbs && xAbs < zAbs)
-            {
-                var newX = -(int)Mathf.Sign(normal.x);
-                normal = new Vector3(newX, 0, 0);
-            }
-            else if (yAbs < xAbs && yAbs < zAbs)
-            {
-                var newY = -(int)Mathf.Sign(normal.y);
-                normal = new Vector3(0, newY, 0);
-            }
-            else
-            {
-                var newZ = -(int)Mathf.Sign(normal.z);
-                normal = new Vector3(0, 0, newZ);
-            }
-            */
             Vector3 min = Vector3.Min(a, Vector3.Min(b, c));
             Vector3 max = Vector3.Max(a, Vector3.Max(b, c));
             Color voxelColor = GlobalConstants.stockColor;
@@ -95,11 +71,6 @@ public class Voxelizer : MonoBehaviour
                             {
                                 container[x, y, z].id = 0;
                                 container[x, y, z].color = voxelColor;
-
-
-
-
-
                                 voxelcount++;
                             }
                         }
@@ -116,40 +87,8 @@ public class Voxelizer : MonoBehaviour
                 {
                     if (container[x, y, z].id != null)
                     {
-                        /*
-                        var xAbs = Mathf.Abs(container[x, y, z].reverseNormal.x);
-                        var yAbs = Mathf.Abs(container[x, y, z].reverseNormal.y);
-                        var zAbs = Mathf.Abs(container[x, y, z].reverseNormal.z);
-                        if (xAbs < yAbs && xAbs < zAbs)
-                        {
-                            var newX = (int)Mathf.Sign(container[x, y, z].reverseNormal.x);
-                            container[x, y, z].reverseNormal = new Vector3(newX, 0, 0);
-                        }
-                        else if (yAbs < xAbs && yAbs < zAbs)
-                        {
-                            var newY = (int)Mathf.Sign(container[x, y, z].reverseNormal.y);
-                            container[x, y, z].reverseNormal = new Vector3(0, newY, 0);
-                        }
-                        else
-                        {
-                            var newZ = (int)Mathf.Sign(container[x, y, z].reverseNormal.z);
-                            container[x, y, z].reverseNormal = new Vector3(0, 0, newZ);
-                        } */
                         var newNormal = container[x, y, z].reverseNormal.normalized;
                         container[x, y, z].reverseNormal = new Vector3(Mathf.Round(newNormal.x), Mathf.Round(newNormal.y), Mathf.Round(newNormal.z));
-
-                        VoxelTools.MakeCube(new Vector3(x, y, z), Color.red, new Vector3(0.9f, 0.9f, 0.9f));
-                        var newPos = new Vector3(x, y, z) + container[x, y, z].reverseNormal;
-                        if (container[(int)newPos.x, (int)newPos.y, (int)newPos.z].id==null)
-                            VoxelTools.MakeCube(newPos, Color.blue, new Vector3(0.9f, 0.9f, 0.9f));
-                        Debug.DrawLine(
-                                       //start
-                                       new Vector3(x, y, z),
-                                       //end
-                                       new Vector3(x, y, z) +
-                                       new Vector3(container[x, y, z].reverseNormal.x, container[x, y, z].reverseNormal.y, container[x, y, z].reverseNormal.z) * 2
-
-                                       , Color.magenta, 10000.0f);
                     }
                 }
             }
@@ -168,26 +107,152 @@ public class Voxelizer : MonoBehaviour
                 {
                     var curVoxel = inputVoxels[x, y, z];
                     var posVector = new Vector3Int(x, y, z);
-                    if (curVoxel.id != null)
+                    if (curVoxel.id != null && curVoxel.id != -1)
                     {
-                        for (int i = 1; i < width + 1; i++)
+                        List<Vector3Int> vectorsToCheck = getVectorsToCheck(curVoxel);
+                        for (int i = 1; i <= width; i++)
                         {
-                            var nextPos = (i * curVoxel.reverseNormal) + new Vector3Int(x, y, z);
-                            nextPos = nextPos.ClampToPositive();
-                            if (inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id != null)
+                            var nextPos = (i * curVoxel.reverseNormal) + posVector;
+                            if (nextPos.x < 0 || nextPos.y < 0 || nextPos.z < 0 || nextPos.x >= inputVoxels.GetLength(0) || nextPos.y >= inputVoxels.GetLength(1) || nextPos.z >= inputVoxels.GetLength(2) || inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id != null)
                             {
                                 break;
                             }
-                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id = 0;
-                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].color = GlobalConstants.stockColor;
+                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id = -1;
+                            Color colorFromFirstFill = getClosestColorOnLayer(inputVoxels, nextPos, width);
+                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].color = colorFromFirstFill;
+                            foreach (Vector3Int vec in vectorsToCheck)
+                            {
+                                for (int s = 0; s <= i; s++)
+                                {
+                                    var curPos = nextPos + (vec * s);
+                                    var curId = inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].id;
+                                    if (curId == 0)
+                                    {
+                                        break;
+                                    }
+                                    if (curId == -1)
+                                    {
+                                        continue;
+                                    }
+                                    if (inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].id == null)
+                                    {
+                                        Color colorFromSecondFill = getClosestColorOnLayer(inputVoxels, curPos, width);
+                                        inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].id = -1;
+                                        inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].color = colorFromSecondFill;
+                                    }
+                                }
+                            }
                         }
+                    }
+                }
+            }
+        }
+        for (int x = 0; x < inputVoxels.GetLength(0); x++)
+        {
+            for (int y = 0; y < inputVoxels.GetLength(1); y++)
+            {
+                for (int z = 0; z < inputVoxels.GetLength(2); z++)
+                {
+                    if (inputVoxels[x, y, z].id == -1)
+                    {
+                        inputVoxels[x, y, z].id = 0;
                     }
                 }
             }
         }
         return inputVoxels;
     }
+    
+    private static Color getClosestColorOnLayer(Voxel[,,] inputVoxels, Vector3 pos, int widthToCheck)
+    {
+        for (int s = 1; s <= widthToCheck+1; s++)
+        {
+            List<Vector3> colorChechkVectors = new List<Vector3>()
+            {
+                new Vector3(1, 0, 0),
+                new Vector3(-1, 0, 0),
+                new Vector3(0, 0, 1),
+                new Vector3(0, 0, -1),
+            };
+            foreach (var vec in colorChechkVectors)
+            {
+                var nextPos = (s * vec) + pos;
+                if (nextPos.x >= 0 && nextPos.y >= 0 && nextPos.z >= 0 && nextPos.x < inputVoxels.GetLength(0) && nextPos.y < inputVoxels.GetLength(1) && nextPos.z < inputVoxels.GetLength(2))
+                {
+                    var curVoxel = inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z];
+                    if (curVoxel.id == 0)
+                    {
+                        return curVoxel.color;
+                    }
+                }
+            }
+        }
+        return GlobalConstants.stockColor;
+    }
 
+    private static List<Vector3Int> getVectorsToCheck(Voxel curVoxel)
+    {
+        List<Vector3Int> vectorsToCheck = new List<Vector3Int>();
+        if (curVoxel.reverseNormal.magnitude > 1)
+        {
+            // diagonal
+            if (Mathf.Abs(curVoxel.reverseNormal.x) == 1)
+            {
+                vectorsToCheck.Add(new Vector3Int((int)-curVoxel.reverseNormal.x, 0, 0));
+            }
+            if (Mathf.Abs(curVoxel.reverseNormal.y) == 1)
+            {
+                vectorsToCheck.Add(new Vector3Int(0, (int)-curVoxel.reverseNormal.y, 0));
+            }
+            if (Mathf.Abs(curVoxel.reverseNormal.z) == 1)
+            {
+                vectorsToCheck.Add(new Vector3Int(0, 0, (int)-curVoxel.reverseNormal.z));
+            }
+        }
+        else
+        {
+            // straight
+            if (Mathf.Abs(curVoxel.reverseNormal.x) == 1)
+            {
+                vectorsToCheck.AddRange(GlobalConstants.AllPossibleStoneDirections.Where(vec => vec.x == 0));
+            }
+
+            else if (Mathf.Abs(curVoxel.reverseNormal.y) == 1)
+            {
+                vectorsToCheck.AddRange(GlobalConstants.AllPossibleStoneDirections.Where(vec => vec.y == 0));
+            }
+
+            else
+            {
+                vectorsToCheck.AddRange(GlobalConstants.AllPossibleStoneDirections.Where(vec => vec.z == 0));
+            }
+        }
+
+        return vectorsToCheck;
+    }
+
+    private static Mesh OptimizeMesh(Mesh inputMesh, float height)
+    {
+        float[] minMax = minMaxMesh(inputMesh);//hat mal auf this.mesh refferenziert
+        float origHeight = minMax[3] - minMax[2];
+        float scale = height / origHeight;
+        var nMesh = inputMesh;
+        var vertsTemp = new Vector3[inputMesh.vertices.Length];
+        //Debug.Log(inputMesh.vertices[50]);
+        for (int n = 0; n < inputMesh.vertices.Length; n++)
+        {
+            Vector3 vert = inputMesh.vertices[n];
+            vert.x -= minMax[0];
+            vert.y -= minMax[2];
+            vert.z -= minMax[4];
+            vert *= scale;
+            vertsTemp[n] = vert;
+        }
+        nMesh.vertices = vertsTemp;
+        //Debug.Log(nMesh.vertices[50]);
+        return nMesh;
+    }
+    
     private static int SnapToWidth(float val)
     {
         return (int)(Mathf.Round(val / GlobalConstants.VoxelWidth));
