@@ -8,13 +8,11 @@ public class ZoomControl : MonoBehaviour
     const float MouseZoomSpeed = 15f;
     const float TouchZoomSpeed = 0.1f;
     const float ZoomMinBound = 0.1f;
-    const float ZoomMaxBound = 180.0f;
-    const float ZoomRatio = 0.2f;
+    const float ZoomMaxBound = 180f;
 
-    GameObject model;
-    GameObject previewArea;
     Camera cam;
     float originalFieldOfView;
+    GameObject model;
 
     // Use this for initialization
     void Start()
@@ -25,43 +23,31 @@ public class ZoomControl : MonoBehaviour
 
     void Update()
     {
-        previewArea = GameObject.Find("Preview_Area");
-        RectTransform previewRectTransform = previewArea.GetComponent<RectTransform>();
-
-        Vector3 mousePos = Input.mousePosition;
-        Vector2 normalizedMousePos = new Vector2(mousePos.x / Screen.width, mousePos.y / Screen.height);
-
-        if (normalizedMousePos.x > previewRectTransform.anchorMin.x
-            && normalizedMousePos.x < previewRectTransform.anchorMax.x
-            && normalizedMousePos.y > previewRectTransform.anchorMin.y
-            && normalizedMousePos.y < previewRectTransform.anchorMax.y
-            )
+        if (Input.touchSupported)
         {
-            if (Input.touchSupported)
+            // Pinch to zoom
+            if (Input.touchCount == 2)
             {
-                // Pinch to zoom
-                if (Input.touchCount == 2)
-                {
-                    // get current touch positions
-                    Touch tZero = Input.GetTouch(0);
-                    Touch tOne = Input.GetTouch(1);
-                    // get touch position from the previous frame
-                    Vector2 tZeroPrevious = tZero.position - tZero.deltaPosition;
-                    Vector2 tOnePrevious = tOne.position - tOne.deltaPosition;
+                // get current touch positions
+                Touch tZero = Input.GetTouch(0);
+                Touch tOne = Input.GetTouch(1);
 
-                    float oldTouchDistance = Vector2.Distance(tZeroPrevious, tOnePrevious);
-                    float currentTouchDistance = Vector2.Distance(tZero.position, tOne.position);
+                // get touch position from the previous frame
+                Vector2 tZeroPrevious = tZero.position - tZero.deltaPosition;
+                Vector2 tOnePrevious = tOne.position - tOne.deltaPosition;
 
-                    // get offset value
-                    float deltaDistance = oldTouchDistance - currentTouchDistance;
-                    Zoom(deltaDistance, TouchZoomSpeed);
-                }
+                float oldTouchDistance = Vector2.Distance(tZeroPrevious, tOnePrevious);
+                float currentTouchDistance = Vector2.Distance(tZero.position, tOne.position);
+
+                // get offset value
+                float deltaDistance = oldTouchDistance - currentTouchDistance;
+                Zoom(deltaDistance, TouchZoomSpeed);
             }
-            else
-            {
-                float scroll = Input.GetAxis("Mouse ScrollWheel");
-                Zoom(-scroll, MouseZoomSpeed);
-            }
+        }
+        else
+        {
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            Zoom(-scroll, MouseZoomSpeed);
         }
     }
 
@@ -89,31 +75,23 @@ public class ZoomControl : MonoBehaviour
     public void AdjustZoom()
     {
         model = GameObject.FindWithTag("model");
-        MeshFilter meshFilter = model.GetComponent<MeshFilter>();
+        MeshFilter meshFilter = model.GetComponentInChildren<MeshFilter>();
 
-        //if (meshFilter)
-        //{
-        //    Vector3 size = meshFilter.mesh.bounds.size;
+        cam.fieldOfView = originalFieldOfView;
 
-        //    if (size.x > 0 && size.y > 0)
-        //    {
-        //        float newFoV = Mathf.Max(size.x, size.y) / ZoomRatio;
+        if (meshFilter)
+        {
+            Mesh mesh = meshFilter.mesh;
 
-        //        if (newFoV < ZoomMinBound || newFoV > ZoomMaxBound)
-        //        {
-        //            // TODO scale
-        //            Debug.Log("---- scaling needed");
-        //        }
+            Vector3 size = mesh.bounds.size;
 
-        //        cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
-        //    }
-        //}
-        //else
-        //{
-              cam.fieldOfView = originalFieldOfView;
-        //}
+            float objectSize = Mathf.Max(size.x, size.y, size.z);
 
-        //Vector3 size = model.GetComponent<MeshRenderer>().bounds.size;
-        //Vector3 scale = model.GetComponent<MeshRenderer>().transform.lossyScale;
+            float cameraView = 2f * Mathf.Tan(0.5f * Mathf.Deg2Rad * cam.fieldOfView);  // Visible height 1 meter in front of cam
+            float distance = objectSize / cameraView;    // Combined wanted distance from the object
+            distance += 0.5f * objectSize;  // Estimated offset from the center to the outside of the object
+
+            cam.transform.position = mesh.bounds.center + model.transform.position - distance * cam.transform.forward;
+        }
     }
 }
