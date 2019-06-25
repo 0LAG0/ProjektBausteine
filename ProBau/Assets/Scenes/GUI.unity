@@ -795,7 +795,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1001 &98807435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -876,17 +876,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.70023614
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.7002352
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.70023566
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b39c7b1a890a047b9a1ddb4e9bf43a79, type: 3}
@@ -8909,7 +8909,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 151
+  near clip plane: 1
   far clip plane: 1478.6
   field of view: 60
   orthographic: 0
@@ -10666,17 +10666,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 4b00e637c98e44e9f900897d922f8cc3,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 7.8642406
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4b00e637c98e44e9f900897d922f8cc3,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 8.741792
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4b00e637c98e44e9f900897d922f8cc3,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 8.741792
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b00e637c98e44e9f900897d922f8cc3, type: 3}
@@ -14963,7 +14963,7 @@ Transform:
   m_GameObject: {fileID: 1474107974}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 300, y: 300, z: 300}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 777487701}
   m_RootOrder: 1
@@ -15276,17 +15276,17 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: a33d7c37b88984e5497d4b6ca8354c2b,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 40
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a33d7c37b88984e5497d4b6ca8354c2b,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 40
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a33d7c37b88984e5497d4b6ca8354c2b,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 40
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a33d7c37b88984e5497d4b6ca8354c2b, type: 3}
@@ -19231,7 +19231,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1 &1861583032
 GameObject:
   m_ObjectHideFlags: 0
