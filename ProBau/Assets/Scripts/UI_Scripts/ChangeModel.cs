@@ -16,10 +16,10 @@ public class ChangeModel : MonoBehaviour
     // Default index of the model
     private int selectionIndex = 0;
 
-    public GameObject teapot;
-    public GameObject bunny;
-    public GameObject htwLogo;
-    public GameObject brickItLogo;
+    //public GameObject teapot;
+    //public GameObject bunny;
+    //public GameObject htwLogo;
+    //public GameObject brickItLogo;
 
     public GameObject activeObject { get; private set; }
 
@@ -58,6 +58,8 @@ public class ChangeModel : MonoBehaviour
         activeObject.SetActive(true);
 
         // -- NEW APPROACH --
+        // TODO: set teapot, bunny, ...
+        // TODO: rotate by 180° on y
         //GameObject model = GameObject.FindGameObjectWithTag("model");
 
         //if (model)
