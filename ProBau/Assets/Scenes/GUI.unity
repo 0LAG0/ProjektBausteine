@@ -795,7 +795,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1001 &98807435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3874,7 +3874,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "W\xE4hle eine Textur"
+  m_Text: "F\xFCllt sich bei start der Anwendung automatisch"
 --- !u!222 &338201001
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17172,6 +17172,7 @@ GameObject:
   - component: {fileID: 1724165625}
   - component: {fileID: 1724165624}
   - component: {fileID: 1724165623}
+  - component: {fileID: 1724165626}
   m_Layer: 5
   m_Name: Dropdown_Texture
   m_TagString: Untagged
@@ -17249,19 +17250,22 @@ MonoBehaviour:
   m_Value: 0
   m_Options:
     m_Options:
-    - m_Text: "W\xE4hle eine Textur"
-      m_Image: {fileID: 0}
-    - m_Text: '...'
-      m_Image: {fileID: 0}
-    - m_Text: '...'
-      m_Image: {fileID: 0}
-    - m_Text: '...'
-      m_Image: {fileID: 0}
-    - m_Text: ..
+    - m_Text: "F\xFCllt sich bei start der Anwendung automatisch"
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1724165626}
+        m_MethodName: Select
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Dropdown+DropdownEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_AlphaFadeSpeed: 0.15
@@ -17302,6 +17306,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1724165621}
   m_CullTransparentMesh: 1
+--- !u!114 &1724165626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724165621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e15c905aa1340fd44910432cff31dbbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelSelector: {fileID: 777487702}
+  namedTextures:
+  - name: Ceramic
+    texture: {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
+  - name: Cement
+    texture: {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
+  - name: HTW Green
+    texture: {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
+  - name: Painting
+    texture: {fileID: 2800000, guid: c461c60bec6b54f49bfde648c637e101, type: 3}
+  - name: Leo
+    texture: {fileID: 2800000, guid: adb34c4290fa143138d18b9211590bcb, type: 3}
+  - name: Sky
+    texture: {fileID: 2800000, guid: 5969792f6b80c42a5bb269d764a97904, type: 3}
+  - name: Wood
+    texture: {fileID: 2800000, guid: dae70420be4874c3f9206d79bbf17d74, type: 3}
+  activeTexture: {fileID: 0}
 --- !u!1 &1733434427
 GameObject:
   m_ObjectHideFlags: 0
@@ -19082,7 +19115,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1861583032
 GameObject:
   m_ObjectHideFlags: 0
