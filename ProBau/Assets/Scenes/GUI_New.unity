@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.4485337, g: 0.4985813, b: 0.57565093, a: 1}
+  m_IndirectSpecularColor: {r: 0.448534, g: 0.4985817, b: 0.5756517, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1125,7 +1125,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: b39c7b1a890a047b9a1ddb4e9bf43a79,
         type: 3}
@@ -3057,8 +3057,6 @@ MonoBehaviour:
   m_Options:
     m_Options:
     - m_Text: "W\xE4hle ein Modell"
-      m_Image: {fileID: 0}
-    - m_Text: Beispiel Cube
       m_Image: {fileID: 0}
     - m_Text: Utah Teapot
       m_Image: {fileID: 0}
@@ -11095,16 +11093,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5173d493e50fa43658813e17d1ae5aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textures:
-  - {fileID: 0}
-  - {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
-  - {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
-  - {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
-  - {fileID: 2800000, guid: adb34c4290fa143138d18b9211590bcb, type: 3}
-  - {fileID: 2800000, guid: c461c60bec6b54f49bfde648c637e101, type: 3}
-  - {fileID: 2800000, guid: 5969792f6b80c42a5bb269d764a97904, type: 3}
-  - {fileID: 2800000, guid: dae70420be4874c3f9206d79bbf17d74, type: 3}
-  myDropdown: {fileID: 22720415}
 --- !u!1 &998440123
 GameObject:
   m_ObjectHideFlags: 0
@@ -11632,7 +11620,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: 4b00e637c98e44e9f900897d922f8cc3,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 4b00e637c98e44e9f900897d922f8cc3,
         type: 3}
@@ -17107,7 +17095,7 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: a33d7c37b88984e5497d4b6ca8354c2b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: a33d7c37b88984e5497d4b6ca8354c2b,
         type: 3}
@@ -18254,7 +18242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6d29fab0be2490f8937aff5d2e3eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Panel: {fileID: 1075951299}
 --- !u!1 &1592349371
 GameObject:
   m_ObjectHideFlags: 0
@@ -18640,7 +18627,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6d29fab0be2490f8937aff5d2e3eaf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Panel: {fileID: 1075951299}
 --- !u!1 &1635195608
 GameObject:
   m_ObjectHideFlags: 0
@@ -21317,16 +21303,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5173d493e50fa43658813e17d1ae5aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textures:
-  - {fileID: 0}
-  - {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
-  - {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
-  - {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
-  - {fileID: 2800000, guid: adb34c4290fa143138d18b9211590bcb, type: 3}
-  - {fileID: 2800000, guid: c461c60bec6b54f49bfde648c637e101, type: 3}
-  - {fileID: 2800000, guid: 5969792f6b80c42a5bb269d764a97904, type: 3}
-  - {fileID: 2800000, guid: dae70420be4874c3f9206d79bbf17d74, type: 3}
-  myDropdown: {fileID: 22720415}
 --- !u!1 &1865354314
 GameObject:
   m_ObjectHideFlags: 0
@@ -24019,16 +23995,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5173d493e50fa43658813e17d1ae5aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textures:
-  - {fileID: 0}
-  - {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
-  - {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
-  - {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
-  - {fileID: 2800000, guid: adb34c4290fa143138d18b9211590bcb, type: 3}
-  - {fileID: 2800000, guid: c461c60bec6b54f49bfde648c637e101, type: 3}
-  - {fileID: 2800000, guid: 5969792f6b80c42a5bb269d764a97904, type: 3}
-  - {fileID: 2800000, guid: dae70420be4874c3f9206d79bbf17d74, type: 3}
-  myDropdown: {fileID: 22720415}
 --- !u!1 &2120328607
 GameObject:
   m_ObjectHideFlags: 0
