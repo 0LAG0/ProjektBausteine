@@ -1,19 +1,18 @@
 ﻿using UnityEngine;
 
-// source: http://gyanendushekhar.com/2018/03/03/zoom-using-mouse-scroll-touch-unity-tutorial/
+// source Zoom, ZoomIn, ZoomOut, Update: http://gyanendushekhar.com/2018/03/03/zoom-using-mouse-scroll-touch-unity-tutorial/
+// source AjustZoom: https://forum.unity.com/threads/fit-object-exactly-into-perspective-cameras-field-of-view-focus-the-object.496472/
 
 public class ZoomControl : MonoBehaviour
 {
-    const float MouseZoomSpeed = 15.0f;
+    const float MouseZoomSpeed = 15f;
     const float TouchZoomSpeed = 0.1f;
     const float ZoomMinBound = 0.1f;
-    const float ZoomMaxBound = 180.0f;
-    const float ZoomRatio = 5f;
-    //const float ZoomRatioHeight = 1;
-
+    const float ZoomMaxBound = 180f;
+   
     Camera cam;
     float originalFieldOfView;
-    GameObject modelContainer;
+    GameObject model;
 
     // Use this for initialization
     void Start()
@@ -32,6 +31,7 @@ public class ZoomControl : MonoBehaviour
                 // get current touch positions
                 Touch tZero = Input.GetTouch(0);
                 Touch tOne = Input.GetTouch(1);
+
                 // get touch position from the previous frame
                 Vector2 tZeroPrevious = tZero.position - tZero.deltaPosition;
                 Vector2 tOnePrevious = tOne.position - tOne.deltaPosition;
@@ -67,21 +67,31 @@ public class ZoomControl : MonoBehaviour
         Zoom(1.0f, 2.0f);
     }
 
-    // Set zoom (fov of cam) to an appropriate value depending on the ratio (fov to model size)
+    /** Set position of model cam
+     *  depending on size of the current 3D model
+     *  to fit model into fov of cam
+     *  i.e. to display model appropriately in preview area    
+     */
     public void AdjustZoom()
     {
-        // OLD ZOOM RESET
+        model = GameObject.FindWithTag("model");
+        MeshFilter meshFilter = model.GetComponentInChildren<MeshFilter>();
+
         cam.fieldOfView = originalFieldOfView;
 
-        /* NEW IDEA: cam fov depending on width/height of model 
-         * TODO: force to get data from child object && how to get data?
-         */
-        //modellContainer = GameObject.Find("ModelsContainer");
-        //Vector3 size = modelContainer.GetComponentInChildren<MeshRenderer>(false).bounds.size;
-        //Vector3 scale = modelContainer.GetComponentInChildren<MeshRenderer>(false).transform.lossyScale;
+        if (meshFilter)
+        {
+            Mesh mesh = meshFilter.mesh;
 
-        //float newFoV = Mathf.Max(scale.x, scale.y) / ZoomRatio;
+            Vector3 size = mesh.bounds.size;
 
-        //cam.fieldOfView = Mathf.Clamp(newFoV, ZoomMinBound, ZoomMaxBound);
+            float objectSize = Mathf.Max(size.x, size.y, size.z);
+
+            float cameraView = 2f * Mathf.Tan(0.5f * Mathf.Deg2Rad * cam.fieldOfView);  // Visible height 1 meter in front of cam
+            float distance = objectSize / cameraView;    // Combined wanted distance from the object
+            distance += 0.5f * objectSize;  // Estimated offset from the center to the outside of the object
+
+            cam.transform.position = mesh.bounds.center + model.transform.position - distance * cam.transform.forward;
+        }
     }
 }
