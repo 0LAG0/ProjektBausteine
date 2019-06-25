@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.4485337, g: 0.4985813, b: 0.57565093, a: 1}
+  m_IndirectSpecularColor: {r: 0.448534, g: 0.4985817, b: 0.5756517, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2971,8 +2971,6 @@ MonoBehaviour:
   m_Options:
     m_Options:
     - m_Text: "W\xE4hle ein Modell"
-      m_Image: {fileID: 0}
-    - m_Text: Beispiel Cube
       m_Image: {fileID: 0}
     - m_Text: Utah Teapot
       m_Image: {fileID: 0}
