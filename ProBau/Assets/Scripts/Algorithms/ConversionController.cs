@@ -62,7 +62,7 @@ public class ConversionController : MonoBehaviour
         BlockSelector selector = new BlockSelector(cfg.brickExtends);
         var tex = ColorCalculation.colorCalculate(cfg.tex, cfg.colors);
         var voxels = Voxelizer.Voxelize(cfg.mesh, tex, cfg.height, 0);
-        //voxels = Voxelizer.AddWidth(voxels, 1);
+        voxels = Voxelizer.AddWidth(voxels, 3);
         var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
         ///Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)

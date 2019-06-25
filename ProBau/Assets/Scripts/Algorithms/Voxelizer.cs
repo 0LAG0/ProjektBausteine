@@ -113,14 +113,6 @@ public class Voxelizer : MonoBehaviour
                     {
                         var newNormal = container[x, y, z].reverseNormal.normalized;
                         container[x, y, z].reverseNormal = new Vector3(Mathf.Round(newNormal.x), Mathf.Round(newNormal.y), Mathf.Round(newNormal.z));
-
-                        //VoxelTools.MakeCube(new Vector3(x, y, z), Color.red, new Vector3(0.9f, 0.9f, 0.9f));
-                        var newPos = new Vector3(x, y, z) + container[x, y, z].reverseNormal;
-                        if (container[(int)newPos.x, (int)newPos.y, (int)newPos.z].id == null)
-                        {
-                            container[(int)newPos.x, (int)newPos.y, (int)newPos.z].id = 0;
-                            container[(int)newPos.x, (int)newPos.y, (int)newPos.z].color = container[x, y, z].color;
-                        }
                     }
                 }
             }
@@ -139,19 +131,31 @@ public class Voxelizer : MonoBehaviour
                 {
                     var curVoxel = inputVoxels[x, y, z];
                     var posVector = new Vector3Int(x, y, z);
-                    if (curVoxel.id != null)
+                    if (curVoxel.id != null && curVoxel.id != -1)
                     {
-                        for (int i = 1; i < width + 1; i++)
+                        for (int i = 1; i <= width; i++)
                         {
                             var nextPos = (i * curVoxel.reverseNormal) + new Vector3Int(x, y, z);
-                            nextPos = nextPos.ClampToPositive();
                             if (inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id != null)
                             {
                                 break;
                             }
-                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id = 0;
-                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].color = GlobalConstants.stockColor;
+                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id = -1;
+                            inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].color = Color.red;
                         }
+                    }
+                }
+            }
+        }
+        for (int x = 0; x < inputVoxels.GetLength(0); x++)
+        {
+            for (int y = 0; y < inputVoxels.GetLength(1); y++)
+            {
+                for (int z = 0; z < inputVoxels.GetLength(2); z++)
+                {
+                    if (inputVoxels[x,y,z].id == -1)
+                    {
+                        inputVoxels[x, y, z].id = 0;
                     }
                 }
             }
