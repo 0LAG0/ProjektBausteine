@@ -13,6 +13,7 @@ public class ConversionController : MonoBehaviour
     public int height;
     public Mesh testMesh;
     public Texture2D testTex;
+    public bool isDebug = false;
 
     private void Update()
     {
@@ -24,8 +25,11 @@ public class ConversionController : MonoBehaviour
 
     private void Start()
     {
-        BrickItConfiguration testCFG = getTestCfg();
-        runBrickification(testCFG);
+        if (isDebug)
+        {
+            BrickItConfiguration testCFG = getTestCfg();
+            runBrickification(testCFG);
+        }
     }
 
     public void runBrickification(BrickItConfiguration cfg)
