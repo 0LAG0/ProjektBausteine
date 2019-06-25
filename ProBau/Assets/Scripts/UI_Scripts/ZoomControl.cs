@@ -85,7 +85,7 @@ public class ZoomControl : MonoBehaviour
             if (meshFilter)
             {
                 var height = (int)Mathf.Round(heightSlider.value);
-                Mesh mesh = MeshUtils.OptimizeMesh(meshFilter.mesh, height);
+                Mesh mesh = MeshUtils.RescaleAndCenterPivot(meshFilter.mesh, height);
                 mesh.RecalculateBounds();
                 meshFilter.mesh = mesh;
 
