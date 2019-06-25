@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.IO;
 using UnityEditor;
 using ImporterObj;
+//using UnityEngine.UI;
 
 /* source: https://docs.unity3d.com/ScriptReference/EditorUtility.OpenFilePanel.html
  * obj importer: http://wiki.unity3d.com/index.php?title=ObjImporter
@@ -12,13 +12,15 @@ public class ImportModel : MonoBehaviour
 {
     private GameObject modelsContainer;
     private GameObject importedModel;
-    public ObjImporter objImporter;
+    private ObjImporter objImporter;
+    //private Slider scaleSlider;
 
     public void Start()
     {
         modelsContainer = GameObject.Find("ModelsContainer");
         importedModel = GameObject.Find("ImportedModel");
         objImporter = new ObjImporter();
+        //scaleSlider = Slider.FindObjectOfType<Slider>();
     }
 
     // Open file system dialog to import own 3D modell
@@ -35,9 +37,13 @@ public class ImportModel : MonoBehaviour
         {
             importedModel = new GameObject("ImportedModel");
             importedModel.transform.parent = modelsContainer.transform;
+            importedModel.tag = "model";
 
             importedModel.AddComponent<MeshFilter>();
             importedModel.GetComponent<MeshFilter>().mesh = objImporter.ImportFile(meshPath);
+
+            //MeshUtils.OptimizeMesh(objImporter.ImportFile(meshPath), scaleSlider.value);
+            //importedModel.GetComponent<MeshFilter>().mesh.RecalculateBounds();
 
             importedModel.AddComponent<MeshRenderer>();
 
