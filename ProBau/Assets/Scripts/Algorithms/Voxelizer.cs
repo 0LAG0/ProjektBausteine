@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 
 /// <summary>
@@ -133,15 +134,37 @@ public class Voxelizer : MonoBehaviour
                     var posVector = new Vector3Int(x, y, z);
                     if (curVoxel.id != null && curVoxel.id != -1)
                     {
+                        List<Vector3Int> vectorsToCheck = getVectorsToCheck(curVoxel);
                         for (int i = 1; i <= width; i++)
                         {
-                            var nextPos = (i * curVoxel.reverseNormal) + new Vector3Int(x, y, z);
+                            var nextPos = (i * curVoxel.reverseNormal) + posVector;
                             if (inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id != null)
                             {
                                 break;
                             }
                             inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].id = -1;
                             inputVoxels[(int)nextPos.x, (int)nextPos.y, (int)nextPos.z].color = Color.red;
+                            foreach (Vector3Int vec in vectorsToCheck)
+                            {
+                                for (int s = 0; s <= i; s++)
+                                {
+                                    var curPos = nextPos + (vec * s);
+                                    var curId = inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].id;
+                                    if (curId == 0)
+                                    {
+                                        break;
+                                    }
+                                    if(curId == -1)
+                                    {
+                                        continue;
+                                    }
+                                    if (inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].id == null)
+                                    {
+                                        inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].id = -1;
+                                        inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].color = Color.blue;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -153,7 +176,7 @@ public class Voxelizer : MonoBehaviour
             {
                 for (int z = 0; z < inputVoxels.GetLength(2); z++)
                 {
-                    if (inputVoxels[x,y,z].id == -1)
+                    if (inputVoxels[x, y, z].id == -1)
                     {
                         inputVoxels[x, y, z].id = 0;
                     }
@@ -161,6 +184,47 @@ public class Voxelizer : MonoBehaviour
             }
         }
         return inputVoxels;
+    }
+
+    private static List<Vector3Int> getVectorsToCheck(Voxel curVoxel)
+    {
+        List<Vector3Int> vectorsToCheck = new List<Vector3Int>();
+        if (curVoxel.reverseNormal.magnitude > 1)
+        {
+            // diagonal
+            if (Mathf.Abs(curVoxel.reverseNormal.x) == 1)
+            {
+                vectorsToCheck.Add(new Vector3Int((int)-curVoxel.reverseNormal.x, 0, 0));
+            }
+            if (Mathf.Abs(curVoxel.reverseNormal.y) == 1)
+            {
+                vectorsToCheck.Add(new Vector3Int(0, (int)-curVoxel.reverseNormal.y, 0));
+            }
+            if (Mathf.Abs(curVoxel.reverseNormal.z) == 1)
+            {
+                vectorsToCheck.Add(new Vector3Int(0, 0, (int)-curVoxel.reverseNormal.z));
+            }
+        }
+        else
+        {
+            // straight
+            if (Mathf.Abs(curVoxel.reverseNormal.x) == 1)
+            {
+                vectorsToCheck.AddRange(GlobalConstants.AllPossibleStoneDirections.Where(vec => vec.x == 0));
+            }
+
+            else if (Mathf.Abs(curVoxel.reverseNormal.y) == 1)
+            {
+                vectorsToCheck.AddRange(GlobalConstants.AllPossibleStoneDirections.Where(vec => vec.y == 0));
+            }
+
+            else
+            {
+                vectorsToCheck.AddRange(GlobalConstants.AllPossibleStoneDirections.Where(vec => vec.z == 0));
+            }
+        }
+
+        return vectorsToCheck;
     }
 
     private static Mesh OptimizeMesh(Mesh inputMesh, float height)

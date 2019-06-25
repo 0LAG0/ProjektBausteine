@@ -14,8 +14,9 @@ class GlobalConstants
 
     public static readonly List<Vector3Int> BlockTypes;
     public static readonly List<Vector3Int> BlockDirections;
+    public static readonly List<Vector3Int> AllPossibleStoneDirections;
     public static readonly List<Color> LegoColors;
-    public static readonly Color stockColor = new Color32(244,244,244,255);
+    public static readonly Color stockColor = new Color32(244, 244, 244, 255);
 
     static GlobalConstants()
     {
@@ -86,6 +87,18 @@ class GlobalConstants
             new Color32(55,33,0,255)
         };
 
-    }
+        AllPossibleStoneDirections = new List<Vector3Int>();
 
+        for (int x = -1; x < 1; x++)
+        {
+            for (int y = -1; y < 1; y++)
+            {
+                for (int z = -1; z < 1; z++)
+                {
+                    AllPossibleStoneDirections.Add(new Vector3Int(x, y, z));
+                }
+            }
+        }
+
+}
 }
