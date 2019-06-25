@@ -27,7 +27,7 @@ public class RotationControl : MonoBehaviour
         Vector3 mousePos = Input.mousePosition;
         Vector2 normalizedMousePos = new Vector2(mousePos.x / Screen.width, mousePos.y / Screen.height);
 
-        // check if there is a left mouse button as input and if mouse in within preview area
+        // check if there is a left mouse button as input and if mouse is within preview area
         if (!Input.GetMouseButton(0)
             || normalizedMousePos.x < previewRectTransform.anchorMin.x
             || normalizedMousePos.x > previewRectTransform.anchorMax.x
