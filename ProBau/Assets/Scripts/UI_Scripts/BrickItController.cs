@@ -11,6 +11,7 @@ public class BrickItController : MonoBehaviour
     public Slider scaling;
     public ChangeModel modelSelection;
     public ConversionController conversionController;
+    public TextureController textureController;
 
     private List<Vector3Int> getBricks()
     {
@@ -66,9 +67,8 @@ public class BrickItController : MonoBehaviour
         output.height = (int)Mathf.Round(scaling.value);
         output.mesh = modelSelection.activeObject.GetComponentInChildren<MeshFilter>().mesh;
         output.posOfObject = modelSelection.activeObject.transform.position;
-        //output.tex = ...;
+        output.tex = (Texture2D) textureController.activeTexture;
 
-        //move to better position... later
         modelSelection.activeObject.SetActive(false);
         return output;
     }
