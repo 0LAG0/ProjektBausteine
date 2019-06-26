@@ -11,13 +11,13 @@ public class FillControl : MonoBehaviour
         setText(GetComponent<Slider>().value);
     }
 
-    public void changeHeight()
+    public void changeFillValue()
     {
         setText(GetComponent<Slider>().value);
     }
 
-    private void setText(float height)
+    private void setText(float thickness)
     {
-        fillText.text = "Wandstärke: " + (Mathf.Round(height) + 1) + " cm";
+        fillText.text = "Wandstärke: " + (Mathf.Round(thickness) + 1) + " cm";
     }
 }

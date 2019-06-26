@@ -11238,7 +11238,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -50}
+  m_AnchoredPosition: {x: 10, y: -47}
   m_SizeDelta: {x: 330, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1083402738
@@ -11263,7 +11263,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 11
+    m_FontSize: 13
     m_FontStyle: 2
     m_BestFit: 0
     m_MinSize: 1
@@ -11273,7 +11273,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
+    m_LineSpacing: 1.1
   m_Text: 'Hinweis: Die Breite und Tiefe wird automatisch berechnet.'
 --- !u!222 &1083402739
 CanvasRenderer:
@@ -16320,8 +16320,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 10, y: -50}
-  m_SizeDelta: {x: 330, y: 30}
+  m_AnchoredPosition: {x: 10, y: -47}
+  m_SizeDelta: {x: 330, y: 32}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1647621323
 MonoBehaviour:
@@ -16345,7 +16345,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 11
+    m_FontSize: 13
     m_FontStyle: 2
     m_BestFit: 0
     m_MinSize: 1
@@ -16355,9 +16355,9 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
-    m_LineSpacing: 1
+    m_LineSpacing: 1.1
   m_Text: "Erkl\xE4rung: Die Wandst\xE4rke gibt die Dicke des erzeugten Modells an.
-    Dadurch wird das Modell nach innen \"breiter\" und somit stabiler."
+    Dadurch wird das Modell nach innen breiter."
 --- !u!222 &1647621324
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20785,7 +20785,18 @@ MonoBehaviour:
   m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2096133194}
+        m_MethodName: changeFillValue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Slider+SliderEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!1 &2101462101
