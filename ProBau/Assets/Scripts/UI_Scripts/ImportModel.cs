@@ -10,6 +10,8 @@ using ImporterObj;
 
 public class ImportModel : MonoBehaviour
 {
+    public Material defaultMaterial;
+    public ChangeModel changeModel;
     private GameObject modelsContainer;
     private GameObject importedModel;
     private ObjImporter objImporter;
@@ -39,20 +41,22 @@ public class ImportModel : MonoBehaviour
             importedModel.transform.parent = modelsContainer.transform;
             importedModel.tag = "model";
 
-            importedModel.AddComponent<MeshFilter>();
-            importedModel.GetComponent<MeshFilter>().mesh = objImporter.ImportFile(meshPath);
+            var meshFilter = importedModel.AddComponent<MeshFilter>();
+            var mesh = objImporter.ImportFile(meshPath);
 
-            //MeshUtils.OptimizeMesh(objImporter.ImportFile(meshPath), scaleSlider.value);
-            //importedModel.GetComponent<MeshFilter>().mesh.RecalculateBounds();
+            mesh = MeshUtils.RescaleAndCenterPivot(mesh, 50);
+            mesh.RecalculateBounds();
+            meshFilter.mesh=mesh;
 
-            importedModel.AddComponent<MeshRenderer>();
-
+            var renderer = importedModel.AddComponent<MeshRenderer>();
+            renderer.material = defaultMaterial;
             foreach (Transform t in transform)
             {
                 t.gameObject.SetActive(false);
             }
 
-            importedModel.SetActive(true);
+
+            changeModel.SetImportedActive(importedModel);
         }
     }
 }
