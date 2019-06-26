@@ -38,6 +38,8 @@ public class ConversionController : MonoBehaviour
         var startT = System.DateTime.Now;
         var tex = ColorCalculation.colorCalculate(cfg.tex, cfg.colors);
         var colorDone = System.DateTime.Now;
+        var optimizedMesh = MeshUtils.OptimizeMesh(cfg.mesh, cfg.height);
+        optimizedMesh.RecalculateNormals();
         var voxels = Voxelizer.Voxelize(cfg.mesh, tex, cfg.height, 0);
         var voxelsInitDone = System.DateTime.Now;
         voxels = Voxelizer.AddWidth(voxels, 2);
@@ -47,6 +49,7 @@ public class ConversionController : MonoBehaviour
         ///Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
+            //Wird hin und wieder null, sofern nicht alle steine selektiert sind
             Vector3 position = new Vector3(bb.pos.x, bb.pos.y * GlobalConstants.VoxelHeight, bb.pos.z);
 
             if (bb.isFlipped)
@@ -60,7 +63,12 @@ public class ConversionController : MonoBehaviour
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
-        GameObject.Find(GlobalConstants.cubeContainerName).transform.position = cfg.posOfObject;
+        var cobeContainer = GameObject.Find(GlobalConstants.cubeContainerName);
+        cobeContainer.transform.position = cfg.posOfObject;
+        cobeContainer.transform.parent = GameObject.Find("ModelsContainer").transform;
+        var pos = cobeContainer.transform.position;
+        float[] minMax = MeshUtils.GetBoundsPerDimension(optimizedMesh);
+        cobeContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
         var blocksInstaniated = System.DateTime.Now;
         Debug.Log($"Total Time needed: {blocksInstaniated-startT}");
         Debug.Log($"Time needed for Colors: {colorDone - startT}");
