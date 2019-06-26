@@ -58,7 +58,7 @@ public class TestArrayAnimation : MonoBehaviour
     private Vector3[] startPos = null;
     private Vector3[] endPos = null;
     private float distance;
-    private float lerpTime;
+    //private float lerpTime;
     private float currentLerpTime;
 
 
@@ -85,11 +85,10 @@ public class TestArrayAnimation : MonoBehaviour
 
         source = GetComponent<AudioSource>();
 
-        distance = 5f;
-        lerpTime = 1f;
-        startPos = new Vector3[steine.Count()];
-        endPos = new Vector3[steine.Count()];
-        for (int i = 0; i < steine.Count(); i++)
+        distance = steine[steine.Length-1].transform.position.y;
+        startPos = new Vector3[steine.Length];
+        endPos = new Vector3[steine.Length];
+        for (int i = 0; i < steine.Length; i++)
         {
             endPos[i] = steine[i].transform.position;
             startPos[i] = endPos[i] + new Vector3(0, distance, 0);
@@ -101,7 +100,7 @@ public class TestArrayAnimation : MonoBehaviour
         return a.pos.y.CompareTo(b.pos.y);
     }
 
-    IEnumerator MoveToPosition (GameObject obj, Vector3 start, Vector3 end)
+    IEnumerator MoveToPosition (GameObject obj, Vector3 start, Vector3 end, float lerpTime)
     {
         currentLerpTime = 0;
         while (currentLerpTime < lerpTime)
@@ -137,6 +136,7 @@ public class TestArrayAnimation : MonoBehaviour
 
             //Debug.Log(endPosition[count]);
             steine[count].SetActive(true);
+            StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], speed));
             source.Play();
             count += 1;
         }
@@ -147,13 +147,13 @@ public class TestArrayAnimation : MonoBehaviour
             if (count == 0 && !steine[0].activeInHierarchy)
             {
                 steine[count].SetActive(true);
-                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
+                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], 2f));
             }
             else if (count < steine.Length - 1)
             {
                 count += 1;
                 steine[count].SetActive(true);
-                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
+                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], 2f));
                 // Debug.Log(count);
             }
             
@@ -164,13 +164,11 @@ public class TestArrayAnimation : MonoBehaviour
         {
             if (count == 0 && steine[0].activeInHierarchy)
             {
-                StartCoroutine(MoveToPosition(steine[count], endPos[count], startPos[count]));
                 steine[count].SetActive(false);
                 //Debug.Log(count);
             }
             else if (count > 0)
             {
-                StartCoroutine(MoveToPosition(steine[count], endPos[count], startPos[count]));
                 steine[count].SetActive(false);
                 //Debug.Log(count);
                 count -= 1;
@@ -216,6 +214,7 @@ public class TestArrayAnimation : MonoBehaviour
                 {
                     steine[i].SetActive(true);
                     count = i;
+                    StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], 10f));
                 }
             }
         }
