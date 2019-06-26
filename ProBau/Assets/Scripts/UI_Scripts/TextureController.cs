@@ -27,17 +27,20 @@ public class TextureController : MonoBehaviour
 
     public void Select(int index)
     {
-        if (index == currentIndex || index < 0 || index >= namedTextures.Count)
-        {
-            return;
-        }
-
         currentIndex = index;
         activeTexture = namedTextures[currentIndex].texture;
 
-        if (modelSelector.activeObject != null)
+        if (modelSelector.activeObject != null && modelSelector.activeObject.GetComponentInChildren<Renderer>() != null)
         {
             modelSelector.activeObject.GetComponentInChildren<Renderer>().material.mainTexture = activeTexture;
+        }
+    }
+
+    public void ApplyTexture(GameObject activeObject)
+    {
+        if (activeObject != null)
+        {
+            activeObject.GetComponentInChildren<Renderer>().material.mainTexture = activeTexture;
         }
     }
 }
