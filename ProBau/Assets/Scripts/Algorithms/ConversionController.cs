@@ -40,13 +40,13 @@ public class ConversionController : MonoBehaviour
         var colorDone = System.DateTime.Now;
         var optimizedMesh = MeshUtils.OptimizeMesh(cfg.mesh, cfg.height);
         optimizedMesh.RecalculateNormals();
-        var voxels = Voxelizer.Voxelize(cfg.mesh, tex, cfg.height, 0);
+        var voxels = Voxelizer.Voxelize(cfg.mesh, tex, cfg.height);
         var voxelsInitDone = System.DateTime.Now;
-        voxels = Voxelizer.AddWidth(voxels, 2);
+        voxels = Voxelizer.AddWidth(voxels, cfg.depth);
         var widthAdded = System.DateTime.Now;
         var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
         var blocksSelected = System.DateTime.Now;
-        ///Debug.Log(buildingBlocks.Count);
+        Debug.Log(buildingBlocks.Count);
         foreach (BuildingBlock bb in buildingBlocks)
         {
             //Wird hin und wieder null, sofern nicht alle steine selektiert sind
@@ -85,10 +85,10 @@ public class ConversionController : MonoBehaviour
         testCFG.height = height;
         testCFG.mesh = testMesh;
         testCFG.tex = testTex;
+        testCFG.depth = 3;
         testCFG.colors = GlobalConstants.LegoColors;
         testCFG.brickExtends = GlobalConstants.BlockTypes;
         testCFG.posOfObject = new Vector3(0, 0, 0);
-        testCFG.filled = false;
         return testCFG;
     }
 }

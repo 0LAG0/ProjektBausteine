@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.4485337, g: 0.4985813, b: 0.57565093, a: 1}
+  m_IndirectSpecularColor: {r: 0.448534, g: 0.4985817, b: 0.5756517, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -5906,11 +5906,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bricks: {fileID: 1713134581}
   colors: {fileID: 2105128907}
-  filled: {fileID: 0}
+  depth: {fileID: 2096133195}
   scaling: {fileID: 444874109}
   modelSelection: {fileID: 777487702}
   conversionController: {fileID: 352871213}
-  textureController: {fileID: 0}
+  textureController: {fileID: 1724165626}
 --- !u!1 &660654336
 GameObject:
   m_ObjectHideFlags: 0
@@ -7503,8 +7503,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e4f99e39b1624032aebdaf1062a1f03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Dropdown: {fileID: 0}
-  textureController: {fileID: 0}
+  m_Dropdown: {fileID: 243205036}
+  textureController: {fileID: 1724165626}
 --- !u!114 &777487703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7529,8 +7529,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5abc0ad0da77e486891dfc818c1a6ee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 0}
-  changeModel: {fileID: 0}
+  defaultMaterial: {fileID: -3033667219593020291, guid: 4b00e637c98e44e9f900897d922f8cc3,
+    type: 3}
+  changeModel: {fileID: 777487702}
 --- !u!1 &780810665
 GameObject:
   m_ObjectHideFlags: 0

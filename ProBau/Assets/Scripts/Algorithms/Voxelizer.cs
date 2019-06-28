@@ -18,7 +18,7 @@ public class Voxelizer : MonoBehaviour
     /// <param name="tex"></param>
     /// <param name="height"></param>
     /// <returns></returns>
-    public static Voxel[,,] Voxelize(Mesh mesh, Texture2D tex, float height, int depth)
+    public static Voxel[,,] Voxelize(Mesh mesh, Texture2D tex, float height)
     {
         var startT = System.DateTime.Now;
         float voxelcount = 0;
