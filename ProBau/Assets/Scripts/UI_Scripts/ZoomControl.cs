@@ -13,6 +13,7 @@ public class ZoomControl : MonoBehaviour
     Camera cam;
     float originalFieldOfView;
     GameObject model;
+    GameObject previewArea;
 
     // Use this for initialization
     void Start()
@@ -46,8 +47,22 @@ public class ZoomControl : MonoBehaviour
         }
         else
         {
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            Zoom(-scroll, MouseZoomSpeed);
+            previewArea = GameObject.Find("Preview_Area");
+            RectTransform previewRectTransform = previewArea.GetComponent<RectTransform>();
+
+            Vector3 mousePos = Input.mousePosition;
+            Vector2 normalizedMousePos = new Vector2(mousePos.x / Screen.width, mousePos.y / Screen.height);
+
+            // check if mouse is within preview area
+            if (normalizedMousePos.x > previewRectTransform.anchorMin.x
+                && normalizedMousePos.x < previewRectTransform.anchorMax.x
+                && normalizedMousePos.y > previewRectTransform.anchorMin.y
+                && normalizedMousePos.y < previewRectTransform.anchorMax.y
+                )
+            {
+                float scroll = Input.GetAxis("Mouse ScrollWheel");
+                Zoom(-scroll, MouseZoomSpeed);
+            }
         }
     }
 

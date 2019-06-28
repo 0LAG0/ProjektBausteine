@@ -7,10 +7,11 @@ public class BrickItController : MonoBehaviour
 {
     public MultiToggle bricks;
     public MultiToggle colors;
-    public Toggle filled;
+    public Slider depth;
     public Slider scaling;
     public ChangeModel modelSelection;
     public ConversionController conversionController;
+    public TextureController textureController;
 
     private List<Vector3Int> getBricks()
     {
@@ -22,7 +23,7 @@ public class BrickItController : MonoBehaviour
         var boolBricks = new List<bool>();
         bricks._toggleGroup.ForEach(e => boolBricks.Add(e.isOn));
         boolBricks.Reverse();
-        output.Add(GlobalConstants.BlockTypes[0]);
+        output.Add(GlobalConstants.BlockTypes[GlobalConstants.BlockTypes.Count-1]);
         for (int i = 1; i < boolBricks.Count; i++)
         {
             if (boolBricks[i])
@@ -62,13 +63,12 @@ public class BrickItController : MonoBehaviour
         Debug.Log(output.brickExtends.Count);
         output.colors = getColors();
         Debug.Log(output.colors.Count);
-        output.filled = filled.isOn;
         output.height = (int)Mathf.Round(scaling.value);
+        output.depth = (int)Mathf.Round(depth.value);
         output.mesh = modelSelection.activeObject.GetComponentInChildren<MeshFilter>().mesh;
         output.posOfObject = modelSelection.activeObject.transform.position;
-        //output.tex = ...;
+        output.tex = (Texture2D) textureController.activeTexture;
 
-        //move to better position... later
         modelSelection.activeObject.SetActive(false);
         return output;
     }
