@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
-using System;
 
 public class TestArrayAnimation : MonoBehaviour
 {
@@ -118,6 +116,16 @@ public class TestArrayAnimation : MonoBehaviour
         
     }
 
+    // used when animationOn = true aka when G is clicked
+    // bricks shows up and move to end position one by one by adding delay time
+    // delay time is diversed brick by brick
+    IEnumerator WaitToDisplay(int index)
+    {
+        yield return new WaitForSeconds(2.0f * index);      // delay time
+        steine[index].SetActive(true);
+        StartCoroutine(MoveToPosition(steine[index], startPos[index], endPos[index]));
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -130,7 +138,6 @@ public class TestArrayAnimation : MonoBehaviour
         if (Input.GetKey(KeyCode.G) && animationOn == false && count < brickSize)
         {
             animationOn = true;
-            count += 1;
             //Debug.Log(animationOn);
         }
 
@@ -140,9 +147,7 @@ public class TestArrayAnimation : MonoBehaviour
             //Debug.Log(steine[count].transform.position);
 
             //Debug.Log(endPosition[count]);
-           
-            steine[count].SetActive(true);
-            StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
+            StartCoroutine(WaitToDisplay(count));
             count += 1;
         }
 
