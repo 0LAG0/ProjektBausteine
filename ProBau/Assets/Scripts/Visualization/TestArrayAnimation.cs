@@ -47,7 +47,7 @@ public class TestArrayAnimation : MonoBehaviour
 
     private float startHeight;
 
-    public float speed = 10f;
+    public float speed = 1;
     private int count = 0;
     private int brickSize;
 
@@ -60,6 +60,8 @@ public class TestArrayAnimation : MonoBehaviour
     private float distance;
     //private float lerpTime;
     private float currentLerpTime;
+    private float startLerpTime;
+    float lerpTime = 2f;
 
 
     AudioSource source;
@@ -85,10 +87,11 @@ public class TestArrayAnimation : MonoBehaviour
 
         source = GetComponent<AudioSource>();
 
-        distance = steine[steine.Length-1].transform.position.y;
-        startPos = new Vector3[steine.Length];
-        endPos = new Vector3[steine.Length];
-        for (int i = 0; i < steine.Length; i++)
+        distance = steine[brickSize - 1].transform.position.y;
+        //distance = 10f;
+        startPos = new Vector3[brickSize];
+        endPos = new Vector3[brickSize];
+        for (int i = 0; i < brickSize; i++)
         {
             endPos[i] = steine[i].transform.position;
             startPos[i] = endPos[i] + new Vector3(0, distance, 0);
@@ -100,14 +103,16 @@ public class TestArrayAnimation : MonoBehaviour
         return a.pos.y.CompareTo(b.pos.y);
     }
 
-    IEnumerator MoveToPosition (GameObject obj, Vector3 start, Vector3 end, float lerpTime)
+    IEnumerator MoveToPosition (GameObject obj, Vector3 start, Vector3 end)
     {
-        currentLerpTime = 0;
-        while (currentLerpTime < lerpTime)
-        {
-            float perc = currentLerpTime / lerpTime;     
+        float perc = 0;
+        startLerpTime = Time.time;
+        while (perc < 1.0f) {
+            float currentLerpTime = Time.time - startLerpTime;
+            // calculate finished percentage of lerping process
+            perc = currentLerpTime / lerpTime;  
             obj.transform.position = Vector3.Lerp(start, end, perc);
-            currentLerpTime += Time.deltaTime;
+            source.Play();
             yield return null;
         }
         
@@ -117,7 +122,7 @@ public class TestArrayAnimation : MonoBehaviour
     void Update()
     {
         //Animation mit G starten und H anhalten
-        if ((Input.GetKey(KeyCode.H) && animationOn) || (animationOn && count == brickSize - 1))
+        if ((Input.GetKey(KeyCode.H) && animationOn) || (animationOn && count == brickSize - 1 && steine[count].transform.position == endPos[count]))
         {
             animationOn = false;
             // Debug.Log(animationOn);
@@ -128,16 +133,16 @@ public class TestArrayAnimation : MonoBehaviour
             count += 1;
             //Debug.Log(animationOn);
         }
- 
+
         if (animationOn == true)
         {
-            
-            Debug.Log(steine[count].transform.position);
+
+            //Debug.Log(steine[count].transform.position);
 
             //Debug.Log(endPosition[count]);
+           
             steine[count].SetActive(true);
-            StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], speed));
-            source.Play();
+            StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
             count += 1;
         }
 
@@ -147,13 +152,13 @@ public class TestArrayAnimation : MonoBehaviour
             if (count == 0 && !steine[0].activeInHierarchy)
             {
                 steine[count].SetActive(true);
-                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], 2f));
+                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
             }
             else if (count < steine.Length - 1)
             {
                 count += 1;
                 steine[count].SetActive(true);
-                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], 2f));
+                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
                 // Debug.Log(count);
             }
             
@@ -214,7 +219,7 @@ public class TestArrayAnimation : MonoBehaviour
                 {
                     steine[i].SetActive(true);
                     count = i;
-                    StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], 10f));
+                    StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
                 }
             }
         }
