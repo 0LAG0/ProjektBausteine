@@ -56,10 +56,9 @@ public class TestArrayAnimation : MonoBehaviour
     private Vector3[] startPos = null;
     private Vector3[] endPos = null;
     private float distance;
-    //private float lerpTime;
     private float currentLerpTime;
     private float startLerpTime;
-    float lerpTime = 2f;
+    float lerpTime = 1.0f;
 
 
     AudioSource source;
@@ -86,9 +85,9 @@ public class TestArrayAnimation : MonoBehaviour
         source = GetComponent<AudioSource>();
 
         distance = steine[brickSize - 1].transform.position.y;
-        //distance = 10f;
         startPos = new Vector3[brickSize];
         endPos = new Vector3[brickSize];
+
         for (int i = 0; i < brickSize; i++)
         {
             endPos[i] = steine[i].transform.position;
@@ -121,7 +120,7 @@ public class TestArrayAnimation : MonoBehaviour
     // delay time is diversed brick by brick
     IEnumerator WaitToDisplay(int index)
     {
-        yield return new WaitForSeconds(2.0f * index);      // delay time
+        yield return new WaitForSeconds(lerpTime * index);      // delay time
         steine[index].SetActive(true);
         StartCoroutine(MoveToPosition(steine[index], startPos[index], endPos[index]));
     }
@@ -130,24 +129,25 @@ public class TestArrayAnimation : MonoBehaviour
     void Update()
     {
         //Animation mit G starten und H anhalten
-        if ((Input.GetKey(KeyCode.H) && animationOn) || (animationOn && count == brickSize - 1 && steine[count].transform.position == endPos[count]))
+        if (Input.GetKey(KeyCode.H))
         {
+            Time.timeScale = 0;
             animationOn = false;
             // Debug.Log(animationOn);
         }
-        if (Input.GetKey(KeyCode.G) && animationOn == false && count < brickSize)
+        if (Input.GetKey(KeyCode.G))
         {
+            Time.timeScale = 1;
             animationOn = true;
             //Debug.Log(animationOn);
         }
 
         if (animationOn == true)
         {
-
-            //Debug.Log(steine[count].transform.position);
-
-            //Debug.Log(endPosition[count]);
-            StartCoroutine(WaitToDisplay(count));
+            if (count <= steine.Length - 1)
+            {
+                StartCoroutine(WaitToDisplay(count));
+            }
             count += 1;
         }
 
@@ -201,10 +201,12 @@ public class TestArrayAnimation : MonoBehaviour
         // Reset Funktion
         if (Input.GetKeyDown(KeyCode.R) && count >=0)
         {
+            Time.timeScale = 1;
             for (int i = 0; i <= steine.Length - 1; i++)
             {
                 steine[i].SetActive(false);
             }
+            StopAllCoroutines();
             count = 0;
         }
 
@@ -325,7 +327,7 @@ public class TestArrayAnimation : MonoBehaviour
                 newMaterial.color = whateverColor;
                 gameObjectRenderer.material = newMaterial;
 
-                Debug.Log(buildingBlocks[i].blockColor);
+                //Debug.Log(buildingBlocks[i].blockColor);
 
 
 
