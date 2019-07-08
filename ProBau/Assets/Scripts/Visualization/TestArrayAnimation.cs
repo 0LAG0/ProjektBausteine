@@ -207,11 +207,12 @@ public class TestArrayAnimation : MonoBehaviour
                 steine[i].SetActive(false);
             }
             StopAllCoroutines();
+            animationOn = false;
             count = 0;
         }
 
         //Modell Ebene für Ebene aufbauen
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.K) && count <= steine.Length - 1)
         {
             int naechster = (int) Mathf.Round(steine[count + 1].transform.position.y / layerHeight);
             layer = (int)Mathf.Round(steine[count].transform.position.y / layerHeight);
@@ -232,7 +233,7 @@ public class TestArrayAnimation : MonoBehaviour
         }
 
         //Ebenenweise abziehen
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) && count >= 0)
         {
             layer = (int)Mathf.Round(steine[count].transform.position.y / layerHeight);
             for (int i = steine.Length - 1; i >= 0 ; i--)
