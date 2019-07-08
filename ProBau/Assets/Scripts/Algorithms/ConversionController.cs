@@ -14,6 +14,7 @@ public class ConversionController : MonoBehaviour
     public Mesh testMesh;
     public Texture2D testTex;
     public bool isDebug = false;
+    private GameObject lastBricked;
 
     private void Update()
     {
@@ -34,6 +35,11 @@ public class ConversionController : MonoBehaviour
 
     public void runBrickification(BrickItConfiguration cfg)
     {
+        if (lastBricked!=null)
+        {
+            DestroyImmediate(lastBricked);
+            lastBricked = null;
+        }
         BlockSelector selector = new BlockSelector(cfg.brickExtends);
         var startT = System.DateTime.Now;
         var tex = ColorCalculation.colorCalculate(cfg.tex, cfg.colors);
@@ -63,12 +69,13 @@ public class ConversionController : MonoBehaviour
 
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
-        var cobeContainer = GameObject.Find(GlobalConstants.cubeContainerName);
-        cobeContainer.transform.position = cfg.posOfObject;
-        cobeContainer.transform.parent = GameObject.Find("ModelsContainer").transform;
-        var pos = cobeContainer.transform.position;
+        var cubeContainer = GameObject.Find(GlobalConstants.cubeContainerName);
+        cubeContainer.transform.position = cfg.posOfObject;
+        cubeContainer.transform.parent = GameObject.Find("ModelsContainer").transform;
+        var pos = cubeContainer.transform.position;
         float[] minMax = MeshUtils.GetBoundsPerDimension(optimizedMesh);
-        cobeContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
+        cubeContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
+        lastBricked = cubeContainer;
         var blocksInstaniated = System.DateTime.Now;
         Debug.Log($"Total Time needed: {blocksInstaniated-startT}");
         Debug.Log($"Time needed for Colors: {colorDone - startT}");
