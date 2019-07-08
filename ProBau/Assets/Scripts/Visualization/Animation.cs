@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestArrayAnimation : MonoBehaviour
+public class Animation : MonoBehaviour
 {
     //better not touch this -.-
     public Mesh mesh;
@@ -100,7 +100,7 @@ public class TestArrayAnimation : MonoBehaviour
         return a.pos.y.CompareTo(b.pos.y);
     }
 
-    IEnumerator MoveToPosition (GameObject obj, Vector3 start, Vector3 end)
+    IEnumerator MoveToPosition (GameObject obj, Vector3 start, Vector3 end, int count)
     {
         float perc = 0;
         startLerpTime = Time.time;
@@ -110,7 +110,7 @@ public class TestArrayAnimation : MonoBehaviour
             perc = currentLerpTime / lerpTime;  
             obj.transform.position = Vector3.Lerp(start, end, perc);
             source.Play();
-            yield return null;
+            yield return count;
         }
         
     }
@@ -122,56 +122,39 @@ public class TestArrayAnimation : MonoBehaviour
     {
         yield return new WaitForSeconds(lerpTime * index);      // delay time
         steine[index].SetActive(true);
-        StartCoroutine(MoveToPosition(steine[index], startPos[index], endPos[index]));
+        StartCoroutine(MoveToPosition(steine[index], startPos[index], endPos[index], index));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Animation mit G starten und H anhalten
-        if (Input.GetKey(KeyCode.H))
-        {
-            Time.timeScale = 0;
-            animationOn = false;
-            // Debug.Log(animationOn);
-        }
-        if (Input.GetKey(KeyCode.G))
-        {
-            Time.timeScale = 1;
-            animationOn = true;
-            //Debug.Log(animationOn);
-        }
 
-        if (animationOn == true)
-        {
-            if (count <= steine.Length - 1)
-            {
-                StartCoroutine(WaitToDisplay(count));
-            }
-            count += 1;
-        }
+    public void PlayAnimation () {
+        Time.timeScale = 1;
+        animationOn = true;
+    }
 
-        //Hier kann man Stein für Stein anzeigen lassen.
-        if (Input.GetKeyDown(KeyCode.S) && (count <= steine.Length - 1))
-        {
+    public void PauseAnimation () {
+        Time.timeScale = 0;
+        animationOn = false;
+    }
+
+    public void AddBrick() {
+        if (count <= steine.Length - 1) {
             if (count == 0 && !steine[0].activeInHierarchy)
             {
                 steine[count].SetActive(true);
-                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
+                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], count));
             }
             else if (count < steine.Length - 1)
             {
                 count += 1;
                 steine[count].SetActive(true);
-                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
+                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], count));
                 // Debug.Log(count);
             }
-            
-        }
+        } 
+    }
 
-        //Stein für Stein wird abgezogen
-        if (Input.GetKeyDown(KeyCode.D) && count >= 0)
-        {
+    public void RemoveBrick() {
+        if (count >= 0){
             if (count == 0 && steine[0].activeInHierarchy)
             {
                 steine[count].SetActive(false);
@@ -183,13 +166,11 @@ public class TestArrayAnimation : MonoBehaviour
                 //Debug.Log(count);
                 count -= 1;
             }
-
         }
+    }
 
-
-        //Hier kann man sich alle Steine anzeigen lassen
-        if (Input.GetKeyDown(KeyCode.A) && count <= steine.Length - 1)
-        {
+    public void ShowAll() {
+        if (count <= steine.Length - 1){
             for (int i = count; i <= steine.Length - 1; i++)
             {
                 steine[i].SetActive(true);
@@ -197,10 +178,10 @@ public class TestArrayAnimation : MonoBehaviour
             count = steine.Length - 1;
             //Debug.Log(count);
         }
-        
-        // Reset Funktion
-        if (Input.GetKeyDown(KeyCode.R) && count >=0)
-        {
+    }
+
+    public void Reset() {
+        if (count >=0) {
             Time.timeScale = 1;
             for (int i = 0; i <= steine.Length - 1; i++)
             {
@@ -210,10 +191,10 @@ public class TestArrayAnimation : MonoBehaviour
             animationOn = false;
             count = 0;
         }
+    }
 
-        //Modell Ebene für Ebene aufbauen
-        if (Input.GetKeyDown(KeyCode.K) && count <= steine.Length - 1)
-        {
+    public void AddLayer() {
+        if (count <= steine.Length - 1){
             int naechster = (int) Mathf.Round(steine[count + 1].transform.position.y / layerHeight);
             layer = (int)Mathf.Round(steine[count].transform.position.y / layerHeight);
             if (layer < naechster)
@@ -227,14 +208,15 @@ public class TestArrayAnimation : MonoBehaviour
                 {
                     steine[i].SetActive(true);
                     count = i;
-                    StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count]));
+                    StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], count));
                 }
             }
         }
+    }
 
+    public void RemoveLayer(){
         //Ebenenweise abziehen
-        if (Input.GetKeyDown(KeyCode.L) && count >= 0)
-        {
+        if (count >=0) {
             layer = (int)Mathf.Round(steine[count].transform.position.y / layerHeight);
             for (int i = steine.Length - 1; i >= 0 ; i--)
             {
@@ -248,6 +230,68 @@ public class TestArrayAnimation : MonoBehaviour
                     }
                 }
             }
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //Animation mit G starten und H anhalten
+        if (Input.GetKey(KeyCode.H))
+        {
+            PauseAnimation();
+            // Debug.Log(animationOn);
+        }
+        if (Input.GetKey(KeyCode.G))
+        {
+            PlayAnimation();
+            //Debug.Log(animationOn);
+        }
+
+        if (animationOn == true)
+        {
+            if (count <= steine.Length - 1)
+            {
+                StartCoroutine(WaitToDisplay(count));
+            }
+            count += 1;
+        }
+
+        //Hier kann man Stein für Stein anzeigen lassen.
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            AddBrick();
+        }
+
+        //Stein für Stein wird abgezogen
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            RemoveBrick();
+        }
+
+
+        //Hier kann man sich alle Steine anzeigen lassen
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            ShowAll();
+        }
+        
+        // Reset Funktion
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Reset();
+        }
+
+        //Modell Ebene für Ebene aufbauen
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            AddLayer();
+        }
+
+        //Ebenenweise abziehen
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            RemoveLayer();
 
         }
     }
