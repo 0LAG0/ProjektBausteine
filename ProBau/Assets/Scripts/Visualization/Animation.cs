@@ -125,6 +125,16 @@ public class Animation : MonoBehaviour
         StartCoroutine(MoveToPosition(steine[index], startPos[index], endPos[index], index));
     }
 
+    private void GetCurrentCount(){
+        int countActive = 0;
+        for (int i = 0; i < steine.Length; i++) {
+            if (steine[i].activeInHierarchy){
+                countActive++;
+            }
+        }
+        count = countActive-1; 
+    }
+
 
     public void PlayAnimation () {
         Time.timeScale = 1;
@@ -134,20 +144,31 @@ public class Animation : MonoBehaviour
     public void PauseAnimation () {
         Time.timeScale = 0;
         animationOn = false;
+        GetCurrentCount();
     }
 
     public void AddBrick() {
+        StopAllCoroutines();
+        Time.timeScale = 1;
+        animationOn = false;
         if (count <= steine.Length - 1) {
             if (count == 0 && !steine[0].activeInHierarchy)
             {
                 steine[count].SetActive(true);
                 StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], count));
             }
+
+            else if (steine[count].activeInHierarchy && steine[count].transform.position != endPos[count]){
+                steine[count].SetActive(true);
+                StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], count));
+            }
+
             else if (count < steine.Length - 1)
-            {
+            {      
                 count += 1;
                 steine[count].SetActive(true);
                 StartCoroutine(MoveToPosition(steine[count], startPos[count], endPos[count], count));
+                
                 // Debug.Log(count);
             }
         } 
@@ -170,6 +191,7 @@ public class Animation : MonoBehaviour
     }
 
     public void ShowAll() {
+        Reset();
         if (count <= steine.Length - 1){
             for (int i = count; i <= steine.Length - 1; i++)
             {
@@ -253,8 +275,8 @@ public class Animation : MonoBehaviour
             if (count <= steine.Length - 1)
             {
                 StartCoroutine(WaitToDisplay(count));
+                count += 1;
             }
-            count += 1;
         }
 
         //Hier kann man Stein für Stein anzeigen lassen.
