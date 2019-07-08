@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44853342, g: 0.498581, b: 0.5756503, a: 1}
+  m_IndirectSpecularColor: {r: 0.4485337, g: 0.4985813, b: 0.5756509, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -795,7 +795,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 1
+  m_IsOn: 0
 --- !u!1001 &98807435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7050,34 +7050,16 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
---- !u!1 &718047713 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5662519410245571391, guid: e873cc1a51229424bb1fa298920c60c1,
-    type: 3}
-  m_PrefabInstance: {fileID: 1579913338}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &718047714 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5662519410245571388, guid: e873cc1a51229424bb1fa298920c60c1,
     type: 3}
   m_PrefabInstance: {fileID: 1579913338}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718047713}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 264605e73b5def441814add5e126c519, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &718047717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 718047713}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 11c5c1e9eb14f43efb76adf47400cdfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &719261682
@@ -18533,7 +18515,7 @@ PrefabInstance:
     - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AdjustZoom
+      value: AnimResetZoom
       objectReference: {fileID: 0}
     - target: {fileID: 7156220154764834898, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
@@ -18558,7 +18540,7 @@ PrefabInstance:
     - target: {fileID: 7156220154764834898, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ZoomOut
+      value: AnimZoomOut
       objectReference: {fileID: 0}
     - target: {fileID: 7156220154764834898, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
@@ -18584,7 +18566,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 718047717}
+      objectReference: {fileID: 0}
     - target: {fileID: 7156220155115728339, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -18610,6 +18592,21 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7156220155273024429, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220155273024429, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RotateLeft
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220155273024429, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7156220155393014287, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -18633,7 +18630,7 @@ PrefabInstance:
     - target: {fileID: 7156220155393014287, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ZoomIn
+      value: AnimZoomIn
       objectReference: {fileID: 0}
     - target: {fileID: 7156220155393014287, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
@@ -18821,6 +18818,61 @@ PrefabInstance:
       value: AddBrick
       objectReference: {fileID: 0}
     - target: {fileID: 3322200973326964159, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220154290862438, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.20000076
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220154290862438, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -27.199997
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767703917472611118, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767703917472611118, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767703917472611118, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RotateReset
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220155528071178, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220155528071178, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220155528071178, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220155528071178, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220155528071178, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RotateRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7156220155528071178, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
@@ -19811,7 +19863,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
-  m_IsOn: 0
+  m_IsOn: 1
 --- !u!1 &1861583032
 GameObject:
   m_ObjectHideFlags: 0

@@ -82,6 +82,23 @@ public class ZoomControl : MonoBehaviour
         Zoom(1.0f, 2.0f);
     }
 
+	// the following three methods: just for animation zoom!
+
+	public void AnimZoomIn()
+    {
+        Zoom(-3.0f, 4.0f);
+    }
+
+    public void AnimZoomOut()
+    {
+        Zoom(3.0f, 4.0f);
+    }
+
+	public void AnimResetZoom() {
+		cam.fieldOfView = originalFieldOfView;
+	}
+
+
     /** Set position of model cam
      *  depending on size of the current 3D model
      *  to fit model into fov of cam
