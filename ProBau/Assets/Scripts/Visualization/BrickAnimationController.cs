@@ -28,7 +28,7 @@ public class BrickAnimationController : MonoBehaviour
     private int count = 0;
 
     private bool animationOn = false;
-    float layerHeight = 1.92f;
+    const float layerHeight = 1.92f;
     int layer = 0;
 
     private Vector3[] startPos = null;
@@ -38,23 +38,24 @@ public class BrickAnimationController : MonoBehaviour
     private float startLerpTime;
     float lerpTime = 1.0f;
 
+    private GameObject animationBlockContainer;
 
     AudioSource source;
 
     private void Awake()
     {
         brickMap = new Dictionary<Vector3Int, GameObject>();
-        brickMap.Add(GlobalConstants.BlockTypes[10], brick_2x8);
-        brickMap.Add(GlobalConstants.BlockTypes[9], brick_2x6);
-        brickMap.Add(GlobalConstants.BlockTypes[8], brick_2x4);
-        brickMap.Add(GlobalConstants.BlockTypes[7], brick_2x3);
-        brickMap.Add(GlobalConstants.BlockTypes[6], brick_2x2);
+        brickMap.Add(GlobalConstants.BlockTypes[0], brick_2x8);
+        brickMap.Add(GlobalConstants.BlockTypes[1], brick_2x6);
+        brickMap.Add(GlobalConstants.BlockTypes[2], brick_2x4);
+        brickMap.Add(GlobalConstants.BlockTypes[3], brick_2x3);
+        brickMap.Add(GlobalConstants.BlockTypes[4], brick_2x2);
         brickMap.Add(GlobalConstants.BlockTypes[5], brick_1x8);
-        brickMap.Add(GlobalConstants.BlockTypes[4], brick_1x6);
-        brickMap.Add(GlobalConstants.BlockTypes[3], brick_1x4);
-        brickMap.Add(GlobalConstants.BlockTypes[2], brick_1x3);
-        brickMap.Add(GlobalConstants.BlockTypes[1], brick_1x2);
-        brickMap.Add(GlobalConstants.BlockTypes[0], brick_1x1);
+        brickMap.Add(GlobalConstants.BlockTypes[6], brick_1x6);
+        brickMap.Add(GlobalConstants.BlockTypes[7], brick_1x4);
+        brickMap.Add(GlobalConstants.BlockTypes[8], brick_1x3);
+        brickMap.Add(GlobalConstants.BlockTypes[9], brick_1x2);
+        brickMap.Add(GlobalConstants.BlockTypes[10], brick_1x1);
 
         source = GetComponent<AudioSource>();
     }
@@ -257,6 +258,11 @@ public class BrickAnimationController : MonoBehaviour
 
     private void InstantiateBricks(List<BuildingBlock> blocksToInstantiate)
     {
+        if (animationBlockContainer!=null)
+        {
+            DestroyImmediate(animationBlockContainer);
+        }
+        animationBlockContainer = new GameObject("Animation Block Container");
         Quaternion rot = Quaternion.Euler(0, 0, 0);
         buildingBlockObjects = new GameObject[blocksToInstantiate.Count];
         for (int i = 0; i < blocksToInstantiate.Count; i++)
@@ -265,20 +271,20 @@ public class BrickAnimationController : MonoBehaviour
             {
                 rot = Quaternion.Euler(0, 90f, 0);
             }
+            else
+            {
+                rot = Quaternion.Euler(0, 0, 0);
+            }
             float yPos = blocksToInstantiate[i].pos.y * layerHeight;
             float xPos = blocksToInstantiate[i].pos.x * 1.6f;
             float zPos = blocksToInstantiate[i].pos.z * 1.6f;
             Vector3 position = new Vector3(xPos, yPos, zPos);
-            buildingBlockObjects[i] = Instantiate(brickMap[blocksToInstantiate[i].extends], position, rot);
+            buildingBlockObjects[i] = Instantiate(brickMap[blocksToInstantiate[i].extends], position, rot, animationBlockContainer.transform);
             buildingBlockObjects[i].SetActive(false);
 
-            Color whateverColor = blocksToInstantiate[i].blockColor;
-
             MeshRenderer gameObjectRenderer = buildingBlockObjects[i].GetComponentInChildren<MeshRenderer>();
-
             Material newMaterial = new Material(Shader.Find("Diffuse"));
-
-            newMaterial.color = whateverColor;
+            newMaterial.color = blocksToInstantiate[i].blockColor;
             gameObjectRenderer.material = newMaterial;
 
         }
