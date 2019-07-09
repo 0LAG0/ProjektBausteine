@@ -76,6 +76,11 @@ public class BrickItController : MonoBehaviour
 
     public void BrickIt()
     {
-        conversionController.runBrickification(getBrickItConfig());
+        conversionController.InstantiateBricks(getBrickItConfig());
+    }
+
+    public void StartAnimation()
+    {
+        conversionController.TriggerAnimation(getBrickItConfig());
     }
 }

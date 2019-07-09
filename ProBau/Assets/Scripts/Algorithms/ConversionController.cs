@@ -10,30 +10,25 @@ using UnityEngine;
 /// </summary>
 public class ConversionController : MonoBehaviour
 {
+    public BrickAnimationController animationController;
+    private GameObject lastBricked;
+
+    /*
     public int height;
     public Mesh testMesh;
     public Texture2D testTex;
     public bool isDebug = false;
-    private GameObject lastBricked;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown("space"))
-        {
-            VoxelTools.MakeAllCubesFall();
-        }
-    }
-    /*
     private void Start()
     {
         if (isDebug)
         {
-            BrickItConfiguration testCFG = getTestCfg();
+            BrickItConfiguration testCFG = GetTestCfg();
             runBrickification(testCFG);
         }
     }*/
 
-    public void runBrickification(BrickItConfiguration cfg)
+    public List<BuildingBlock> GetBuildingBlocks(BrickItConfiguration cfg)
     {
         if (lastBricked!=null)
         {
@@ -41,53 +36,49 @@ public class ConversionController : MonoBehaviour
             lastBricked = null;
         }
         BlockSelector selector = new BlockSelector(cfg.brickExtends);
-        var startT = System.DateTime.Now;
         var tex = ColorCalculation.colorCalculate(cfg.tex, cfg.colors);
-        var colorDone = System.DateTime.Now;
-        var optimizedMesh = MeshUtils.OptimizeMesh(cfg.mesh, cfg.height);
-        optimizedMesh.RecalculateNormals();
         var voxels = Voxelizer.Voxelize(cfg.mesh, tex, cfg.height);
-        var voxelsInitDone = System.DateTime.Now;
         voxels = Voxelizer.AddWidth(voxels, cfg.depth);
-        var widthAdded = System.DateTime.Now;
-        var buildingBlocks = selector.calculateBlocksSpiralWithBounds(voxels);
-        var blocksSelected = System.DateTime.Now;
-        Debug.Log(buildingBlocks.Count);
+        return selector.calculateBlocksSpiralWithBounds(voxels);
+    }
+
+    public void InstantiateBricks(BrickItConfiguration cfg)
+    {
+        var oldMesh = cfg.mesh.vertices;
+        var buildingBlocks = GetBuildingBlocks(cfg);
         foreach (BuildingBlock bb in buildingBlocks)
         {
-            //Wird hin und wieder null, sofern nicht alle steine selektiert sind
             Vector3 position = new Vector3(bb.pos.x, bb.pos.y * GlobalConstants.VoxelHeight, bb.pos.z);
 
             if (bb.isFlipped)
             {
-                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z , bb.extends.y * GlobalConstants.VoxelHeight, bb.extends.x ));
+                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.z, bb.extends.y * GlobalConstants.VoxelHeight, bb.extends.x));
             }
             else
             {
-                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x , bb.extends.y * GlobalConstants.VoxelHeight, bb.extends.z ));
+                VoxelTools.MakeCube(position, bb.blockColor, new Vector3(bb.extends.x, bb.extends.y * GlobalConstants.VoxelHeight, bb.extends.z));
             }
-
-            //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
         var cubeContainer = GameObject.Find(GlobalConstants.cubeContainerName);
         cubeContainer.transform.position = cfg.transform.position;
         cubeContainer.transform.rotation = cfg.transform.rotation;
         cubeContainer.transform.parent = GameObject.Find("ModelsContainer").transform;
+        cubeContainer.layer = 9;
         var pos = cubeContainer.transform.position;
-        float[] minMax = MeshUtils.GetBoundsPerDimension(optimizedMesh);
+        float[] minMax = MeshUtils.GetBoundsPerDimension(cfg.mesh);
         cubeContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
         lastBricked = cubeContainer;
-        var blocksInstaniated = System.DateTime.Now;
-        Debug.Log($"Total Time needed: {blocksInstaniated-startT}");
-        Debug.Log($"Time needed for Colors: {colorDone - startT}");
-        Debug.Log($"Time needed for Voxel Init: {voxelsInitDone - colorDone}");
-        Debug.Log($"Time needed for width add: {widthAdded - voxelsInitDone}");
-        Debug.Log($"Time needed for block select: {blocksSelected - widthAdded}");
-        Debug.Log($"Time needed for blocks instaniated: {blocksInstaniated - blocksSelected}");
-
+        cfg.mesh.vertices = oldMesh;
+        cfg.mesh.RecalculateBounds();
     }
 
-    private BrickItConfiguration getTestCfg()
+    public void TriggerAnimation(BrickItConfiguration cfg)
+    {
+        animationController.StartAnimation(GetBuildingBlocks(cfg));
+    }
+
+    /*
+    private BrickItConfiguration GetTestCfg()
     {
         var testCFG = new BrickItConfiguration();
         testCFG.height = height;
@@ -99,4 +90,5 @@ public class ConversionController : MonoBehaviour
         testCFG.transform = new GameObject().transform;
         return testCFG;
     }
+    */
 }

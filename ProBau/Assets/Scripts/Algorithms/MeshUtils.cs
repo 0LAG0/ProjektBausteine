@@ -9,7 +9,6 @@ public class MeshUtils
         float scale = height / origHeight;
         var nMesh = inputMesh;
         var vertsTemp = new Vector3[inputMesh.vertices.Length];
-        //Debug.Log(inputMesh.vertices[50]);
         for (int n = 0; n < inputMesh.vertices.Length; n++)
         {
             Vector3 vert = inputMesh.vertices[n];
@@ -20,7 +19,7 @@ public class MeshUtils
             vertsTemp[n] = vert;
         }
         nMesh.vertices = vertsTemp;
-        //Debug.Log(nMesh.vertices[50]);
+        nMesh.RecalculateBounds();
         return nMesh;
     }
 
@@ -48,6 +47,7 @@ public class MeshUtils
             vertsTemp[n] = vert;
         }
         nMesh.vertices = vertsTemp;
+        nMesh.RecalculateBounds();
         return nMesh;
     }
 

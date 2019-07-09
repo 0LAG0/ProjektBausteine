@@ -11,6 +11,7 @@ public class ManipulateMesh : MonoBehaviour
     void Start()
     {
         MeshUtils.RescaleCenterPivotRotateInMesh(mesh,height,Quaternion);
+        //MeshUtils.RescaleAndCenterPivot(mesh, height);
     }
 
 }

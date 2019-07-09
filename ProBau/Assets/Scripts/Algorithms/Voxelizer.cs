@@ -25,24 +25,25 @@ public class Voxelizer : MonoBehaviour
         bool hasUV = mesh.uv != null && mesh.uv.Length != 0;
 
 
-
-        mesh = MeshUtils.OptimizeMesh(mesh, height);
-        mesh.RecalculateNormals();
-        float[] minMax = MeshUtils.GetBoundsPerDimension(mesh);
+        // take new mesh
+        var newMesh = MeshUtils.OptimizeMesh(mesh, height);
+        newMesh.RecalculateNormals();
+        newMesh.RecalculateBounds();
+        float[] minMax = MeshUtils.GetBoundsPerDimension(newMesh);
 
         int Height = (int)(minMax[3] / GlobalConstants.VoxelHeight) + 2;
         int Width = (int)(minMax[1] / GlobalConstants.VoxelWidth) + 2;
         int Depth = (int)(minMax[5] / GlobalConstants.VoxelWidth) + 2;
         var container = new Voxel[Width, Height, Depth];
-        var verticez = mesh.vertices;
-        var triangles = mesh.triangles;
-        var normals = mesh.normals;
+        var vertices = newMesh.vertices;
+        var triangles = newMesh.triangles;
+        var normals = newMesh.normals;
 
         for (int i = 0; i < triangles.Length; i += 3)
         {
-            Vector3 a = verticez[triangles[i]];
-            Vector3 b = verticez[triangles[i + 1]];
-            Vector3 c = verticez[triangles[i + 2]];
+            Vector3 a = vertices[triangles[i]];
+            Vector3 b = vertices[triangles[i + 1]];
+            Vector3 c = vertices[triangles[i + 2]];
 
             Vector3 aN = normals[triangles[i]];
             Vector3 bN = normals[triangles[i + 1]];
@@ -54,7 +55,7 @@ public class Voxelizer : MonoBehaviour
             Color voxelColor = GlobalConstants.stockColor;
             if (hasUV)
             {
-                voxelColor = tex.GetPixelBilinear(mesh.uv[triangles[i]].x, mesh.uv[triangles[i]].y);
+                voxelColor = tex.GetPixelBilinear(newMesh.uv[triangles[i]].x, newMesh.uv[triangles[i]].y);
             }
 
             for (int x = SnapToWidth(min.x); x <= SnapToWidth(max.x); x++)
@@ -125,6 +126,10 @@ public class Voxelizer : MonoBehaviour
                                 for (int s = 0; s <= i; s++)
                                 {
                                     var curPos = nextPos + (vec * s);
+                                    if (curPos.x < 0 || curPos.y < 0 || curPos.z < 0 || curPos.x >= inputVoxels.GetLength(0) || curPos.y >= inputVoxels.GetLength(1) || curPos.z >= inputVoxels.GetLength(2))
+                                    {
+                                        break;
+                                    }
                                     var curId = inputVoxels[(int)curPos.x, (int)curPos.y, (int)curPos.z].id;
                                     if (curId == 0)
                                     {

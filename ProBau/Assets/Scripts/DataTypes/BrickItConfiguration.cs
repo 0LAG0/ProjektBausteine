@@ -11,4 +11,14 @@ public struct BrickItConfiguration
     public Mesh mesh;
     public Texture2D tex;
     public Transform transform;
+
+    public static bool operator ==(BrickItConfiguration a, BrickItConfiguration b)
+    {
+        return a.Equals(b);
+    }
+
+    public static bool operator !=(BrickItConfiguration a, BrickItConfiguration b)
+    {
+        return !a.Equals(b);
+    }
 }
