@@ -1,17 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class ManipulateMesh : MonoBehaviour
 {
-    public Mesh mesh;
+    public Transform selectedGameObject;
     public float height;
     public Quaternion Quaternion;
+
+    public string saveName;
     // Start is called before the first frame update
     void Start()
     {
-        MeshUtils.RescaleCenterPivotRotateInMesh(mesh,height,Quaternion);
+        MeshUtils.RescaleCenterPivotRotateInMesh(selectedGameObject.GetComponentInChildren<MeshFilter>().mesh, height,Quaternion);
         //MeshUtils.RescaleAndCenterPivot(mesh, height);
+        SaveAsset();
     }
 
+    void SaveAsset()
+    {
+        var mf = selectedGameObject.GetComponentInChildren<MeshFilter>();
+        if (mf)
+        {
+            var savePath = "Assets/" + saveName + ".asset";
+            Debug.Log("Saved Mesh to:" + savePath);
+            AssetDatabase.CreateAsset(mf.mesh, savePath);
+        }
+    }
 }
