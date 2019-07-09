@@ -10,5 +10,5 @@ public struct BrickItConfiguration
     public int depth;
     public Mesh mesh;
     public Texture2D tex;
-    public Vector3 posOfObject;
+    public Transform transform;
 }

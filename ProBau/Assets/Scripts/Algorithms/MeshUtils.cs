@@ -39,7 +39,7 @@ public class MeshUtils
             vert.y -= minMax[2];
             vert.z -= minMax[4];
 
-            //center?
+            //center!
             vert.x -= (minMax[1] - minMax[0]) / 2;
             vert.y -= (minMax[3] - minMax[2]) / 2;
             vert.z -= (minMax[5] - minMax[4]) / 2;
@@ -72,5 +72,33 @@ public class MeshUtils
             i++;
         }
         return new float[] { xLowest, xHighest, yLowest, yHighest, zLowest, zHighest };
+    }
+
+    public static void RescaleCenterPivotRotateInMesh(Mesh inputMesh, float height, Quaternion rotation)
+    {
+        float[] minMax = GetBoundsPerDimension(inputMesh);
+        float origHeight = minMax[3] - minMax[2];
+        float scale = height / origHeight;
+        var vertsTemp = new Vector3[inputMesh.vertices.Length];
+        for (int n = 0; n < inputMesh.vertices.Length; n++)
+        {
+            Vector3 vert = inputMesh.vertices[n];
+            //Move pivot to lower Left
+            vert.x -= minMax[0];
+            vert.y -= minMax[2];
+            vert.z -= minMax[4];
+
+            //center!
+            vert.x -= (minMax[1] - minMax[0]) / 2;
+            vert.y -= (minMax[3] - minMax[2]) / 2;
+            vert.z -= (minMax[5] - minMax[4]) / 2;
+
+            vert *= scale;
+
+            vert = rotation * vert;
+            vertsTemp[n] = vert;
+        }
+        inputMesh.vertices = vertsTemp;
+        inputMesh.RecalculateBounds();
     }
 }

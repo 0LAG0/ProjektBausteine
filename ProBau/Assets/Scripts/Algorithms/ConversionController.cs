@@ -23,7 +23,7 @@ public class ConversionController : MonoBehaviour
             VoxelTools.MakeAllCubesFall();
         }
     }
-
+    /*
     private void Start()
     {
         if (isDebug)
@@ -31,7 +31,7 @@ public class ConversionController : MonoBehaviour
             BrickItConfiguration testCFG = getTestCfg();
             runBrickification(testCFG);
         }
-    }
+    }*/
 
     public void runBrickification(BrickItConfiguration cfg)
     {
@@ -70,7 +70,8 @@ public class ConversionController : MonoBehaviour
             //VoxelTools.MakeCube(bb.pos, VoxelTools.GetRandomColor(), bb.blockType.extends);
         }
         var cubeContainer = GameObject.Find(GlobalConstants.cubeContainerName);
-        cubeContainer.transform.position = cfg.posOfObject;
+        cubeContainer.transform.position = cfg.transform.position;
+        cubeContainer.transform.rotation = cfg.transform.rotation;
         cubeContainer.transform.parent = GameObject.Find("ModelsContainer").transform;
         var pos = cubeContainer.transform.position;
         float[] minMax = MeshUtils.GetBoundsPerDimension(optimizedMesh);
@@ -95,7 +96,7 @@ public class ConversionController : MonoBehaviour
         testCFG.depth = 3;
         testCFG.colors = GlobalConstants.LegoColors;
         testCFG.brickExtends = GlobalConstants.BlockTypes;
-        testCFG.posOfObject = new Vector3(0, 0, 0);
+        testCFG.transform = new GameObject().transform;
         return testCFG;
     }
 }

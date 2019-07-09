@@ -66,7 +66,7 @@ public class BrickItController : MonoBehaviour
         output.height = (int)Mathf.Round(scaling.value);
         output.depth = (int)Mathf.Round(depth.value);
         output.mesh = modelSelection.activeObject.GetComponentInChildren<MeshFilter>().mesh;
-        output.posOfObject = modelSelection.activeObject.transform.position;
+        output.transform = modelSelection.activeObject.transform;
         output.tex = (Texture2D) textureController.activeTexture;
 
         modelSelection.activeObject.SetActive(false);

@@ -12483,6 +12483,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: NewHTW_Logo
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 6af0092a7828ec0479d63ae5eb0410e3,
+        type: 3}
+      propertyPath: m_TagString
+      value: model
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 6af0092a7828ec0479d63ae5eb0410e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -20444,6 +20449,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Brick_IT2
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: f100c697d97c06a47a0b5f05290ca81c,
+        type: 3}
+      propertyPath: m_TagString
+      value: model
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: f100c697d97c06a47a0b5f05290ca81c,
         type: 3}
