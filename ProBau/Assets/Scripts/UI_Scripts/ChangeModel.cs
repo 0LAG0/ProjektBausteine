@@ -16,17 +16,10 @@ public class ChangeModel : MonoBehaviour
     // Default index of the model
     private int selectionIndex = 0;
 
-    //public GameObject teapot;
-    //public GameObject bunny;
-    //public GameObject htwLogo;
-    //public GameObject brickItLogo;
-
     public GameObject activeObject { get; private set; }
 
     private void Start()
     {
-        // Fetch the DropDown component from the GameObject
-        //m_Dropdown = GetComponent<Dropdown>();
 
         models = new List<GameObject>();
 
@@ -35,8 +28,8 @@ public class ChangeModel : MonoBehaviour
             models.Add(t.gameObject);
             t.gameObject.SetActive(false);
         }
-
-        models[selectionIndex].SetActive(true);
+        activeObject = models[selectionIndex];
+        activeObject.SetActive(true);
     }
 
     // Select any model at any time
@@ -52,51 +45,7 @@ public class ChangeModel : MonoBehaviour
         selectionIndex = index;
         activeObject = models[selectionIndex];
         activeObject.SetActive(true);
-        if (index != 0)
-        {
-            textureController.ApplyTexture(activeObject);
-        }
-
-        // -- NEW APPROACH --
-        // TODO: set teapot, bunny, ...
-        // TODO: rotate by 180° on y
-        //GameObject model = GameObject.FindGameObjectWithTag("model");
-
-        //if (model)
-        //{
-        //    Destroy(model);
-        //}
-
-        //switch (index)
-        //{
-        //    // option: Waehle ein Modell
-        //    case 0:
-        //        break;
-
-        //    // option: Utah Teapot
-        //    case 1:
-        //        Instantiate(teapot, GameObject.Find("ModelsContainer").transform);
-        //        teapot.tag = "model";
-        //        break;
-
-        //    // option: Stanford Bunny
-        //    case 2:
-        //        Instantiate(bunny, GameObject.Find("ModelsContainer").transform);
-        //        bunny.tag = "model";
-        //        break;
-
-        //    // option: HTW Logo
-        //    case 3:
-        //        Instantiate(htwLogo, GameObject.Find("ModelsContainer").transform);
-        //        htwLogo.tag = "model";
-        //        break;
-
-        //    // option: BrickIT Logo
-        //    case 4:
-        //        Instantiate(brickItLogo, GameObject.Find("ModelsContainer").transform);
-        //        brickItLogo.tag = "model";
-        //        break;
-        //}
+        textureController.ApplyTexture(activeObject);
     }
 
     private void SetAllInactive()

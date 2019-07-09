@@ -20,6 +20,7 @@ public class ZoomControl : MonoBehaviour
     {
         cam = GetComponent<Camera>();
         originalFieldOfView = cam.fieldOfView;
+        AdjustZoom();
     }
 
     void Update()
@@ -116,7 +117,6 @@ public class ZoomControl : MonoBehaviour
             if (meshFilter)
             {
                 Mesh mesh = meshFilter.mesh;
-
                 Vector3 size = mesh.bounds.size;
 
                 float objectSize = Mathf.Max(size.x, size.y, size.z);
