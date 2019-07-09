@@ -5,12 +5,16 @@
 public class RotationControl : MonoBehaviour
 {
     float rotationSpeed = 2f;
-    GameObject modelsContainer;
-    GameObject previewArea;
+    public GameObject modelsContainer;
+    public GameObject previewArea;
 
+    private void Start()
+    {
+        //modelsContainer = GameObject.Find("ModelsContainer");
+        //previewArea = GameObject.Find("Preview_Area");
+    }
     void OnMouseDrag()
     {
-        modelsContainer = GameObject.Find("ModelsContainer");
 
         float xAxisRotation = Input.GetAxis("Mouse X") * rotationSpeed;
         float yAxisRotation = Input.GetAxis("Mouse Y") * rotationSpeed;
@@ -21,7 +25,6 @@ public class RotationControl : MonoBehaviour
 
     private void Update()
     {
-        previewArea = GameObject.Find("Preview_Area");
         RectTransform previewRectTransform = previewArea.GetComponent<RectTransform>();
 
         Vector3 mousePos = Input.mousePosition;

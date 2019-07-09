@@ -74,7 +74,8 @@ public class ConversionController : MonoBehaviour
 
     public void TriggerAnimation(BrickItConfiguration cfg)
     {
-        animationController.StartAnimation(GetBuildingBlocks(cfg));
+        float[] minMax = MeshUtils.GetBoundsPerDimension(cfg.mesh);
+        animationController.StartAnimation(GetBuildingBlocks(cfg), minMax);
     }
 
     /*

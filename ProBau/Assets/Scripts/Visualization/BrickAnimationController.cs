@@ -60,12 +60,12 @@ public class BrickAnimationController : MonoBehaviour
         source = GetComponent<AudioSource>();
     }
 
-    public void StartAnimation(List<BuildingBlock> inputBlocks)
+    public void StartAnimation(List<BuildingBlock> inputBlocks, float[] minMax)
     {
         var localBlocks = inputBlocks;
         var AmmountOfBricks = inputBlocks.Count;
         localBlocks.Sort(SortByY);
-        InstantiateBricks(localBlocks);
+        InstantiateBricks(localBlocks, minMax);
         distance = buildingBlockObjects[AmmountOfBricks - 1].transform.position.y;
         startPos = new Vector3[AmmountOfBricks];
         endPos = new Vector3[AmmountOfBricks];
@@ -256,13 +256,14 @@ public class BrickAnimationController : MonoBehaviour
         }
     }
 
-    private void InstantiateBricks(List<BuildingBlock> blocksToInstantiate)
+    private void InstantiateBricks(List<BuildingBlock> blocksToInstantiate, float[] minMax)
     {
         if (animationBlockContainer!=null)
         {
             DestroyImmediate(animationBlockContainer);
         }
         animationBlockContainer = new GameObject("Animation Block Container");
+        animationBlockContainer.transform.parent = this.transform;
         Quaternion rot = Quaternion.Euler(0, 0, 0);
         buildingBlockObjects = new GameObject[blocksToInstantiate.Count];
         for (int i = 0; i < blocksToInstantiate.Count; i++)
@@ -288,6 +289,8 @@ public class BrickAnimationController : MonoBehaviour
             gameObjectRenderer.material = newMaterial;
 
         }
+        var pos = animationBlockContainer.transform.position;
+        animationBlockContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
     }
 
     //sollte eigentlich in einen richtigen input handler, aber aufgrund von zeitmangel verschoben.
