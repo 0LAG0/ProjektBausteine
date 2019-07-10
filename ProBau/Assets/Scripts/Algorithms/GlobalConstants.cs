@@ -8,6 +8,7 @@ using UnityEngine;
 class GlobalConstants
 {
     public const string cubeContainerName = "cube container";
+    public const string containerTag = "BrickContainer";
 
     public const float VoxelWidth = 1f;
     public const float VoxelHeight = 1.2f;

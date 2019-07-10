@@ -48,7 +48,7 @@ public class ZoomControl : MonoBehaviour
         }
         else
         {
-            
+
             RectTransform previewRectTransform = previewArea.GetComponent<RectTransform>();
 
             Vector3 mousePos = Input.mousePosition;
@@ -83,23 +83,6 @@ public class ZoomControl : MonoBehaviour
         Zoom(1.0f, 2.0f);
     }
 
-	// the following three methods: just for animation zoom!
-
-	public void AnimZoomIn()
-    {
-        Zoom(-3.0f, 4.0f);
-    }
-
-    public void AnimZoomOut()
-    {
-        Zoom(3.0f, 4.0f);
-    }
-
-	public void AnimResetZoom() {
-		cam.fieldOfView = originalFieldOfView;
-	}
-
-
     /** Set position of model cam
      *  depending on size of the current 3D model
      *  to fit model into fov of cam
@@ -107,26 +90,37 @@ public class ZoomControl : MonoBehaviour
      */
     public void AdjustZoom()
     {
+        Vector3 size = Vector3.one;
+        Vector3 center = Vector3.zero;
         model = GameObject.FindWithTag("model");
-        if (model != null)
+        if (model != null && model.GetComponentInChildren<MeshFilter>() != null)
         {
             MeshFilter meshFilter = model.GetComponentInChildren<MeshFilter>();
+            Mesh mesh = meshFilter.mesh;
+            size = mesh.bounds.size;
+            center = mesh.bounds.center;
+        }
+        else
+        {
+            model = GameObject.FindWithTag(GlobalConstants.containerTag);
+            if (model != null)
+            {
+                var boundsHandler = model.GetComponentInChildren<BoundsHandler>();
+                size = boundsHandler.Bounds;
+                center = size / 2;
+            }
+        }
 
+        if (model != null)
+        {
             cam.fieldOfView = originalFieldOfView;
 
-            if (meshFilter)
-            {
-                Mesh mesh = meshFilter.mesh;
-                Vector3 size = mesh.bounds.size;
+            float objectSize = Mathf.Max(size.x, size.y, size.z);
+            float cameraView = 2f * Mathf.Tan(0.5f * Mathf.Deg2Rad * cam.fieldOfView);  // Visible height 1 meter in front of cam
+            float distance = objectSize / cameraView;    // Combined wanted distance from the object
+            distance += 0.5f * objectSize;  // Estimated offset from the center to the outside of the object
 
-                float objectSize = Mathf.Max(size.x, size.y, size.z);
-
-                float cameraView = 2f * Mathf.Tan(0.5f * Mathf.Deg2Rad * cam.fieldOfView);  // Visible height 1 meter in front of cam
-                float distance = objectSize / cameraView;    // Combined wanted distance from the object
-                distance += 0.5f * objectSize;  // Estimated offset from the center to the outside of the object
-
-                cam.transform.position = mesh.bounds.center + model.transform.position - distance * cam.transform.forward;
-            }
+            cam.transform.position = center + model.transform.position - distance * cam.transform.forward;
         }
     }
 }

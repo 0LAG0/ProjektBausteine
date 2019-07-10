@@ -147,13 +147,13 @@ public class BrickAnimationController : MonoBehaviour
     {
         if (LastIndexSet + 1 < buildingBlockObjects.Length)
         {
-            var nextY = Mathf.Round(buildingBlockObjects[LastIndexSet+1].transform.position.y);
+            var nextY = Mathf.Round(buildingBlockObjects[LastIndexSet+1].transform.localPosition.y);
             var lookahead = 1;
             var foundNextLayer = false;
             Debug.Log(LastIndexSet);
             while (LastIndexSet + lookahead + 1 < buildingBlockObjects.Length && !foundNextLayer)
             {
-                var lookaheadY = Mathf.Round(buildingBlockObjects[LastIndexSet + lookahead + 1].transform.position.y);
+                var lookaheadY = Mathf.Round(buildingBlockObjects[LastIndexSet + lookahead + 1].transform.localPosition.y);
                 foundNextLayer = nextY != lookaheadY;
                 if (!foundNextLayer)
                 {
@@ -175,12 +175,12 @@ public class BrickAnimationController : MonoBehaviour
         //Ebenenweise abziehen
         if (LastIndexSet >= 0)//bei jakob fehler?
         {
-            var LastY = buildingBlockObjects[LastIndexSet].transform.position.y;
+            var LastY = buildingBlockObjects[LastIndexSet].transform.localPosition.y;
             var lookback = 1;
             var foundPreviousLayer = false;
             while (LastIndexSet - lookback >= 0 && !foundPreviousLayer)
             {
-                var lookbackY = buildingBlockObjects[LastIndexSet - lookback].transform.position.y;
+                var lookbackY = buildingBlockObjects[LastIndexSet - lookback].transform.localPosition.y;
                 foundPreviousLayer = LastY != lookbackY;
                 if (!foundPreviousLayer)
                 {
@@ -232,11 +232,15 @@ public class BrickAnimationController : MonoBehaviour
             DestroyImmediate(animationBlockContainer);
         }
         animationBlockContainer = new GameObject("Animation Block Container");
+        var boundsHandler = animationBlockContainer.AddComponent<BoundsHandler>();
+        animationBlockContainer.tag = GlobalConstants.containerTag;
         animationBlockContainer.transform.parent = this.transform;
         Quaternion rot = Quaternion.Euler(0, 0, 0);
-        var pos = animationBlockContainer.transform.position;
+        var pos = animationBlockContainer.transform.localPosition;
+        boundsHandler.Bounds = new Vector3((minMax[1] - minMax[0]) * layerWidth, (minMax[3] - minMax[2]) * layerHeight, (minMax[5] - minMax[4]) * layerWidth);
         //Pivot durch parent object centern
-        animationBlockContainer.transform.localPosition = new Vector3(pos.x - ((minMax[1] - minMax[0]) / 2)*0.875f, pos.y - ((minMax[3] - minMax[2]) / 2) * 0.875f, pos.z - ((minMax[5] - minMax[4]) / 2))* 0.875f;
+        animationBlockContainer.transform.localPosition = new Vector3(pos.x - boundsHandler.Bounds.x / 2, pos.y - boundsHandler.Bounds.y / 2, pos.z - boundsHandler.Bounds.z / 2);
+        
         buildingBlockObjects = new GameObject[blocksToInstantiate.Count];
         for (int i = 0; i < blocksToInstantiate.Count; i++)
         {

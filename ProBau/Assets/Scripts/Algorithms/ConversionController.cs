@@ -13,6 +13,9 @@ public class ConversionController : MonoBehaviour
     public BrickAnimationController animationController;
     private GameObject lastBricked;
 
+    //using class as a buffer which undermines readable controllflow
+    //but urgency forces me...
+    private float[] lastExtends;
     /*
     public int height;
     public Mesh testMesh;
@@ -40,6 +43,7 @@ public class ConversionController : MonoBehaviour
         var tex = ColorCalculation.colorCalculate(cfg.tex, cfg.colors);
         var voxels = Voxelizer.Voxelize(cfg.mesh, tex, cfg.height);
         voxels = Voxelizer.AddWidth(voxels, cfg.depth);
+        lastExtends = MeshUtils.GetBoundsPerDimension(cfg.mesh);
         cfg.mesh.vertices = oldMesh;
         cfg.mesh.RecalculateBounds();
         return selector.calculateBlocksSpiralWithBounds(voxels);
@@ -65,17 +69,18 @@ public class ConversionController : MonoBehaviour
         cubeContainer.transform.position = cfg.transform.position;
         cubeContainer.transform.rotation = cfg.transform.rotation;
         cubeContainer.transform.parent = GameObject.Find("ModelsContainer").transform;
+        var boundsHandler = cubeContainer.AddComponent<BoundsHandler>();
+        cubeContainer.tag = GlobalConstants.containerTag;
         cubeContainer.layer = 9;
         var pos = cubeContainer.transform.position;
-        float[] minMax = MeshUtils.GetBoundsPerDimension(cfg.mesh);
-        cubeContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
+        boundsHandler.Bounds = new Vector3(lastExtends[1] - lastExtends[0], lastExtends[3] - lastExtends[2], lastExtends[5] - lastExtends[4]);
+        cubeContainer.transform.position = new Vector3(pos.x - boundsHandler.Bounds.x / 2, pos.y - boundsHandler.Bounds.y / 2, pos.z - boundsHandler.Bounds.z / 2);
         lastBricked = cubeContainer;
     }
 
     public void TriggerAnimation(BrickItConfiguration cfg)
     {
-        float[] minMax = MeshUtils.GetBoundsPerDimension(cfg.mesh);
-        animationController.StartAnimation(GetBuildingBlocks(cfg), minMax);
+        animationController.StartAnimation(GetBuildingBlocks(cfg), lastExtends);
     }
 
     /*
