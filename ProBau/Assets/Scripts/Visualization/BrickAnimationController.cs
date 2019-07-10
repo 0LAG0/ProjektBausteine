@@ -31,7 +31,6 @@ public class BrickAnimationController : MonoBehaviour
     private bool animationOn = false;
     const float layerHeight = 1.92f;
     const float layerWidth = 1.6f;
-    int layer = 0;
 
     private float distance;
     private float currentLerpTime;
@@ -62,6 +61,8 @@ public class BrickAnimationController : MonoBehaviour
 
     public void StartAnimation(List<BuildingBlock> inputBlocks, float[] minMax)
     {
+        LastIndexSet = -1;
+        animationOn = false;
         localBlocks = inputBlocks;
         var AmmountOfBricks = inputBlocks.Count;
         localBlocks.Sort(SortByDimensions);
@@ -147,12 +148,13 @@ public class BrickAnimationController : MonoBehaviour
     {
         if (LastIndexSet + 1 < buildingBlockObjects.Length)
         {
-            var nextY = buildingBlockObjects[LastIndexSet+1].transform.position.y;
+            var nextY = Mathf.Round(buildingBlockObjects[LastIndexSet+1].transform.position.y);
             var lookahead = 1;
             var foundNextLayer = false;
+            Debug.Log(LastIndexSet);
             while (LastIndexSet + lookahead + 1 < buildingBlockObjects.Length && !foundNextLayer)
             {
-                var lookaheadY = buildingBlockObjects[LastIndexSet + lookahead + 1].transform.position.y;
+                var lookaheadY = Mathf.Round(buildingBlockObjects[LastIndexSet + lookahead + 1].transform.position.y);
                 foundNextLayer = nextY != lookaheadY;
                 if (!foundNextLayer)
                 {
@@ -160,6 +162,7 @@ public class BrickAnimationController : MonoBehaviour
                 }
                 //LastIndexSet+lookahead= last stone on Layer;
             }
+            Debug.Log(LastIndexSet+lookahead);
             for (int i = LastIndexSet + 1; i <= LastIndexSet + lookahead; i++)
             {
                 MoveBrick(i);
@@ -171,7 +174,7 @@ public class BrickAnimationController : MonoBehaviour
     public void RemoveLayer()
     {
         //Ebenenweise abziehen
-        if (LastIndexSet >= 0)
+        if (LastIndexSet >= 0)//bei jakob 
         {
             var LastY = buildingBlockObjects[LastIndexSet].transform.position.y;
             var lookback = 1;
@@ -218,7 +221,7 @@ public class BrickAnimationController : MonoBehaviour
             }
             StopAllCoroutines();
             animationOn = false;
-            LastIndexSet = 0;
+            LastIndexSet = -1;
         }
     }
 
@@ -235,7 +238,7 @@ public class BrickAnimationController : MonoBehaviour
         Quaternion rot = Quaternion.Euler(0, 0, 0);
         var pos = animationBlockContainer.transform.position;
         //Pivot durch parent object centern
-        animationBlockContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
+        animationBlockContainer.transform.position = new Vector3(pos.x - ((minMax[1] - minMax[0]) / 2)*1.25f, pos.y - ((minMax[3] - minMax[2]) / 2) * 1.25f, pos.z - ((minMax[5] - minMax[4]) / 2))*1.25f;
         buildingBlockObjects = new GameObject[blocksToInstantiate.Count];
         for (int i = 0; i < blocksToInstantiate.Count; i++)
         {
