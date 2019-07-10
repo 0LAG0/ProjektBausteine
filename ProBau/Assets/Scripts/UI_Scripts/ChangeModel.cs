@@ -59,11 +59,11 @@ public class ChangeModel : MonoBehaviour
 
     public void SetImportedActive(GameObject gameObject)
     {
-        selectionIndex = 0;
         SetAllInactive();
         models.Add(gameObject);
+        selectionIndex = models.Count-1;
         activeObject = gameObject;
-        m_Dropdown.value = 0;
+        //m_Dropdown.value = 0;
         activeObject.SetActive(true);
         textureController.ApplyTexture(activeObject);
     }
