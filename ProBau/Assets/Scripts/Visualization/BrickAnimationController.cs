@@ -236,7 +236,7 @@ public class BrickAnimationController : MonoBehaviour
         Quaternion rot = Quaternion.Euler(0, 0, 0);
         var pos = animationBlockContainer.transform.position;
         //Pivot durch parent object centern
-        animationBlockContainer.transform.position = new Vector3(pos.x - ((minMax[1] - minMax[0]) / 2)*1.25f, pos.y - ((minMax[3] - minMax[2]) / 2) * 1.25f, pos.z - ((minMax[5] - minMax[4]) / 2))*1.25f;
+        animationBlockContainer.transform.localPosition = new Vector3(pos.x - ((minMax[1] - minMax[0]) / 2)*0.875f, pos.y - ((minMax[3] - minMax[2]) / 2) * 0.875f, pos.z - ((minMax[5] - minMax[4]) / 2))* 0.875f;
         buildingBlockObjects = new GameObject[blocksToInstantiate.Count];
         for (int i = 0; i < blocksToInstantiate.Count; i++)
         {
@@ -305,6 +305,10 @@ public class BrickAnimationController : MonoBehaviour
             {
                 StartCoroutine(DisplayDelayed(LastIndexSet));
                 LastIndexSet++;
+            }
+            else
+            {
+                animationOn = false;
             }
         }
 

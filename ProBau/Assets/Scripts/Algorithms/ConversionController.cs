@@ -30,6 +30,7 @@ public class ConversionController : MonoBehaviour
 
     public List<BuildingBlock> GetBuildingBlocks(BrickItConfiguration cfg)
     {
+        var oldMesh = cfg.mesh.vertices;
         if (lastBricked!=null)
         {
             DestroyImmediate(lastBricked);
@@ -39,12 +40,13 @@ public class ConversionController : MonoBehaviour
         var tex = ColorCalculation.colorCalculate(cfg.tex, cfg.colors);
         var voxels = Voxelizer.Voxelize(cfg.mesh, tex, cfg.height);
         voxels = Voxelizer.AddWidth(voxels, cfg.depth);
+        cfg.mesh.vertices = oldMesh;
+        cfg.mesh.RecalculateBounds();
         return selector.calculateBlocksSpiralWithBounds(voxels);
     }
 
     public void InstantiateBricks(BrickItConfiguration cfg)
     {
-        var oldMesh = cfg.mesh.vertices;
         var buildingBlocks = GetBuildingBlocks(cfg);
         foreach (BuildingBlock bb in buildingBlocks)
         {
@@ -68,8 +70,6 @@ public class ConversionController : MonoBehaviour
         float[] minMax = MeshUtils.GetBoundsPerDimension(cfg.mesh);
         cubeContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
         lastBricked = cubeContainer;
-        cfg.mesh.vertices = oldMesh;
-        cfg.mesh.RecalculateBounds();
     }
 
     public void TriggerAnimation(BrickItConfiguration cfg)
