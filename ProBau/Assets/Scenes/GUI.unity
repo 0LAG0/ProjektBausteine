@@ -20897,7 +20897,7 @@ PrefabInstance:
     - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AnimResetZoom
+      value: AdjustZoom
       objectReference: {fileID: 0}
     - target: {fileID: 7156220154764834898, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
@@ -20922,7 +20922,7 @@ PrefabInstance:
     - target: {fileID: 7156220154764834898, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AnimZoomOut
+      value: ZoomOut
       objectReference: {fileID: 0}
     - target: {fileID: 7156220154764834898, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
@@ -20952,7 +20952,7 @@ PrefabInstance:
     - target: {fileID: 7156220155393014287, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: AnimZoomIn
+      value: ZoomIn
       objectReference: {fileID: 0}
     - target: {fileID: 7156220155393014287, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
