@@ -91,7 +91,7 @@ public class BrickAnimationController : MonoBehaviour
             float currentLerpTime = Time.time - startLerpTime;
             // calculate finished percentage of lerping process
             percentage = currentLerpTime / lerpTime;
-            obj.transform.position = Vector3.Lerp(start, end, percentage);
+            obj.transform.localPosition = Vector3.Lerp(start, end, percentage);
             source.Play();
             yield return count;
         }
@@ -265,6 +265,8 @@ public class BrickAnimationController : MonoBehaviour
         animationBlockContainer = new GameObject("Animation Block Container");
         animationBlockContainer.transform.parent = this.transform;
         Quaternion rot = Quaternion.Euler(0, 0, 0);
+        var pos = animationBlockContainer.transform.position;
+        animationBlockContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
         buildingBlockObjects = new GameObject[blocksToInstantiate.Count];
         for (int i = 0; i < blocksToInstantiate.Count; i++)
         {
@@ -287,10 +289,8 @@ public class BrickAnimationController : MonoBehaviour
             Material newMaterial = new Material(Shader.Find("Diffuse"));
             newMaterial.color = blocksToInstantiate[i].blockColor;
             gameObjectRenderer.material = newMaterial;
-
         }
-        var pos = animationBlockContainer.transform.position;
-        animationBlockContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
+        
     }
 
     //sollte eigentlich in einen richtigen input handler, aber aufgrund von zeitmangel verschoben.
