@@ -108,7 +108,7 @@ public class BrickAnimationController : MonoBehaviour
         StartCoroutine(MoveToPosition(buildingBlockObjects[index], startPos[index], endPos[index], index));
     }
 
-    private void GetCurrentCount()
+    private void GetCurrentBrickIndex()
     {
         int countActive = 0;
         for (int i = 0; i < buildingBlockObjects.Length; i++)
@@ -119,6 +119,13 @@ public class BrickAnimationController : MonoBehaviour
             }
         }
         count = countActive - 1;
+    }
+
+    private void SetDefaultState()
+    {
+        StopAllCoroutines();
+        Time.timeScale = 1;
+        animationOn = false;
     }
 
 
@@ -132,14 +139,12 @@ public class BrickAnimationController : MonoBehaviour
     {
         Time.timeScale = 0;
         animationOn = false;
-        GetCurrentCount();
+        GetCurrentBrickIndex();
     }
 
     public void AddBrick()
     {
-        StopAllCoroutines();
-        Time.timeScale = 1;
-        animationOn = false;
+        SetDefaultState();
         if (count <= buildingBlockObjects.Length - 1)
         {
             if (count == 0 && !buildingBlockObjects[0].activeInHierarchy)
@@ -148,9 +153,9 @@ public class BrickAnimationController : MonoBehaviour
                 StartCoroutine(MoveToPosition(buildingBlockObjects[count], startPos[count], endPos[count], count));
             }
 
+            // when animation is paused and the current moving brick is not in the right position
             else if (buildingBlockObjects[count].activeInHierarchy && buildingBlockObjects[count].transform.position != endPos[count])
             {
-                buildingBlockObjects[count].SetActive(true);
                 StartCoroutine(MoveToPosition(buildingBlockObjects[count], startPos[count], endPos[count], count));
             }
 
@@ -214,22 +219,33 @@ public class BrickAnimationController : MonoBehaviour
 
     public void AddLayer()
     {
+        SetDefaultState();
         if (count <= buildingBlockObjects.Length - 1)
         {
-            int naechster = (int)Mathf.Round(buildingBlockObjects[count + 1].transform.position.y / layerHeight);
-            layer = (int)Mathf.Round(buildingBlockObjects[count].transform.position.y / layerHeight);
+            int naechster = (int)Mathf.Round(endPos[count+1].y / layerHeight);
+            layer = (int)Mathf.Round(endPos[count].y / layerHeight);
             if (layer < naechster)
             {
                 layer += 1;
             }
+
             for (int i = 0; i <= buildingBlockObjects.Length - 1; i++)
             {
-                int level = (int)Mathf.Round(buildingBlockObjects[i].transform.position.y / layerHeight);
+                int level = (int)Mathf.Round(endPos[i].y / layerHeight);
                 if (layer == level)
                 {
-                    buildingBlockObjects[i].SetActive(true);
-                    count = i;
-                    StartCoroutine(MoveToPosition(buildingBlockObjects[count], startPos[count], endPos[count], count));
+                    // when animation is paused and the current moving brick is not in the right position
+                    if (buildingBlockObjects[i].activeInHierarchy && buildingBlockObjects[i].transform.position != endPos[i])
+                    {
+                        buildingBlockObjects[i].transform.position = endPos[i];
+                    }
+
+                    else if (!buildingBlockObjects[i].activeInHierarchy)
+                    {
+                        buildingBlockObjects[i].SetActive(true);
+                        count = i;
+                        StartCoroutine(MoveToPosition(buildingBlockObjects[count], startPos[count], endPos[count], count));
+                    }
                 }
             }
         }
