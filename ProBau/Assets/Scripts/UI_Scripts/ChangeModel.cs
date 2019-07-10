@@ -15,7 +15,7 @@ public class ChangeModel : MonoBehaviour
     private List<GameObject> models;
     // Default index of the model
     private int selectionIndex = 0;
-
+    private int initialLength;
     public GameObject activeObject { get; private set; }
 
     private void Start()
@@ -28,6 +28,7 @@ public class ChangeModel : MonoBehaviour
             models.Add(t.gameObject);
             t.gameObject.SetActive(false);
         }
+        initialLength = models.Count;
         activeObject = models[selectionIndex];
         activeObject.SetActive(true);
     }
@@ -48,6 +49,11 @@ public class ChangeModel : MonoBehaviour
         textureController.ApplyTexture(activeObject);
     }
 
+    public void Reselect()
+    {
+        Select(selectionIndex);
+    }
+
     private void SetAllInactive()
     {
         foreach (Transform t in transform)
@@ -60,10 +66,18 @@ public class ChangeModel : MonoBehaviour
     public void SetImportedActive(GameObject gameObject)
     {
         SetAllInactive();
+        if (models.Count == initialLength)
+        {
+            m_Dropdown.AddOptions(new List<string> { "Last Custom Model" });
+        }
+        else
+        {
+            models.Remove(models[models.Count - 1]);
+        }
         models.Add(gameObject);
-        selectionIndex = models.Count-1;
+        selectionIndex = models.Count - 1;
         activeObject = gameObject;
-        //m_Dropdown.value = 0;
+        m_Dropdown.value = selectionIndex;
         activeObject.SetActive(true);
         textureController.ApplyTexture(activeObject);
     }
