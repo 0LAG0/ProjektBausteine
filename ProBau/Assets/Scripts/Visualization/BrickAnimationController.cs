@@ -23,7 +23,6 @@ public class BrickAnimationController : MonoBehaviour
     public GameObject brick_2x8;
 
     private Dictionary<Vector3Int, GameObject> brickMap;
-    private float startHeight;
 
     public float speed = 1;
     private int LastIndexSet = -1;
@@ -33,8 +32,6 @@ public class BrickAnimationController : MonoBehaviour
     const float layerWidth = 1.6f;
 
     private float distance;
-    private float currentLerpTime;
-    private float startLerpTime;
     float lerpTime = 1.0f;
 
     private GameObject animationBlockContainer;
@@ -139,6 +136,8 @@ public class BrickAnimationController : MonoBehaviour
     {
         if (LastIndexSet >= 0)
         {
+            Debug.Log(LastIndexSet);
+            Debug.Log(buildingBlockObjects.Length);
             buildingBlockObjects[LastIndexSet].SetActive(false);
             LastIndexSet--;
         }
@@ -174,7 +173,7 @@ public class BrickAnimationController : MonoBehaviour
     public void RemoveLayer()
     {
         //Ebenenweise abziehen
-        if (LastIndexSet >= 0)//bei jakob 
+        if (LastIndexSet >= 0)//bei jakob fehler?
         {
             var LastY = buildingBlockObjects[LastIndexSet].transform.position.y;
             var lookback = 1;
@@ -198,15 +197,14 @@ public class BrickAnimationController : MonoBehaviour
     }
     public void ShowAll()
     {
-        Reset();
-        if (LastIndexSet <= buildingBlockObjects.Length - 1 && LastIndexSet>=0)
+        if (LastIndexSet < buildingBlockObjects.Length)
         {
-            for (int i = LastIndexSet; i <= buildingBlockObjects.Length - 1; i++)
+            Reset();
+            for (int i = LastIndexSet+1; i < buildingBlockObjects.Length; i++)
             {
                 buildingBlockObjects[i].SetActive(true);
             }
             LastIndexSet = buildingBlockObjects.Length - 1;
-            //Debug.Log(count);
         }
     }
 
@@ -255,6 +253,7 @@ public class BrickAnimationController : MonoBehaviour
             float zPos = blocksToInstantiate[i].pos.z * layerWidth;
             Vector3 position = new Vector3(xPos, yPos, zPos);
             buildingBlockObjects[i] = Instantiate(brickMap[blocksToInstantiate[i].extends], position, rot, animationBlockContainer.transform);
+            buildingBlockObjects[i].transform.localPosition = position;
             buildingBlockObjects[i].SetActive(false);
 
             MeshRenderer gameObjectRenderer = buildingBlockObjects[i].GetComponentInChildren<MeshRenderer>();

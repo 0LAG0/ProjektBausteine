@@ -1523,7 +1523,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: letzter Stein
+  m_Text: Vorheriger Stein
 --- !u!1 &3322200972133322243
 GameObject:
   m_ObjectHideFlags: 0
@@ -2699,7 +2699,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "n\xE4chster Stein"
+  m_Text: "N\xE4chster Stein"
 --- !u!1 &3322200973109710530
 GameObject:
   m_ObjectHideFlags: 0
