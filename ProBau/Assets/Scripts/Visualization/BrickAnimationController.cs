@@ -188,7 +188,7 @@ public class BrickAnimationController : MonoBehaviour
             }
             for (int i = LastIndexSet; i > LastIndexSet - lookback; i--)
             {
-                MoveBrick(i);
+                buildingBlockObjects[i].SetActive(false);
             }
             LastIndexSet -= lookback;
         }
