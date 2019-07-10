@@ -13,7 +13,7 @@ public class ZoomControl : MonoBehaviour
     Camera cam;
     float originalFieldOfView;
     GameObject model;
-    GameObject previewArea;
+    public GameObject previewArea;
 
     // Use this for initialization
     void Start()
@@ -48,7 +48,7 @@ public class ZoomControl : MonoBehaviour
         }
         else
         {
-            previewArea = GameObject.Find("Preview_Area");
+            
             RectTransform previewRectTransform = previewArea.GetComponent<RectTransform>();
 
             Vector3 mousePos = Input.mousePosition;

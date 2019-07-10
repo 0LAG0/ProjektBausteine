@@ -277,6 +277,7 @@ public class BrickAnimationController : MonoBehaviour
         animationBlockContainer.transform.parent = this.transform;
         Quaternion rot = Quaternion.Euler(0, 0, 0);
         var pos = animationBlockContainer.transform.position;
+        //Pivot durch parent object centern
         animationBlockContainer.transform.position = new Vector3(pos.x - (minMax[1] - minMax[0]) / 2, pos.y - (minMax[3] - minMax[2]) / 2, pos.z - (minMax[5] - minMax[4]) / 2);
         buildingBlockObjects = new GameObject[blocksToInstantiate.Count];
         for (int i = 0; i < blocksToInstantiate.Count; i++)

@@ -589,7 +589,7 @@ GameObject:
   - component: {fileID: 46833680}
   - component: {fileID: 46833682}
   - component: {fileID: 46833683}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AnimationContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8759,6 +8759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48512343e4d2145f49c4e284b8a07e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  previewArea: {fileID: 160088842}
 --- !u!81 &903052042
 AudioListener:
   m_ObjectHideFlags: 0
