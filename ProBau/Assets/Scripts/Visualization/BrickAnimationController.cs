@@ -7,6 +7,7 @@ public class BrickAnimationController : MonoBehaviour
 
     //public GameObject[] steineListe;
     private GameObject[] buildingBlockObjects;
+    private List<BuildingBlock> localBlocks;
 
     //Prefabs als GameObjects
     public GameObject brick_1x1;
@@ -25,14 +26,13 @@ public class BrickAnimationController : MonoBehaviour
     private float startHeight;
 
     public float speed = 1;
-    private int count = 0;
+    private int LastIndexSet = -1;
 
     private bool animationOn = false;
     const float layerHeight = 1.92f;
+    const float layerWidth = 1.6f;
     int layer = 0;
 
-    private Vector3[] startPos = null;
-    private Vector3[] endPos = null;
     private float distance;
     private float currentLerpTime;
     private float startLerpTime;
@@ -62,19 +62,11 @@ public class BrickAnimationController : MonoBehaviour
 
     public void StartAnimation(List<BuildingBlock> inputBlocks, float[] minMax)
     {
-        var localBlocks = inputBlocks;
+        localBlocks = inputBlocks;
         var AmmountOfBricks = inputBlocks.Count;
         localBlocks.Sort(SortByDimensions);
         InstantiateBricks(localBlocks, minMax);
         distance = buildingBlockObjects[AmmountOfBricks - 1].transform.position.y;
-        startPos = new Vector3[AmmountOfBricks];
-        endPos = new Vector3[AmmountOfBricks];
-
-        for (int i = 0; i < AmmountOfBricks; i++)
-        {
-            endPos[i] = buildingBlockObjects[i].transform.position;
-            startPos[i] = endPos[i] + new Vector3(0, distance, 0);
-        }
     }
 
     private int SortByDimensions(BuildingBlock a, BuildingBlock b)
@@ -93,51 +85,17 @@ public class BrickAnimationController : MonoBehaviour
         return yComp;
     }
 
-    IEnumerator MoveToPosition(GameObject obj, Vector3 start, Vector3 end, int count)
-    {
-        float percentage = 0;
-        startLerpTime = Time.time;
-        while (percentage < 1.0f)
-        {
-            float currentLerpTime = Time.time - startLerpTime;
-            // calculate finished percentage of lerping process
-            percentage = currentLerpTime / lerpTime;
-            if (obj != null)
-            {
-                obj.transform.localPosition = Vector3.Lerp(start, end, percentage);
-            }
-            source.Play();
-            yield return count;
-        }
-
-    }
-
     // used when animationOn = true aka when G is clicked
     // bricks shows up and move to end position one by one by adding delay time
     // delay time is diversed brick by brick
-    IEnumerator WaitToDisplay(int index)
+    IEnumerator DisplayDelayed(int index)
     {
-        yield return new WaitForSeconds(lerpTime * index);      // delay time
-        buildingBlockObjects[index].SetActive(true);
-        StartCoroutine(MoveToPosition(buildingBlockObjects[index], startPos[index], endPos[index], index));
-    }
-
-    private void GetCurrentBrickIndex()
-    {
-        int countActive = 0;
-        for (int i = 0; i < buildingBlockObjects.Length; i++)
-        {
-            if (buildingBlockObjects[i].activeInHierarchy)
-            {
-                countActive++;
-            }
-        }
-        count = countActive - 1;
+        yield return new WaitForSeconds(lerpTime);      // delay time
+        MoveBrick(index);
     }
 
     private void SetDefaultState()
     {
-        StopAllCoroutines();
         Time.timeScale = 1;
         animationOn = false;
     }
@@ -153,142 +111,122 @@ public class BrickAnimationController : MonoBehaviour
     {
         Time.timeScale = 0;
         animationOn = false;
-        GetCurrentBrickIndex();
     }
 
     public void AddBrick()
     {
-        SetDefaultState();
-        if (count <= buildingBlockObjects.Length - 1)
+        if (LastIndexSet + 1 < buildingBlockObjects.Length)
         {
-            if (count == 0 && !buildingBlockObjects[0].activeInHierarchy)
-            {
-                buildingBlockObjects[count].SetActive(true);
-                StartCoroutine(MoveToPosition(buildingBlockObjects[count], startPos[count], endPos[count], count));
-            }
+            LastIndexSet++;
+            MoveBrick(LastIndexSet);
+        }
+    }
 
-            // when animation is paused and the current moving brick is not in the right position
-            else if (buildingBlockObjects[count].activeInHierarchy && buildingBlockObjects[count].transform.position != endPos[count])
-            {
-                StartCoroutine(MoveToPosition(buildingBlockObjects[count], startPos[count], endPos[count], count));
-            }
-
-            else if (count < buildingBlockObjects.Length - 1)
-            {
-                count += 1;
-                buildingBlockObjects[count].SetActive(true);
-                StartCoroutine(MoveToPosition(buildingBlockObjects[count], startPos[count], endPos[count], count));
-
-                // Debug.Log(count);
-            }
+    public void MoveBrick(int brickToSet)
+    {
+        if (brickToSet < buildingBlockObjects.Length && brickToSet >= 0)
+        {
+            buildingBlockObjects[brickToSet].SetActive(true);
+            var movementScript = buildingBlockObjects[brickToSet].AddComponent<SimpleMovement>();
+            var pos = localBlocks[brickToSet].pos;
+            Vector3 position = new Vector3(pos.x*layerWidth, pos.y*layerHeight, pos.z*layerWidth);
+            movementScript.MoveObjectFromTo(position + new Vector3(0, distance, 0), position, lerpTime, source);
         }
     }
 
     public void RemoveBrick()
     {
-        if (count >= 0)
+        if (LastIndexSet >= 0)
         {
-            if (count == 0 && buildingBlockObjects[0].activeInHierarchy)
-            {
-                buildingBlockObjects[count].SetActive(false);
-                //Debug.Log(count);
-            }
-            else if (count > 0)
-            {
-                buildingBlockObjects[count].SetActive(false);
-                //Debug.Log(count);
-                count -= 1;
-            }
-        }
-    }
-
-    public void ShowAll()
-    {
-        Reset();
-        if (count <= buildingBlockObjects.Length - 1)
-        {
-            for (int i = count; i <= buildingBlockObjects.Length - 1; i++)
-            {
-                buildingBlockObjects[i].SetActive(true);
-            }
-            count = buildingBlockObjects.Length - 1;
-            //Debug.Log(count);
-        }
-    }
-
-    public void Reset()
-    {
-        if (count >= 0)
-        {
-            Time.timeScale = 1;
-            for (int i = 0; i <= buildingBlockObjects.Length - 1; i++)
-            {
-                buildingBlockObjects[i].SetActive(false);
-            }
-            StopAllCoroutines();
-            animationOn = false;
-            count = 0;
+            buildingBlockObjects[LastIndexSet].SetActive(false);
+            LastIndexSet--;
         }
     }
 
     public void AddLayer()
     {
-        SetDefaultState();
-        if (count <= buildingBlockObjects.Length - 1)
+        if (LastIndexSet + 1 < buildingBlockObjects.Length)
         {
-            int naechster = (int)Mathf.Round(endPos[count+1].y / layerHeight);
-            layer = (int)Mathf.Round(endPos[count].y / layerHeight);
-            if (layer < naechster)
+            var nextY = buildingBlockObjects[LastIndexSet+1].transform.position.y;
+            var lookahead = 1;
+            var foundNextLayer = false;
+            while (LastIndexSet + lookahead + 1 < buildingBlockObjects.Length && !foundNextLayer)
             {
-                layer += 1;
-            }
-
-            for (int i = 0; i <= buildingBlockObjects.Length - 1; i++)
-            {
-                int level = (int)Mathf.Round(endPos[i].y / layerHeight);
-                if (layer == level)
+                var lookaheadY = buildingBlockObjects[LastIndexSet + lookahead + 1].transform.position.y;
+                foundNextLayer = nextY != lookaheadY;
+                if (!foundNextLayer)
                 {
-                    // when animation is paused and the current moving brick is not in the right position
-                    if (buildingBlockObjects[i].activeInHierarchy && buildingBlockObjects[i].transform.position != endPos[i])
-                    {
-                        buildingBlockObjects[i].transform.position = endPos[i];
-                    }
-
-                    else if (!buildingBlockObjects[i].activeInHierarchy)
-                    {
-                        buildingBlockObjects[i].SetActive(true);
-                        count = i;
-                        StartCoroutine(MoveToPosition(buildingBlockObjects[count], startPos[count], endPos[count], count));
-                    }
+                    lookahead++;
                 }
+                //LastIndexSet+lookahead= last stone on Layer;
             }
+            for (int i = LastIndexSet + 1; i <= LastIndexSet + lookahead; i++)
+            {
+                MoveBrick(i);
+            }
+            LastIndexSet += lookahead;
         }
     }
 
     public void RemoveLayer()
     {
         //Ebenenweise abziehen
-        if (count >= 0)
+        if (LastIndexSet >= 0)
         {
-            layer = (int)Mathf.Round(buildingBlockObjects[count].transform.position.y / layerHeight);
-            for (int i = buildingBlockObjects.Length - 1; i >= 0; i--)
+            var LastY = buildingBlockObjects[LastIndexSet].transform.position.y;
+            var lookback = 1;
+            var foundPreviousLayer = false;
+            while (LastIndexSet - lookback >= 0 && !foundPreviousLayer)
             {
-                int level = (int)Mathf.Round(buildingBlockObjects[i].transform.position.y / layerHeight);
-                if (layer == level)
+                var lookbackY = buildingBlockObjects[LastIndexSet - lookback].transform.position.y;
+                foundPreviousLayer = LastY != lookbackY;
+                if (!foundPreviousLayer)
                 {
-                    buildingBlockObjects[i].SetActive(false);
-                    if (count > 0)
-                    {
-                        count = i - 1;
-                    }
+                    lookback++;
                 }
+                //LastIndexSet-lookback= last stone on Layer;
             }
+            for (int i = LastIndexSet; i > LastIndexSet - lookback; i--)
+            {
+                MoveBrick(i);
+            }
+            LastIndexSet -= lookback;
+        }
+    }
+    public void ShowAll()
+    {
+        Reset();
+        if (LastIndexSet <= buildingBlockObjects.Length - 1 && LastIndexSet>=0)
+        {
+            for (int i = LastIndexSet; i <= buildingBlockObjects.Length - 1; i++)
+            {
+                buildingBlockObjects[i].SetActive(true);
+            }
+            LastIndexSet = buildingBlockObjects.Length - 1;
+            //Debug.Log(count);
         }
     }
 
+    public void Reset()
+    {
+        if (LastIndexSet >= 0)
+        {
+            Time.timeScale = 1;
+            for (int i = 0; i < buildingBlockObjects.Length; i++)
+            {
+                buildingBlockObjects[i].SetActive(false);
+            }
+            StopAllCoroutines();
+            animationOn = false;
+            LastIndexSet = 0;
+        }
+    }
+
+
+
     private void InstantiateBricks(List<BuildingBlock> blocksToInstantiate, float[] minMax)
     {
-        if (animationBlockContainer!=null)
+        if (animationBlockContainer != null)
         {
             DestroyImmediate(animationBlockContainer);
         }
@@ -310,8 +248,8 @@ public class BrickAnimationController : MonoBehaviour
                 rot = Quaternion.Euler(0, 0, 0);
             }
             float yPos = blocksToInstantiate[i].pos.y * layerHeight;
-            float xPos = blocksToInstantiate[i].pos.x * 1.6f;
-            float zPos = blocksToInstantiate[i].pos.z * 1.6f;
+            float xPos = blocksToInstantiate[i].pos.x * layerWidth;
+            float zPos = blocksToInstantiate[i].pos.z * layerWidth;
             Vector3 position = new Vector3(xPos, yPos, zPos);
             buildingBlockObjects[i] = Instantiate(brickMap[blocksToInstantiate[i].extends], position, rot, animationBlockContainer.transform);
             buildingBlockObjects[i].SetActive(false);
@@ -361,10 +299,10 @@ public class BrickAnimationController : MonoBehaviour
 
         if (animationOn == true)
         {
-            if (count <= buildingBlockObjects.Length - 1)
+            if (LastIndexSet <= buildingBlockObjects.Length - 1)
             {
-                StartCoroutine(WaitToDisplay(count));
-                count += 1;
+                StartCoroutine(DisplayDelayed(LastIndexSet));
+                LastIndexSet += 1;
             }
         }
 
