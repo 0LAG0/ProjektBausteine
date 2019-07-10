@@ -102,7 +102,10 @@ public class BrickAnimationController : MonoBehaviour
             float currentLerpTime = Time.time - startLerpTime;
             // calculate finished percentage of lerping process
             percentage = currentLerpTime / lerpTime;
-            obj.transform.localPosition = Vector3.Lerp(start, end, percentage);
+            if (obj != null)
+            {
+                obj.transform.localPosition = Vector3.Lerp(start, end, percentage);
+            }
             source.Play();
             yield return count;
         }
@@ -318,8 +321,28 @@ public class BrickAnimationController : MonoBehaviour
             newMaterial.color = blocksToInstantiate[i].blockColor;
             gameObjectRenderer.material = newMaterial;
         }
-        
+        SetLayerRecursively(animationBlockContainer, 10);
     }
+
+    void SetLayerRecursively(GameObject obj, int newLayer)
+    {
+        if (null == obj)
+        {
+            return;
+        }
+
+        obj.layer = newLayer;
+
+        foreach (Transform child in obj.transform)
+        {
+            if (null == child)
+            {
+                continue;
+            }
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
+    }
+
 
     //sollte eigentlich in einen richtigen input handler, aber aufgrund von zeitmangel verschoben.
     void Update()

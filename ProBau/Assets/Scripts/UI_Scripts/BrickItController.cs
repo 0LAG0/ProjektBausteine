@@ -48,7 +48,6 @@ public class BrickItController : MonoBehaviour
             
             if (boolColors[i])
             {
-                Debug.Log(i);
                 output.Add(GlobalConstants.LegoColors[i]);
             }
         }
@@ -60,9 +59,7 @@ public class BrickItController : MonoBehaviour
     {
         var output = new BrickItConfiguration();
         output.brickExtends = getBricks();
-        Debug.Log(output.brickExtends.Count);
         output.colors = getColors();
-        Debug.Log(output.colors.Count);
         output.height = (int)Mathf.Round(scaling.value);
         output.depth = (int)Mathf.Round(depth.value);
         output.mesh = modelSelection.activeObject.GetComponentInChildren<MeshFilter>().mesh;
