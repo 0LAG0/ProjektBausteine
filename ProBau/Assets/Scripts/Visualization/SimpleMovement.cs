@@ -13,11 +13,11 @@ class SimpleMovement : MonoBehaviour
     private float percentage = 0;
     private float startLerpTime;
     private float timeForFullLerp;
-    private AudioSource audioSource;
+    //private AudioSource audioSource;
 
-    public void MoveObjectFromTo(Vector3 startPos, Vector3 targetPos, float TimeForFullLerp, AudioSource audio)
+    public void MoveObjectFromTo(Vector3 startPos, Vector3 targetPos, float TimeForFullLerp)
     {
-        audioSource = audio;
+        //audioSource = audio;
         start = startPos;
         target = targetPos;
         timeForFullLerp = TimeForFullLerp;
@@ -39,7 +39,7 @@ class SimpleMovement : MonoBehaviour
             }
             else
             {
-                audioSource.Play();
+                //audioSource.Play();
                 Destroy(GetComponent<SimpleMovement>());
             }
         }

@@ -36,7 +36,7 @@ public class BrickAnimationController : MonoBehaviour
 
     private GameObject animationBlockContainer;
 
-    AudioSource source;
+    //AudioSource source;
 
     private void Awake()
     {
@@ -53,7 +53,7 @@ public class BrickAnimationController : MonoBehaviour
         brickMap.Add(GlobalConstants.BlockTypes[9], brick_1x2);
         brickMap.Add(GlobalConstants.BlockTypes[10], brick_1x1);
 
-        source = GetComponent<AudioSource>();
+        //source = GetComponent<AudioSource>();
     }
 
     public void StartAnimation(List<BuildingBlock> inputBlocks, float[] minMax)
@@ -128,7 +128,7 @@ public class BrickAnimationController : MonoBehaviour
             var movementScript = buildingBlockObjects[brickToSet].AddComponent<SimpleMovement>();
             var pos = localBlocks[brickToSet].pos;
             Vector3 position = new Vector3(pos.x*layerWidth, pos.y*layerHeight, pos.z*layerWidth);
-            movementScript.MoveObjectFromTo(position + new Vector3(0, distance, 0), position, lerpTime, source);
+            movementScript.MoveObjectFromTo(position + new Vector3(0, distance, 0), position, lerpTime);
         }
     }
 
@@ -301,10 +301,10 @@ public class BrickAnimationController : MonoBehaviour
 
         if (animationOn == true)
         {
-            if (LastIndexSet <= buildingBlockObjects.Length - 1)
+            if (LastIndexSet < buildingBlockObjects.Length-1)
             {
                 StartCoroutine(DisplayDelayed(LastIndexSet));
-                LastIndexSet += 1;
+                LastIndexSet++;
             }
         }
 
