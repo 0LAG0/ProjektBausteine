@@ -64,7 +64,7 @@ public class BrickAnimationController : MonoBehaviour
     {
         var localBlocks = inputBlocks;
         var AmmountOfBricks = inputBlocks.Count;
-        localBlocks.Sort(SortByY);
+        localBlocks.Sort(SortByDimensions);
         InstantiateBricks(localBlocks, minMax);
         distance = buildingBlockObjects[AmmountOfBricks - 1].transform.position.y;
         startPos = new Vector3[AmmountOfBricks];
@@ -77,9 +77,20 @@ public class BrickAnimationController : MonoBehaviour
         }
     }
 
-    private int SortByY(BuildingBlock a, BuildingBlock b)
+    private int SortByDimensions(BuildingBlock a, BuildingBlock b)
     {
-        return a.pos.y.CompareTo(b.pos.y);
+        var yComp = a.pos.y.CompareTo(b.pos.y);
+        if (yComp == 0)
+        {
+            var xComp = a.pos.x.CompareTo(b.pos.x);
+            if (xComp == 0)
+            {
+                var zComp = a.pos.z.CompareTo(b.pos.z);
+                return zComp;
+            }
+            return xComp;
+        }
+        return yComp;
     }
 
     IEnumerator MoveToPosition(GameObject obj, Vector3 start, Vector3 end, int count)
