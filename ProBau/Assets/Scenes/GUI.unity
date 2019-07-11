@@ -10758,6 +10758,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 777487703}
+        m_MethodName: RotateReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 903052041}
         m_MethodName: AdjustZoom
         m_Mode: 1
@@ -11039,6 +11050,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 777487703}
+        m_MethodName: RotateReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 903052041}
         m_MethodName: AdjustZoom
         m_Mode: 1
@@ -20924,13 +20946,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 46833682}
+    - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: RotateReset
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 601800274}
     - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: AdjustZoom
+      objectReference: {fileID: 0}
+    - target: {fileID: 4767703916298238190, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 7156220154764834898, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
