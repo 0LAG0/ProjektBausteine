@@ -29,38 +29,40 @@ public class ImportModel : MonoBehaviour
     public void ImportObj()
     {
         // destroy imported modell if there is one (from former import)
-        if (importedModel) {
-            Destroy(importedModel);
-        }
 
         string meshPath = StandaloneFileBrowser.OpenFilePanel("Importiere dein 3D-Modell", "", "obj", false).FirstOrDefault();
 
         if (meshPath.Length != 0)
         {
             //importedModel = new GameObject("ImportedModel");
-            
-            
+
+
             if (File.Exists(meshPath))
             {
+                if (importedModel)
+                {
+                    Destroy(importedModel);
+                }
                 importedModel = new OBJLoader().Load(meshPath);
-            }
 
-            importedModel.transform.parent = modelsContainer.transform;
-            importedModel.tag = "model";
-            var meshFilter = importedModel.GetComponentInChildren<MeshFilter>();
-            var mesh = meshFilter.mesh;
-            mesh = MeshUtils.RescaleAndCenterPivot(mesh, 50);
-            mesh.RecalculateBounds();
-            meshFilter.mesh=mesh;
-            
-            var renderer = importedModel.GetComponentInChildren<MeshRenderer>();
-            renderer.material = defaultMaterial;
-            foreach (Transform t in transform)
-            {
-                t.gameObject.SetActive(false);
-            }
 
-            changeModel.SetImportedActive(importedModel);
+                importedModel.transform.parent = modelsContainer.transform;
+                importedModel.tag = "model";
+                var meshFilter = importedModel.GetComponentInChildren<MeshFilter>();
+                var mesh = meshFilter.mesh;
+                mesh = MeshUtils.RescaleAndCenterPivot(mesh, 50);
+                mesh.RecalculateBounds();
+                meshFilter.mesh = mesh;
+
+                var renderer = importedModel.GetComponentInChildren<MeshRenderer>();
+                renderer.material = defaultMaterial;
+                foreach (Transform t in transform)
+                {
+                    t.gameObject.SetActive(false);
+                }
+
+                changeModel.SetImportedActive(importedModel);
+            }
         }
     }
 }
