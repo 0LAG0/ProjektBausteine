@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-
+#if (UNITY_EDITOR) 
 public class ManipulateMesh : MonoBehaviour
 {
     public Transform selectedGameObject;
@@ -11,6 +11,7 @@ public class ManipulateMesh : MonoBehaviour
 
     public string saveName;
     // Start is called before the first frame update
+
     void Start()
     {
         MeshUtils.RescaleCenterPivotRotateInMesh(selectedGameObject.GetComponentInChildren<MeshFilter>().mesh, height,Quaternion);
@@ -29,3 +30,4 @@ public class ManipulateMesh : MonoBehaviour
         }
     }
 }
+#endif

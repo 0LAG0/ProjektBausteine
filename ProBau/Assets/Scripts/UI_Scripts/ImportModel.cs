@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using UnityEditor;
+using System.Linq;
+using SFB;
 using ImporterObj;
 //using UnityEngine.UI;
 
@@ -33,7 +34,7 @@ public class ImportModel : MonoBehaviour
             Destroy(importedModel);
         }
 
-        string meshPath = EditorUtility.OpenFilePanel("Importiere dein 3D-Modell", "", "obj");
+        string meshPath = StandaloneFileBrowser.OpenFilePanel("Importiere dein 3D-Modell", "", "obj", false).FirstOrDefault();
 
         if (meshPath.Length != 0)
         {
