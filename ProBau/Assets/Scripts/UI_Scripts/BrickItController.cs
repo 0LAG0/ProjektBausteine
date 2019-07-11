@@ -23,14 +23,15 @@ public class BrickItController : MonoBehaviour
         var boolBricks = new List<bool>();
         bricks._toggleGroup.ForEach(e => boolBricks.Add(e.isOn));
         boolBricks.Reverse();
-        output.Add(GlobalConstants.BlockTypes[GlobalConstants.BlockTypes.Count-1]);
-        for (int i = 1; i < boolBricks.Count; i++)
+        
+        for (int i = 0; i < boolBricks.Count; i++)
         {
             if (boolBricks[i])
             {
                 output.Add(GlobalConstants.BlockTypes[i]);
             }
         }
+        output.Add(GlobalConstants.BlockTypes[GlobalConstants.BlockTypes.Count - 1]);
         return output;
     }
 

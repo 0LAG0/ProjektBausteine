@@ -66,15 +66,14 @@ public class ConversionController : MonoBehaviour
             }
         }
         var cubeContainer = GameObject.Find(GlobalConstants.cubeContainerName);
-        cubeContainer.transform.position = cfg.transform.position;
-        cubeContainer.transform.rotation = cfg.transform.rotation;
+        //cubeContainer.transform.position = cfg.transform.localPosition;
+        //cubeContainer.transform.rotation = cfg.transform.rotation;
         cubeContainer.transform.parent = GameObject.Find("ModelsContainer").transform;
         var boundsHandler = cubeContainer.AddComponent<BoundsHandler>();
         cubeContainer.tag = GlobalConstants.containerTag;
         cubeContainer.layer = 9;
-        var pos = cubeContainer.transform.position;
         boundsHandler.Bounds = new Vector3(lastExtends[1] - lastExtends[0], lastExtends[3] - lastExtends[2], lastExtends[5] - lastExtends[4]);
-        cubeContainer.transform.position = new Vector3(pos.x - boundsHandler.Bounds.x / 2, pos.y - boundsHandler.Bounds.y / 2, pos.z - boundsHandler.Bounds.z / 2);
+        cubeContainer.transform.localPosition = new Vector3(-(boundsHandler.Bounds.x / 2), -(boundsHandler.Bounds.y / 2), -(boundsHandler.Bounds.z / 2));
         lastBricked = cubeContainer;
     }
 
