@@ -51,6 +51,11 @@ public class ChangeModel : MonoBehaviour
 
     public void Reselect()
     {
+        var objectsToDestroy = GameObject.FindGameObjectsWithTag(GlobalConstants.containerTag);
+        foreach(GameObject obj in objectsToDestroy)
+        {
+            Destroy(obj);
+        }
         Select(selectionIndex);
     }
 

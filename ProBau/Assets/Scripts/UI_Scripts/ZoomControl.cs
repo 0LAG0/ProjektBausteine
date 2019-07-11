@@ -120,7 +120,9 @@ public class ZoomControl : MonoBehaviour
             float distance = objectSize / cameraView;    // Combined wanted distance from the object
             distance += 0.5f * objectSize;  // Estimated offset from the center to the outside of the object
 
-            cam.transform.position = center + model.transform.position - distance * cam.transform.forward;
+            //cam.transform.position = center + model.transform.position - distance * cam.transform.forward;
+            var camZ = (center.z + model.transform.position.z - distance * cam.transform.forward.z);
+            cam.transform.position = new Vector3(0, 0, camZ);
         }
     }
 }

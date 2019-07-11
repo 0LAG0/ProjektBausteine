@@ -18,6 +18,6 @@ public class FillControl : MonoBehaviour
 
     private void setText(float thickness)
     {
-        fillText.text = "Wandstärke: " + (Mathf.Round(thickness) + 1) + " cm";
+        fillText.text = "Wandstärke: " + (Mathf.Round(thickness) + 1) + " \"1x1\"-Steine";
     }
 }

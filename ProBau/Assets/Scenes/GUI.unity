@@ -7685,6 +7685,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 777487703}
+        m_MethodName: RotateReset
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 775177570}
         m_MethodName: OpenPanel
         m_Mode: 1
@@ -10747,8 +10758,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 637420033}
-        m_MethodName: BrickIt
+      - m_Target: {fileID: 777487703}
+        m_MethodName: RotateReset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10758,8 +10769,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 777487703}
-        m_MethodName: RotateReset
+      - m_Target: {fileID: 637420033}
+        m_MethodName: BrickIt
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -11577,7 +11588,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 10, y: -47}
-  m_SizeDelta: {x: 330, y: 15}
+  m_SizeDelta: {x: 335, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1083402738
 MonoBehaviour:
@@ -14349,7 +14360,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 10, y: -25}
-  m_SizeDelta: {x: 160, y: 20}
+  m_SizeDelta: {x: 330, y: 20}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1413481491
 MonoBehaviour:
@@ -16408,7 +16419,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 10, y: -47}
-  m_SizeDelta: {x: 330, y: 32}
+  m_SizeDelta: {x: 335, y: 32}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1647621323
 MonoBehaviour:
@@ -17363,19 +17374,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modelSelector: {fileID: 777487702}
   namedTextures:
-  - name: Ceramic
+  - name: Keramik
     texture: {fileID: 2800000, guid: e235184867907464bb57714b3acdf4e1, type: 3}
-  - name: Cement
+  - name: Beton
     texture: {fileID: 2800000, guid: 704d774e00ed048f2b22171ffa3a82d3, type: 3}
-  - name: HTW Green
+  - name: "HTW Gr\xFCn"
     texture: {fileID: 2800000, guid: c17fbe6c1274f4546b00d7bb42828942, type: 3}
-  - name: Painting
+  - name: "Gem\xE4lde"
     texture: {fileID: 2800000, guid: c461c60bec6b54f49bfde648c637e101, type: 3}
   - name: Leo
     texture: {fileID: 2800000, guid: adb34c4290fa143138d18b9211590bcb, type: 3}
-  - name: Sky
+  - name: Abendhimmel
     texture: {fileID: 2800000, guid: 5969792f6b80c42a5bb269d764a97904, type: 3}
-  - name: Wood
+  - name: Holz
     texture: {fileID: 2800000, guid: dae70420be4874c3f9206d79bbf17d74, type: 3}
   activeTexture: {fileID: 0}
 --- !u!1 &1733434427
@@ -17973,7 +17984,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Anleitung anzeigen
+  m_Text: Animation anzeigen
 --- !u!222 &1774968547
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21098,11 +21109,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 777487702}
+      objectReference: {fileID: 777487703}
     - target: {fileID: 3322200972628730732, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Reselect
+      value: RotateReset
       objectReference: {fileID: 0}
     - target: {fileID: 3322200972628730732, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
@@ -21123,11 +21134,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 777487703}
+      objectReference: {fileID: 777487702}
     - target: {fileID: 3322200972628730732, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
-      value: RotateReset
+      value: Reselect
       objectReference: {fileID: 0}
     - target: {fileID: 3322200972628730732, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
@@ -21183,6 +21194,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[4].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3322200972628730732, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[5].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3322200972628730732, guid: 8968390d2ed2641c8b0fca876a93149b,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[5].m_CallState
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8968390d2ed2641c8b0fca876a93149b, type: 3}
