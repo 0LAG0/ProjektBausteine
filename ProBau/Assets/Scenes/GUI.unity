@@ -19494,7 +19494,7 @@ PrefabInstance:
     - target: {fileID: 4975645035775277948, guid: 9780db71da7834a689d5e6524fbddf4e,
         type: 3}
       propertyPath: m_CullingMask.m_Bits
-      value: 1303
+      value: 1024
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9780db71da7834a689d5e6524fbddf4e, type: 3}
@@ -20504,7 +20504,7 @@ PrefabInstance:
     - target: {fileID: 3322200973144671469, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 4.9999
+      value: -25.7
       objectReference: {fileID: 0}
     - target: {fileID: 3322200973144671469, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
@@ -20514,7 +20514,7 @@ PrefabInstance:
     - target: {fileID: 3322200973144671469, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 751.22
+      value: 828.16
       objectReference: {fileID: 0}
     - target: {fileID: 3322200973144671469, guid: 8968390d2ed2641c8b0fca876a93149b,
         type: 3}

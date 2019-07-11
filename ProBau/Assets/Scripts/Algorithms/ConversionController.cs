@@ -66,9 +66,8 @@ public class ConversionController : MonoBehaviour
             }
         }
         var cubeContainer = GameObject.Find(GlobalConstants.cubeContainerName);
-        //cubeContainer.transform.position = cfg.transform.localPosition;
-        //cubeContainer.transform.rotation = cfg.transform.rotation;
         cubeContainer.transform.parent = GameObject.Find("ModelsContainer").transform;
+        cubeContainer.transform.localRotation = Quaternion.identity;
         var boundsHandler = cubeContainer.AddComponent<BoundsHandler>();
         cubeContainer.tag = GlobalConstants.containerTag;
         cubeContainer.layer = 9;
