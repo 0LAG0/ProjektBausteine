@@ -1,5 +1,11 @@
-"Manueller 3D-Druck" - Erstellen virtueller Bauanleitungen für reale Bausteinkonstruktionen
-Entgegen dem Trend, heutige Spielsachen vermehrt virtuell und berührungslos anzubieten, soll in diesem Projekt eine virtuelle Unterstützung geschaffen werden,
+A program to generate lego-buildingplans for a given 3D-Mesh.
+
+![](brickit_images/screenshot1.png)
+![](brickit_images/screenshot2.png)
+![](brickit_images/screenshot3.png)
+
+"Manueller 3D-Druck" - Erstellen virtueller Bauanleitungen fÃ¼r reale Bausteinkonstruktionen
+Entgegen dem Trend, heutige Spielsachen vermehrt virtuell und berÃ¼hrungslos anzubieten, soll in diesem Projekt eine virtuelle UnterstÃ¼tzung geschaffen werden,
  um mit realen Bausteinen aus Holz oder Hartplastik beliebige Konstruktionen zu errichten. 
-Dazu werden 3D-Modelle im Computer möglichst detailgetreu in "Klötzchen" übersetzt und eine visuell ansprechende Bauanleitung in Form einer Explosionszeichnung oder einer Animation erstellt. 
-Vielfältige Erweiterungsmöglichkeiten bieten sich durch Unterstützung von verschiedenen Bausteinarten, Statikprüfungen, 3D-Scannen mit dem Handy, verschiedene Fehlermaße, variable Modellgrößen, Stein-/Zeitbedarfsprognosen, etc.
+Dazu werden 3D-Modelle im Computer mÃ¶glichst detailgetreu in "KlÃ¶tzchen" Ã¼bersetzt und eine visuell ansprechende Bauanleitung in Form einer Explosionszeichnung oder einer Animation erstellt. 
+VielfÃ¤ltige ErweiterungsmÃ¶glichkeiten bieten sich durch UnterstÃ¼tzung von verschiedenen Bausteinarten, StatikprÃ¼fungen, 3D-Scannen mit dem Handy, verschiedene FehlermaÃŸe, variable ModellgrÃ¶ÃŸen, Stein-/Zeitbedarfsprognosen, etc.
